@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BroadwayBB.Presentation", "BroadwayBB.Presentation\BroadwayBB.Presentation.csproj", "{6E9F373A-51E6-4E7A-BBF0-CE886A9F560E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BroadwayBB.Data", "BroadwayBB.Data\BroadwayBB.Data.csproj", "{C7978299-751E-41A0-BF09-00F9823DA1A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BroadwayBB.Simulation", "BroadwayBB.Simulation\BroadwayBB.Simulation.csproj", "{C3067A00-2F4C-4567-A467-318A8E559F94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{6E9F373A-51E6-4E7A-BBF0-CE886A9F560E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E9F373A-51E6-4E7A-BBF0-CE886A9F560E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E9F373A-51E6-4E7A-BBF0-CE886A9F560E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7978299-751E-41A0-BF09-00F9823DA1A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7978299-751E-41A0-BF09-00F9823DA1A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7978299-751E-41A0-BF09-00F9823DA1A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7978299-751E-41A0-BF09-00F9823DA1A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3067A00-2F4C-4567-A467-318A8E559F94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3067A00-2F4C-4567-A467-318A8E559F94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3067A00-2F4C-4567-A467-318A8E559F94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3067A00-2F4C-4567-A467-318A8E559F94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

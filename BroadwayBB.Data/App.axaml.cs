@@ -1,11 +1,8 @@
-using System;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media;
 
-namespace BroadwayBB.Presentation;
+namespace BroadwayBB.Data;
 
 public partial class App : Application
 {
@@ -19,12 +16,6 @@ public partial class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow();
-            
-            Canvas grid = new Canvas();
-            grid.Width = 10;
-            grid.Background = Brushes.Blue;
-            grid.Height = 10;
-            Canvas.SetTop(grid, 10);
         }
 
         base.OnFrameworkInitializationCompleted();
