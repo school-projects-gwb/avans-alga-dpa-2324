@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Avalonia.Threading;
 using BroadwayBB.Simulation;
 
 namespace BroadwayBB.Presentation;
@@ -11,7 +12,9 @@ namespace BroadwayBB.Presentation;
 public partial class SimulationWindow : Window
 {
     private Museum _museum;
-    private Canvas _simulationCanvas;
+    public Canvas _simulationCanvas;
+    private int rectPos =0;
+    private DispatcherTimer _timer;
 
     public SimulationWindow(Museum museum)
     {
@@ -20,6 +23,12 @@ public partial class SimulationWindow : Window
         _simulationCanvas = this.FindControl<Canvas>("simulationCanvas");
 
         DrawMuseum();
+
+        // Create a timer
+        _timer = new DispatcherTimer();
+        _timer.Interval = TimeSpan.FromMilliseconds(1000 / 60); // 60 frames per second
+        _timer.Tick += Timer_Tick;
+        _timer.Start();
     }
 
     private void InitializeComponent()
@@ -27,9 +36,32 @@ public partial class SimulationWindow : Window
         AvaloniaXamlLoader.Load(this);
     }
 
-    private void DrawMuseum()
+    private void Timer_Tick(object sender, EventArgs e)
     {
-        Random random = new Random();
+        _simulationCanvas.Children.Clear();
+        DrawMuseum();
+
+        Rectangle rect = new Rectangle
+        {
+            Width = 5,
+            Height = 5,
+            Fill = new SolidColorBrush(Color.Parse("Yellow")),
+            Stroke = Brushes.Black,
+            StrokeThickness = 1
+        };
+
+        Canvas.SetLeft(rect, rectPos);
+        Canvas.SetTop(rect, rectPos);
+        if (rectPos > 100)
+        {
+            rectPos = 0;
+        }
+        rectPos++;
+        _simulationCanvas.Children.Add(rect);
+    }
+
+    public void DrawMuseum()
+    {
         int cellSize = 30;
 
         for (int row = 0; row < _museum.Rows; row++)
@@ -40,7 +72,7 @@ public partial class SimulationWindow : Window
                 {
                     Width = cellSize,
                     Height = cellSize,
-                    Fill = new SolidColorBrush(RandomColor(random)),
+                    Fill = new SolidColorBrush(RandomColor(row, col)),
                     Stroke = Brushes.Black,
                     StrokeThickness = 1
                 };
@@ -53,11 +85,11 @@ public partial class SimulationWindow : Window
         }
     }
 
-    private Color RandomColor(Random random)
+    private Color RandomColor(int row, int col)
     {
-        byte r = (byte)random.Next(256);
-        byte g = (byte)random.Next(256);
-        byte b = (byte)random.Next(256);
+        byte r = (byte)(row * 7);
+        byte g = (byte)(col * 7);
+        byte b = (byte)((row + col) * 4);
         return Color.FromRgb(r, g, b);
     }
 }
