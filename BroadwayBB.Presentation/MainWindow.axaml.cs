@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using BroadwayBB.Simulation;
+using BroadwayBB.Common.Models;
 
 namespace BroadwayBB.Presentation;
 

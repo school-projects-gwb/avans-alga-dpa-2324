@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <LangVersion>11</LangVersion>
     </PropertyGroup>
 
 
@@ -20,6 +21,6 @@
 
 
     <ItemGroup>
-      <ProjectReference Include="..\BroadwayBB.Simulation\BroadwayBB.Simulation.csproj" />
+      <ProjectReference Include="..\BroadwayBB.Common\BroadwayBB.Common.csproj" />
     </ItemGroup>
 </Project>

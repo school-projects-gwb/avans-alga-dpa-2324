@@ -1,4 +1,4 @@
-namespace BroadwayBB.Simulation;
+namespace BroadwayBB.Common.Models;
 
 public class Museum
 {
