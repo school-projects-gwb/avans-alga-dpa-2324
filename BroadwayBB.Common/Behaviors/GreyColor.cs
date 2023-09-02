@@ -5,6 +5,9 @@ namespace BroadwayBB.Common.Behaviors;
 
 public class GreyColor : IColorBehavior
 {
+    private TileColorCounter TileColorCounter { get; }
+    public GreyColor() => TileColorCounter = new TileColorCounter(3);
+    
     public ICollisionResult HandleCollision()
     {
         throw new NotImplementedException();
