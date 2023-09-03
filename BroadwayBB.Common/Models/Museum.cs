@@ -21,22 +21,22 @@ public class Museum
 
     private List<MovementDirection> GetPossibleAttendeeDirections(IAttendee attendee)
     {
-        int maxX = Tiles.Max(tile => tile.PosX);
-        int maxY = Tiles.Max(tile => tile.PosY);
+        double maxX = Tiles.Max(tile => tile.PosX);
+        double maxY = Tiles.Max(tile => tile.PosY);
         var possibleDirections = new List<MovementDirection>();
 
-        if (attendee.Movement.GridPosY > 0 && Tiles.Any(tile => tile.PosX == attendee.Movement.GridPosX && tile.PosY == attendee.Movement.GridPosY - 1 && tile.CanMove(attendee)))
-            possibleDirections.Add(MovementDirection.North);
+        int currentPosX = (int) Math.Round(attendee.Movement.GridPosX);
+        int currentPosY = (int) Math.Round(attendee.Movement.GridPosY);
 
-        if (attendee.Movement.GridPosY < maxY && Tiles.Any(tile => tile.PosX == attendee.Movement.GridPosX && tile.PosY == attendee.Movement.GridPosY + 1 && tile.CanMove(attendee)))
-            possibleDirections.Add(MovementDirection.South);
-
-        if (attendee.Movement.GridPosX > 0 && Tiles.Any(tile => tile.PosX == attendee.Movement.GridPosX - 1 && tile.PosY == attendee.Movement.GridPosY && tile.CanMove(attendee)))
-            possibleDirections.Add(MovementDirection.West);
-
-        if (attendee.Movement.GridPosX < maxX && Tiles.Any(tile => tile.PosX == attendee.Movement.GridPosX + 1 && tile.PosY == attendee.Movement.GridPosY && tile.CanMove(attendee)))
-            possibleDirections.Add(MovementDirection.East);
-
+        //north
+        if (Tiles.Find(tile => tile.PosX == currentPosX && tile.PosY == currentPosY - 1 && tile.CanMove(attendee)) != null) possibleDirections.Add(MovementDirection.North);
+        //east
+        if (Tiles.Find(tile => tile.PosX == currentPosX + 1 && tile.PosY == currentPosY && tile.CanMove(attendee)) != null) possibleDirections.Add(MovementDirection.East);
+        //south
+        if (Tiles.Find(tile => tile.PosX == currentPosX && tile.PosY == currentPosY + 1 && tile.CanMove(attendee)) != null) possibleDirections.Add(MovementDirection.South);
+        //west
+        if (Tiles.Find(tile => tile.PosX == currentPosX - 1 && tile.PosY == currentPosY && tile.CanMove(attendee)) != null) possibleDirections.Add(MovementDirection.West);
+        
         return possibleDirections;
     }
 }

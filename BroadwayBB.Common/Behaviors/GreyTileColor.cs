@@ -20,6 +20,6 @@ public class GreyTileColor : ITileColorBehavior
 
     public bool CanMove()
     {
-        throw new NotImplementedException();
+        return true;
     }
 }

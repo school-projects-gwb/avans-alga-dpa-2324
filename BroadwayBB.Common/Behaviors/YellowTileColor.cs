@@ -17,6 +17,6 @@ public class YellowTileColor : ITileColorBehavior
 
     public bool CanMove()
     {
-        throw new NotImplementedException();
+        return true;
     }
 }

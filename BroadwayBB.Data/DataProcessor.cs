@@ -47,9 +47,9 @@ public class DataProcessor
         tiles.Add(tileFactory.Create(3, 4, 'G'));
         tiles.Add(tileFactory.Create(4, 4, 'G'));
 
-        artists.Add(attendeeFactory.Create(1.5, 2, 2, 0));
-        artists.Add(attendeeFactory.Create(3, 2.5, 2, 0));
-        artists.Add(attendeeFactory.Create(2.5, 3, 2, 0));
+        artists.Add(attendeeFactory.Create(1.5, 2, 2, 2));
+        artists.Add(attendeeFactory.Create(3, 2.5, 2, 2));
+        artists.Add(attendeeFactory.Create(2.5, 3, 2, 2));
         
         museum.SetArtists(artists);
         museum.SetTiles(tiles);

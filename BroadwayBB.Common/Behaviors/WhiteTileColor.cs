@@ -15,6 +15,6 @@ public class WhiteTileColor : ITileColorBehavior
 
     public bool CanMove()
     {
-        throw new NotImplementedException();
+        return true;
     }
 }

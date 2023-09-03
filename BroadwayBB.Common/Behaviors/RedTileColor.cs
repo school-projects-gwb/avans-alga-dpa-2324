@@ -14,6 +14,6 @@ public class RedTileColor : ITileColorBehavior
 
     public bool CanMove()
     {
-        throw new NotImplementedException();
+        return true;
     }
 }

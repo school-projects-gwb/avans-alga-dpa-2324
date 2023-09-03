@@ -6,7 +6,7 @@ public class MuseumSimulation
 {
     private readonly List<ISimulationObserver> _observers = new List<ISimulationObserver>();
     private Timer _simulationTimer;
-    private readonly int _simulationIntervalMilliseconds = 500;
+    private readonly int _simulationIntervalMilliseconds = 100;
     public Museum Museum { get; private set; }
     
     public MuseumSimulation(Museum museum)

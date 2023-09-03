@@ -24,6 +24,7 @@ public class Movement : IMovement
     public void Move(List<MovementDirection> possibleDirections)
     {
         if (possibleDirections.Count == 0) return;
+        Console.WriteLine("HHH");
         
         UpdateMovementDirection(possibleDirections);
         UpdatePositionOnGrid();
