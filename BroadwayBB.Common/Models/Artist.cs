@@ -9,6 +9,4 @@ public class Artist : IAttendee
     {
         Movement = new Movement(posX, posY, speedVertical, speedHorizontal);
     }
-
-    
 }

@@ -19,4 +19,14 @@ public class Movement : IMovement
         SpeedHorizontal = speedHorizontal;
         PosXOnGrid = PosYOnGrid = 0;
     }
+    
+    public MovementPosition GetNextPosition()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Move(MovementPosition newPosition)
+    {
+        throw new NotImplementedException();
+    }
 }

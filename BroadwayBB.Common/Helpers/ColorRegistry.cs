@@ -13,7 +13,7 @@ public sealed class ColorRegistry
     {
         RegisterColor(ColorName.Red, new RGBColor(255, 0, 0));
         RegisterColor(ColorName.Grey, new RGBColor(128, 128, 128));
-        RegisterColor(ColorName.Yellow, new RGBColor(128, 128, 0));
+        RegisterColor(ColorName.Yellow, new RGBColor(255, 255, 0));
         RegisterColor(ColorName.Blue, new RGBColor(0, 0, 255));
         RegisterColor(ColorName.White, new RGBColor(255, 255, 255));
     }

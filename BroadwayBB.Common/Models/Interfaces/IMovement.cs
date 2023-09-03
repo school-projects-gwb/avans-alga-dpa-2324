@@ -8,15 +8,8 @@ public interface IMovement
     public int PosYOnGrid { get; }
     public int SpeedVertical { get; }
     public int SpeedHorizontal { get; }
+    
+    public MovementPosition GetNextPosition();
 
-    // todo get next position based on speed, location, gridx gridy etc
-    public void GetNextPosition()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Move()
-    {
-        throw new NotImplementedException();   
-    }
+    public void Move(MovementPosition newPosition);
 }

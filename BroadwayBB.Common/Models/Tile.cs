@@ -15,8 +15,12 @@ public class Tile : ITile
         PosY = posY;
         TileColorBehavior = tileColorBehavior;
     }
-    
-    public ICollisionResult HandleCollision(IAttendee attendee) => TileColorBehavior.HandleCollision();
+
+    public ICollisionResult HandleCollision(IAttendee attendee)
+    {
+        var result = TileColorBehavior.HandleCollision();
+        return result;
+    } 
     
     public bool CanMove(IAttendee attendee) => TileColorBehavior.CanMove();
 }

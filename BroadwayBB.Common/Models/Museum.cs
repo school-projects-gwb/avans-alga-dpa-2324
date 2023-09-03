@@ -10,4 +10,8 @@ public class Museum
     public void SetTiles(List<ITile> tiles) => Tiles = tiles;
 
     public void SetArtists(List<Artist> artists) => Artists = artists;
+
+    public void MoveAttendees()
+    {
+    }
 }
