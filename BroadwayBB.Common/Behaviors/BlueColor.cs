@@ -1,17 +1,15 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
 using BroadwayBB.Common.Enums;
-using BroadwayBB.Common.Models;
 using BroadwayBB.Common.Models.Interfaces;
 
 namespace BroadwayBB.Common.Behaviors;
 
-public class WhiteColor : IColorBehavior
+public class BlueColor : IColorBehavior
 {
-    public ColorName ColorName => ColorName.White;
-
+    public ColorName ColorName => ColorName.Blue;
     public ICollisionResult HandleCollision()
     {
-        return new CollisionResult(this);
+        throw new NotImplementedException();
     }
 
     public bool CanMove()

@@ -5,14 +5,19 @@ namespace BroadwayBB.Common.Models;
 
 public class CollisionResult : ICollisionResult
 {
-    public Dictionary<ITile, IColorBehavior> UpdatedTileColorBehavior { get; }
+    public IColorBehavior UpdatedCollisionTargetTileColor { get; }
+    public List<IColorBehavior>? UpdatedAdjacentTileColors { get; }
     public bool ShouldCreateArtist { get; }
     public bool ShouldRemoveArtist { get; }
 
-    public CollisionResult(Dictionary<ITile, IColorBehavior> updatedTileColorBehavior, bool shouldCreateArtist,
-        bool shouldRemoveArtist)
+    public CollisionResult(
+        IColorBehavior updatedCollisionTargetTileColor, 
+        List<IColorBehavior>? updatedAdjacentTileColors = null,
+        bool shouldCreateArtist = false,
+        bool shouldRemoveArtist = false)
     {
-        UpdatedTileColorBehavior = updatedTileColorBehavior;
+        UpdatedCollisionTargetTileColor = updatedCollisionTargetTileColor;
+        UpdatedAdjacentTileColors = updatedAdjacentTileColors;
         ShouldCreateArtist = shouldCreateArtist;
         ShouldRemoveArtist = shouldRemoveArtist;
     } 

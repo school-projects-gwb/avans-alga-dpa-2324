@@ -4,7 +4,8 @@ namespace BroadwayBB.Common.Models.Interfaces;
 
 public interface ICollisionResult
 {
-    public Dictionary<ITile, IColorBehavior> UpdatedTileColorBehavior { get; }
+    public IColorBehavior UpdatedCollisionTargetTileColor { get; }
+    public List<IColorBehavior>? UpdatedAdjacentTileColors { get; }
     public bool ShouldCreateArtist { get; }
     public bool ShouldRemoveArtist { get; }
 }
