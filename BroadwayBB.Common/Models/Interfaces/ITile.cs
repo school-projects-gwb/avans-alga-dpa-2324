@@ -7,7 +7,7 @@ public interface ITile
     public int PosX { get; }
     public int PosY { get; }
     
-    public IColorBehavior ColorBehavior { get; }
+    public ITileColorBehavior TileColorBehavior { get; }
 
     public ICollisionResult HandleCollision(IAttendee attendee)
     {

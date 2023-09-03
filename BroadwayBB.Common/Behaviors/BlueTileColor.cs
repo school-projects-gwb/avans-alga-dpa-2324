@@ -4,10 +4,9 @@ using BroadwayBB.Common.Models.Interfaces;
 
 namespace BroadwayBB.Common.Behaviors;
 
-public class RedColor : IColorBehavior
+public class BlueTileColor : ITileColorBehavior
 {
-    public ColorName ColorName => ColorName.Red;
-    
+    public ColorName ColorName => ColorName.Blue;
     public ICollisionResult HandleCollision()
     {
         throw new NotImplementedException();

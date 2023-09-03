@@ -5,18 +5,15 @@ using BroadwayBB.Common.Models.Interfaces;
 
 namespace BroadwayBB.Common.Behaviors;
 
-public class GreyColor : IColorBehavior
+public class YellowTileColor : ITileColorBehavior
 {
-    public ColorName ColorName => ColorName.Grey;
+    public ColorName ColorName => ColorName.Yellow;
+    private TileColorCounter TileColorCounter { get; } = new(2);
     
-    private TileColorCounter TileColorCounter { get; } = new(3);
-
     public ICollisionResult HandleCollision()
     {
         TileColorCounter.Increase();
-        return TileColorCounter.LimitReached() ?
-            new CollisionResult(new RedColor()) 
-            : new CollisionResult(this);
+        return new CollisionResult(this);
     }
 
     public bool CanMove()

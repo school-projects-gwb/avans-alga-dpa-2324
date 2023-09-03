@@ -8,16 +8,16 @@ public class Tile : ITile
 {
     public int PosX { get; }
     public int PosY { get; }
-    public IColorBehavior ColorBehavior { get; }
+    public ITileColorBehavior TileColorBehavior { get; }
 
-    public Tile(int posX, int posY, IColorBehavior colorBehavior)
+    public Tile(int posX, int posY, ITileColorBehavior tileColorBehavior)
     {
         PosX = posX;
         PosY = posY;
-        ColorBehavior = colorBehavior;
+        TileColorBehavior = tileColorBehavior;
     }
     
-    public ICollisionResult HandleCollision(IAttendee attendee) => ColorBehavior.HandleCollision();
+    public ICollisionResult HandleCollision(IAttendee attendee) => TileColorBehavior.HandleCollision();
     
-    public bool CanMove(IAttendee attendee) => ColorBehavior.CanMove();
+    public bool CanMove(IAttendee attendee) => TileColorBehavior.CanMove();
 }

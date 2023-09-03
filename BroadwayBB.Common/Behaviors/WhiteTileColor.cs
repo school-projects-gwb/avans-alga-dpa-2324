@@ -5,7 +5,7 @@ using BroadwayBB.Common.Models.Interfaces;
 
 namespace BroadwayBB.Common.Behaviors;
 
-public class WhiteColor : IColorBehavior
+public class WhiteTileColor : ITileColorBehavior
 {
     public ColorName ColorName => ColorName.White;
 
