@@ -5,8 +5,8 @@ namespace BroadwayBB.Common.Behaviors;
 
 public class RedTileColor : ITileColorBehavior
 {
-    public ColorName ColorName { get; } = ColorName.Red;
-    
+    public ColorName ColorName => ColorName.Red;
+
     public ICollisionResult HandleCollision()
     {
         throw new NotImplementedException();

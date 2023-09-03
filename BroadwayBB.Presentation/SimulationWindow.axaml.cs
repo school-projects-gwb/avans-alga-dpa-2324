@@ -8,22 +8,27 @@ using Avalonia.Media;
 using BroadwayBB.Common.Helpers;
 using BroadwayBB.Common.Models;
 using BroadwayBB.Common.Models.Interfaces;
+using BroadwayBB.Simulation;
 
 namespace BroadwayBB.Presentation;
 
-public partial class SimulationWindow : Window
+public partial class SimulationWindow : Window, ISimulationObserver
 {
     private Museum _museum;
-    private Canvas _simulationCanvas;
+    private MuseumSimulation _simulation;
+    private readonly Canvas _simulationCanvas;
 
-    private int _cellSize = 10;
-
-    public SimulationWindow(Museum museum)
+    public SimulationWindow(MainWindow mainWindow)
     {
         InitializeComponent();
-        _museum = museum;
-        _simulationCanvas = this.FindControl<Canvas>("simulationCanvas");
+        _simulationCanvas = this.FindControl<Canvas>("simulationCanvas") ?? throw new InvalidOperationException();
+    }
 
+    public void LoadSimulation(MuseumSimulation simulation)
+    {
+        _simulation = simulation;
+        _simulation.Subscribe(this);
+        _museum = _simulation.Museum;
         DrawMuseum();
     }
 
@@ -34,8 +39,6 @@ public partial class SimulationWindow : Window
 
     private void DrawMuseum()
     {
-        if (_museum == null || _museum.Tiles == null) return;
-        
         int numRows = _museum.Tiles.Max(tile => tile.PosY) + 1;
         int numCols = _museum.Tiles.Max(tile => tile.PosX) + 1;
         double tileWidth = _simulationCanvas.Width / numCols;
@@ -75,5 +78,10 @@ public partial class SimulationWindow : Window
             
             _simulationCanvas.Children.Add(rect);
         }
+    }
+
+    public void UpdateSimulation()
+    {
+        throw new NotImplementedException();
     }
 }

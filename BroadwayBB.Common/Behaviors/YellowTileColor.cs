@@ -6,7 +6,7 @@ namespace BroadwayBB.Common.Behaviors;
 
 public class YellowTileColor : ITileColorBehavior
 {
-    public ColorName ColorName { get; } = ColorName.Yellow;
+    public ColorName ColorName => ColorName.Yellow;
     private TileColorCounter TileColorCounter { get; } = new(2);
     
     public ICollisionResult HandleCollision()
