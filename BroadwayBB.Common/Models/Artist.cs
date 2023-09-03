@@ -7,6 +7,6 @@ public class Artist : IAttendee
     public IMovement Movement { get; }
     public Artist(int posX, int posY, int speedVertical, int speedHorizontal)
     {
-        Movement = new Movement(posX, posY, speedVertical, speedHorizontal);
+        Movement = new Movement(posX, posY, speedVertical, speedHorizontal, MovementDirectionExtensions.GetRandomDirection());
     }
 }

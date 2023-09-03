@@ -4,12 +4,11 @@ public interface IMovement
 {
     public int GridPosX { get; }
     public int GridPosY { get; }
-    public int PosXOnGrid { get; }
-    public int PosYOnGrid { get; }
+    public int PosXOnTile { get; }
+    public int PosYOnTile { get; }
     public int SpeedVertical { get; }
     public int SpeedHorizontal { get; }
+    public MovementDirection MovementDirection { get; }
     
-    public MovementPosition GetNextPosition();
-
-    public void Move(MovementPosition newPosition);
+    public void Move(List<MovementDirection> possibleDirections);
 }
