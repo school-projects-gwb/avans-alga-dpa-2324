@@ -5,7 +5,7 @@ namespace BroadwayBB.Common.Models;
 public class Artist : IAttendee
 {
     public IMovement Movement { get; }
-    public Artist(int posX, int posY, int speedVertical, int speedHorizontal)
+    public Artist(double posX, double posY, double speedVertical, double speedHorizontal)
     {
         Movement = new Movement(posX, posY, speedVertical, speedHorizontal, MovementDirectionExtensions.GetRandomDirection());
     }

@@ -34,36 +34,46 @@ public partial class SimulationWindow : Window
 
     private void DrawMuseum()
     {
-        if (_museum == null || _museum.Tiles == null)
-            return;
-
-        // Calculate the size of each tile based on the canvas size and the number of rows/columns.
-        int numRows = _museum.Tiles.Max(tile => tile.PosX) + 1;
-        int numCols = _museum.Tiles.Max(tile => tile.PosY) + 1;
+        if (_museum == null || _museum.Tiles == null) return;
+        
+        int numRows = _museum.Tiles.Max(tile => tile.PosY) + 1;
+        int numCols = _museum.Tiles.Max(tile => tile.PosX) + 1;
         double tileWidth = _simulationCanvas.Width / numCols;
         double tileHeight = _simulationCanvas.Height / numRows;
+        double artistSizeModifier = 0.5;
 
-        for (int row = 0; row < numRows; row++)
+        foreach (ITile tile in _museum.Tiles)
         {
-            for (int col = 0; col < numCols; col++)
+            RGBColor tileColor = ColorRegistry.Instance.GetColor(tile.TileColorBehavior.ColorName);
+            
+            Rectangle rect = new Rectangle
             {
-                ITile tile = _museum.Tiles.Find(t => t.PosX == col && t.PosY == row);
-                RGBColor tileColor = ColorRegistry.Instance.GetColor(tile.TileColorBehavior.ColorName);
+                Width = tileWidth,
+                Height = tileHeight,
+                Fill = new SolidColorBrush(Color.FromRgb(tileColor.Red, tileColor.Green, tileColor.Blue)),
+                Stroke = Brushes.Black,
+                StrokeThickness = 1
+            };
+            
+            Canvas.SetLeft(rect, tile.PosX * tileWidth);
+            Canvas.SetTop(rect, tile.PosY * tileHeight);
 
-                Rectangle rect = new Rectangle
-                {
-                    Width = tileWidth,
-                    Height = tileHeight,
-                    Fill = new SolidColorBrush(Color.FromRgb(tileColor.Red, tileColor.Green, tileColor.Blue)),
-                    Stroke = Brushes.Black,
-                    StrokeThickness = 1
-                };
+            _simulationCanvas.Children.Add(rect);
+        }
 
-                Canvas.SetLeft(rect, col * tileWidth);
-                Canvas.SetTop(rect, row * tileHeight);
-
-                _simulationCanvas.Children.Add(rect);
-            }
+        foreach (IAttendee artist in _museum.Artists)
+        {
+            Rectangle rect = new Rectangle
+            {
+                Width = tileWidth * artistSizeModifier,
+                Height = tileHeight * artistSizeModifier,
+                Fill = new SolidColorBrush(Colors.Black),
+            };
+            
+            Canvas.SetLeft(rect, artist.Movement.GridPosX * tileWidth);
+            Canvas.SetTop(rect, artist.Movement.GridPosY * tileHeight);
+            
+            _simulationCanvas.Children.Add(rect);
         }
     }
 }

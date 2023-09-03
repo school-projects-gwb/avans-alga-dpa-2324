@@ -12,8 +12,10 @@ public class DataProcessor
     {
         Museum museum = new Museum();
         List<ITile> tiles = new List<ITile>();
+        List<IAttendee> artists = new List<IAttendee>();
 
         ITileFactory tileFactory = new TileFactory();
+        IAttendeeFactory attendeeFactory = new AttendeeFactory();
         
         tiles.Add(tileFactory.Create(0, 0, 'R'));
         tiles.Add(tileFactory.Create(1, 0, 'R'));
@@ -45,6 +47,11 @@ public class DataProcessor
         tiles.Add(tileFactory.Create(3, 4, 'G'));
         tiles.Add(tileFactory.Create(4, 4, 'G'));
 
+        artists.Add(attendeeFactory.Create(1.5, 2, 2, 0));
+        artists.Add(attendeeFactory.Create(3, 2.5, 2, 0));
+        artists.Add(attendeeFactory.Create(2.5, 3, 2, 0));
+        
+        museum.SetArtists(artists);
         museum.SetTiles(tiles);
         
         return museum;
