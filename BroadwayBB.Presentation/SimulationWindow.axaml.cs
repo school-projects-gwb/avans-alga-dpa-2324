@@ -32,9 +32,9 @@ public partial class SimulationWindow : Window
         Random random = new Random();
         int cellSize = 30;
 
-        for (int row = 0; row < _museum.Rows; row++)
+        for (int row = 0; row < 10; row++)
         {
-            for (int col = 0; col < _museum.Columns; col++)
+            for (int col = 0; col < 10; col++)
             {
                 Rectangle rect = new Rectangle
                 {
