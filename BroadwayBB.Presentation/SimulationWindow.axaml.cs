@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Avalonia.Threading;
 using BroadwayBB.Common.Helpers;
 using BroadwayBB.Common.Models;
 using BroadwayBB.Common.Models.Interfaces;
@@ -18,6 +19,9 @@ public partial class SimulationWindow : Window, ISimulationObserver
     private MuseumSimulation _simulation;
     private readonly Canvas _simulationCanvas;
 
+    private int _numRows, _numCols;
+    private double _tileWidth, _tileHeight;
+
     public SimulationWindow(MainWindow mainWindow)
     {
         InitializeComponent();
@@ -29,6 +33,12 @@ public partial class SimulationWindow : Window, ISimulationObserver
         _simulation = simulation;
         _simulation.Subscribe(this);
         _museum = _simulation.Museum;
+        
+        _numRows = _museum.Tiles.Max(tile => tile.PosY) + 1;
+        _numCols = _museum.Tiles.Max(tile => tile.PosX) + 1;
+        _tileWidth = _simulationCanvas.Width / _numCols;
+        _tileHeight = _simulationCanvas.Height / _numRows;
+        
         DrawMuseum();
     }
 
@@ -39,49 +49,44 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void DrawMuseum()
     {
-        int numRows = _museum.Tiles.Max(tile => tile.PosY) + 1;
-        int numCols = _museum.Tiles.Max(tile => tile.PosX) + 1;
-        double tileWidth = _simulationCanvas.Width / numCols;
-        double tileHeight = _simulationCanvas.Height / numRows;
+        _simulationCanvas.Children.Clear();
+        
         double artistSizeModifier = 0.5;
 
         foreach (ITile tile in _museum.Tiles)
         {
             RGBColor tileColor = ColorRegistry.Instance.GetColor(tile.TileColorBehavior.ColorName);
             
-            Rectangle rect = new Rectangle
+            Rectangle tileRectangle = new Rectangle
             {
-                Width = tileWidth,
-                Height = tileHeight,
+                Width = _tileWidth,
+                Height = _tileHeight,
                 Fill = new SolidColorBrush(Color.FromRgb(tileColor.Red, tileColor.Green, tileColor.Blue)),
                 Stroke = Brushes.Black,
                 StrokeThickness = 1
             };
             
-            Canvas.SetLeft(rect, tile.PosX * tileWidth);
-            Canvas.SetTop(rect, tile.PosY * tileHeight);
+            Canvas.SetLeft(tileRectangle, tile.PosX * _tileWidth);
+            Canvas.SetTop(tileRectangle, tile.PosY * _tileHeight);
 
-            _simulationCanvas.Children.Add(rect);
+            _simulationCanvas.Children.Add(tileRectangle);
         }
 
         foreach (IAttendee artist in _museum.Artists)
         {
-            Rectangle rect = new Rectangle
+            Rectangle attendeeRectangle = new Rectangle
             {
-                Width = tileWidth * artistSizeModifier,
-                Height = tileHeight * artistSizeModifier,
+                Width = _tileWidth * artistSizeModifier,
+                Height = _tileHeight * artistSizeModifier,
                 Fill = new SolidColorBrush(Colors.Black),
             };
             
-            Canvas.SetLeft(rect, artist.Movement.GridPosX * tileWidth);
-            Canvas.SetTop(rect, artist.Movement.GridPosY * tileHeight);
+            Canvas.SetLeft(attendeeRectangle, artist.Movement.GridPosX * _tileWidth);
+            Canvas.SetTop(attendeeRectangle, artist.Movement.GridPosY * _tileHeight);
             
-            _simulationCanvas.Children.Add(rect);
+            _simulationCanvas.Children.Add(attendeeRectangle);
         }
     }
 
-    public void UpdateSimulation()
-    {
-        throw new NotImplementedException();
-    }
+    public void UpdateSimulation() => Dispatcher.UIThread.Post(DrawMuseum);
 }
