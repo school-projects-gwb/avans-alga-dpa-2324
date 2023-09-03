@@ -1,5 +1,4 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
-using BroadwayBB.Common.Enums;
 using BroadwayBB.Common.Models;
 using BroadwayBB.Common.Models.Interfaces;
 
@@ -7,7 +6,7 @@ namespace BroadwayBB.Common.Behaviors;
 
 public class GreyTileColor : ITileColorBehavior
 {
-    public ColorName ColorName => ColorName.Grey;
+    public ColorName ColorName { get; } = ColorName.Grey;
     
     private TileColorCounter TileColorCounter { get; } = new(3);
 

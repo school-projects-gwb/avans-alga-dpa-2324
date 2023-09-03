@@ -1,5 +1,4 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
-using BroadwayBB.Common.Enums;
 using BroadwayBB.Common.Models;
 using BroadwayBB.Common.Models.Interfaces;
 
@@ -7,7 +6,7 @@ namespace BroadwayBB.Common.Behaviors;
 
 public class YellowTileColor : ITileColorBehavior
 {
-    public ColorName ColorName => ColorName.Yellow;
+    public ColorName ColorName { get; } = ColorName.Yellow;
     private TileColorCounter TileColorCounter { get; } = new(2);
     
     public ICollisionResult HandleCollision()
