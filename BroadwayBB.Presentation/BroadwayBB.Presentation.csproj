@@ -22,5 +22,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\BroadwayBB.Common\BroadwayBB.Common.csproj" />
+      <ProjectReference Include="..\BroadwayBB.Data\BroadwayBB.Data.csproj" />
     </ItemGroup>
 </Project>
