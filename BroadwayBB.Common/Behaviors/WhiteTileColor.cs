@@ -8,13 +8,10 @@ public class WhiteTileColor : ITileColorBehavior
 {
     public ColorName ColorName => ColorName.White;
 
-    public ICollisionResult HandleCollision()
+    public ColorBehaviorResult HandleCollision()
     {
-        return new ColorBehaviorResult(this);
+        return new ColorBehaviorResult { UpdatedCollisionTargetTileColor = this };
     }
 
-    public bool CanMove()
-    {
-        return true;
-    }
+    public bool CanMove() => true;
 }

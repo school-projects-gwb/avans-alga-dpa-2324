@@ -1,6 +1,7 @@
 using System.Drawing;
 using BroadwayBB.Common.Behaviors.Interfaces;
 using BroadwayBB.Common.Models.Interfaces;
+using BroadwayBB.Common.Models.Structures;
 
 namespace BroadwayBB.Common.Behaviors;
 
@@ -8,13 +9,15 @@ public class BlueTileColor : ITileColorBehavior
 {
     public ColorName ColorName => ColorName.Blue;
 
-    public ICollisionResult HandleCollision()
+    public ColorBehaviorResult HandleCollision()
     {
-        throw new NotImplementedException();
+        return new ColorBehaviorResult
+        {
+            UpdatedCollisionTargetTileColor = new YellowTileColor(), 
+            ShouldCreateArtist = true, 
+            UpdatedAdjacentTileColors = new List<ITileColorBehavior>{ new BlueTileColor(), new BlueTileColor() }
+        };
     }
 
-    public bool CanMove()
-    {
-        return true;
-    }
+    public bool CanMove() => true;
 }

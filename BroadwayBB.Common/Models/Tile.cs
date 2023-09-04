@@ -1,5 +1,6 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
 using BroadwayBB.Common.Models.Interfaces;
+using BroadwayBB.Common.Models.Structures;
 
 namespace BroadwayBB.Common.Models;
 
@@ -16,7 +17,7 @@ public class Tile : ITile
         TileColorBehavior = tileColorBehavior;
     }
 
-    public ICollisionResult HandleCollision(IAttendee attendee)
+    public ColorBehaviorResult HandleCollision(IAttendee attendee)
     {
         var result = TileColorBehavior.HandleCollision();
         return result;

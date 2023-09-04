@@ -9,14 +9,14 @@ public class YellowTileColor : ITileColorBehavior
     public ColorName ColorName => ColorName.Yellow;
     private TileColorCounter TileColorCounter { get; } = new(2);
     
-    public ICollisionResult HandleCollision()
+    public ColorBehaviorResult HandleCollision()
     {
         TileColorCounter.Increase();
-        return new ColorBehaviorResult(this);
+        if (TileColorCounter.LimitReached())
+            return new ColorBehaviorResult{UpdatedCollisionTargetTileColor = this, ShouldCreateArtist = true};
+        
+        return new ColorBehaviorResult{UpdatedCollisionTargetTileColor = new GreyTileColor(), ShouldCreateArtist = true};
     }
 
-    public bool CanMove()
-    {
-        return true;
-    }
+    public bool CanMove() => true;
 }

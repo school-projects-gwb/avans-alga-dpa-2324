@@ -10,16 +10,14 @@ public class GreyTileColor : ITileColorBehavior
 
     private TileColorCounter TileColorCounter { get; } = new(3);
 
-    public ICollisionResult HandleCollision()
+    public ColorBehaviorResult HandleCollision()
     {
         TileColorCounter.Increase();
-        return TileColorCounter.LimitReached() ?
-            new ColorBehaviorResult(new RedTileColor()) 
-            : new ColorBehaviorResult(this);
+        if (TileColorCounter.LimitReached())
+            return new ColorBehaviorResult { UpdatedCollisionTargetTileColor = new RedTileColor()};
+        
+        return new ColorBehaviorResult { UpdatedCollisionTargetTileColor = this };
     }
 
-    public bool CanMove()
-    {
-        return true;
-    }
+    public bool CanMove() => true;
 }
