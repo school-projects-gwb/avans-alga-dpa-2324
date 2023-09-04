@@ -78,7 +78,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
             {
                 Width = _tileWidth * artistSizeModifier,
                 Height = _tileHeight * artistSizeModifier,
-                Fill = new SolidColorBrush(Colors.Black),
+                Fill = new SolidColorBrush(Colors.Black)
             };
             
             Canvas.SetLeft(attendeeRectangle, artist.Movement.GridPosX * _tileWidth);

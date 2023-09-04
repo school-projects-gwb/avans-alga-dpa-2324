@@ -24,7 +24,6 @@ public class Movement : IMovement
     public void Move(List<MovementDirection> possibleDirections)
     {
         if (possibleDirections.Count == 0) return;
-        Console.WriteLine("HHH");
         
         UpdateMovementDirection(possibleDirections);
         UpdatePositionOnGrid();
@@ -32,10 +31,20 @@ public class Movement : IMovement
 
     private void UpdateMovementDirection(List<MovementDirection> possibleDirections)
     {
-        if (possibleDirections.Contains(MovementDirection)) return;
+        var allowedDirections = possibleDirections.Where(HasSpeedForDirection).ToList();
+        if (allowedDirections.Contains(MovementDirection)) return;
 
-        int randomPositionIndex = new Random().Next(possibleDirections.Count);
-        MovementDirection = possibleDirections[randomPositionIndex];
+        int randomPositionIndex = new Random().Next(
+            allowedDirections.Count);
+        MovementDirection = allowedDirections[randomPositionIndex];
+    }
+
+    private bool HasSpeedForDirection(MovementDirection direction)
+    {
+        if (direction == MovementDirection.North || direction == MovementDirection.South)
+            return SpeedVertical > 0.0;
+        
+        return SpeedHorizontal > 0.0;
     }
 
     private void UpdatePositionOnGrid()
