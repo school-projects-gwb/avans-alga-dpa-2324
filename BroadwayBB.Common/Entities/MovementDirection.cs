@@ -7,7 +7,7 @@ public enum MovementDirection
 
 public static class MovementDirectionExtensions
 {
-    private static readonly Random Random = new Random();
+    private static readonly Random Random = new();
 
     public static MovementDirection GetRandomDirection()
     {

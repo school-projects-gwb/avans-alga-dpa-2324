@@ -27,12 +27,13 @@ public class Museum
             int currentPosY = (int) Math.Floor(attendee.Movement.GridPosY);
             var possibleDirections = _tileManager.GetRelativeTilePositions(currentPosX, currentPosY);
             var movementResult = attendee.Movement.HandleMovement(possibleDirections);
-            if (movementResult.HasEnteredNewGridTile) HandleAttendeeMovementCollision(movementResult);
+            if (movementResult.HasEnteredNewGridTile)
+            {
+                var tileCollisionResult = _tileManager.HandleCollision(movementResult.GridPosX, movementResult.GridPosY);
+                _attendeeManager.HandleTileCollisionResult(tileCollisionResult, attendee);
+            }
         }
-    }
-    
-    private void HandleAttendeeMovementCollision(MovementResult movementResult)
-    {
-        var tileCollisionResult = _tileManager.HandleCollision(movementResult.GridPosX, movementResult.GridPosY);
+
+        _attendeeManager.HandleAttendeeQueue();
     }
 }

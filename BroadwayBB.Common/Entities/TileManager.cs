@@ -1,7 +1,6 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
 using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Common.Entities.Structures;
-using Random = System.Random;
 
 namespace BroadwayBB.Common.Entities;
 
