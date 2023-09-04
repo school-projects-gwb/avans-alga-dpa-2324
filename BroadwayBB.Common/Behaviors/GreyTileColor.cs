@@ -1,6 +1,6 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
-using BroadwayBB.Common.Models;
 using BroadwayBB.Common.Models.Interfaces;
+using BroadwayBB.Common.Models.Structures;
 
 namespace BroadwayBB.Common.Behaviors;
 
@@ -14,8 +14,8 @@ public class GreyTileColor : ITileColorBehavior
     {
         TileColorCounter.Increase();
         return TileColorCounter.LimitReached() ?
-            new CollisionResult(new RedTileColor()) 
-            : new CollisionResult(this);
+            new ColorBehaviorResult(new RedTileColor()) 
+            : new ColorBehaviorResult(this);
     }
 
     public bool CanMove()

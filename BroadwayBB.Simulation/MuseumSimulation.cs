@@ -4,7 +4,7 @@ namespace BroadwayBB.Simulation;
 
 public class MuseumSimulation
 {
-    private readonly List<ISimulationObserver> _observers = new List<ISimulationObserver>();
+    private readonly List<ISimulationObserver> _observers = new();
     private Timer _simulationTimer;
     private readonly int _simulationIntervalMilliseconds = 100;
     public Museum Museum { get; private set; }

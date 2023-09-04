@@ -6,9 +6,9 @@ public class Movement : IMovement
 {
     public double GridPosX { get; private set; }
     public double GridPosY { get; private set; }
-    public double SpeedVertical { get; }
-    public double SpeedHorizontal { get; }
-    public MovementDirection MovementDirection { get; private set; }
+    private double SpeedVertical { get; }
+    private double SpeedHorizontal { get; }
+    private MovementDirection MovementDirection { get; set; }
     
     private readonly double _decimalSpeedMultiplier = 0.1, _minimumSpeedMultiplierValue = 1;
 
@@ -21,12 +21,12 @@ public class Movement : IMovement
         MovementDirection = movementDirection;
     }
 
-    public void Move(List<MovementDirection> possibleDirections)
+    public MovementResult HandleMovement(List<MovementDirection> possibleDirections)
     {
-        if (possibleDirections.Count == 0) return;
+        if (possibleDirections.Count == 0) return new MovementResult();
         
         UpdateMovementDirection(possibleDirections);
-        UpdatePositionOnGrid();
+        return UpdatePositionOnGrid();
     }
 
     private void UpdateMovementDirection(List<MovementDirection> possibleDirections)
@@ -47,16 +47,25 @@ public class Movement : IMovement
         return SpeedHorizontal > 0.0;
     }
 
-    private void UpdatePositionOnGrid()
+    private MovementResult UpdatePositionOnGrid()
     {
-        double movementVertical = SpeedVertical;
-        double movementHorizontal = SpeedHorizontal;
+        int previousPosX = GridPosToInt(GridPosX), previousPosY = GridPosToInt(GridPosY); 
+        double movementVertical = SpeedVertical, movementHorizontal = SpeedHorizontal;
 
         if (MovementDirection == MovementDirection.North) GridPosY -= movementVertical;
         if (MovementDirection == MovementDirection.South) GridPosY += movementVertical;
         if (MovementDirection == MovementDirection.West) GridPosX -= movementHorizontal;
         if (MovementDirection == MovementDirection.East) GridPosX += movementHorizontal;
+
+        return new MovementResult
+        {
+            HasEnteredNewGridTile = previousPosX != GridPosToInt(GridPosX) || previousPosY != GridPosToInt(GridPosY),
+            GridPosX = GridPosToInt(GridPosX),
+            GridPosY = GridPosToInt(GridPosY)
+        };
     }
+
+    private int GridPosToInt(double value) => (int) Math.Floor(value);
 
     private double SpeedToDecimal(double target) => target >= _minimumSpeedMultiplierValue ? target *_decimalSpeedMultiplier : target;
 }

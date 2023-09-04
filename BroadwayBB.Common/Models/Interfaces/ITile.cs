@@ -8,11 +8,6 @@ public interface ITile
     public int PosY { get; }
     
     public ITileColorBehavior TileColorBehavior { get; }
-
-    public ICollisionResult HandleCollision(IAttendee attendee)
-    {
-        throw new NotImplementedException();
-    }
     
     public bool CanMove(IAttendee attendee)
     {

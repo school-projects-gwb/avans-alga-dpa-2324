@@ -4,8 +4,8 @@ namespace BroadwayBB.Common.Models;
 
 public class Museum
 {
-    public List<ITile> Tiles { get; private set; }
-    public List<IAttendee> Artists { get; private set; }
+    public List<ITile> Tiles { get; private set; } = new();
+    public List<IAttendee> Artists { get; private set; } = new();
     
     public void SetTiles(List<ITile> tiles) => Tiles = tiles;
 
@@ -14,7 +14,10 @@ public class Museum
     public void MoveAttendees()
     {
         foreach (var artist in Artists)
-            artist.Movement.Move(GetPossibleAttendeeDirections(artist));
+        {
+            var movementResult = artist.Movement.HandleMovement(GetPossibleAttendeeDirections(artist));
+            HandleAttendeeMovementCollision(movementResult);
+        }
     }
 
     private List<MovementDirection> GetPossibleAttendeeDirections(IAttendee attendee)
@@ -37,5 +40,12 @@ public class Museum
             possibleDirections.Add(MovementDirection.West);
         
         return possibleDirections;
+    }
+    
+    private void HandleAttendeeMovementCollision(MovementResult movementResult)
+    {
+        if (!movementResult.HasEnteredNewGridTile) return;
+        var targetTile = Tiles.Find(tile => tile.PosX == movementResult.GridPosX && tile.PosY == movementResult.GridPosY);
+        targetTile?.TileColorBehavior.HandleCollision();
     }
 }
