@@ -72,7 +72,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
             _simulationCanvas.Children.Add(tileRectangle);
         }
 
-        foreach (IAttendee artist in _museum.Artists)
+        foreach (IAttendee artist in _museum.Attendees)
         {
             Rectangle attendeeRectangle = new Rectangle
             {

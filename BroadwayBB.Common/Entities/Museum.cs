@@ -6,24 +6,27 @@ namespace BroadwayBB.Common.Entities;
 public class Museum
 {
     private readonly TileManager _tileManager = new();
+    private readonly AttendeeManager _attendeeManager = new();
     
     public List<ITile> Tiles { 
         get => _tileManager.Tiles;
         set => _tileManager.Tiles = value;
     }
-    
-    public List<IAttendee> Artists { get; private set; } = new();
 
-    public void SetArtists(List<IAttendee> artists) => Artists = artists;
+    public List<IAttendee> Attendees
+    {
+        get => _attendeeManager.Attendees;
+        set => _attendeeManager.Attendees = value;
+    }
 
     public void MoveAttendees()
     {
-        foreach (var artist in Artists)
+        foreach (var attendee in Attendees)
         {
-            int currentPosX = (int) Math.Floor(artist.Movement.GridPosX);
-            int currentPosY = (int) Math.Floor(artist.Movement.GridPosY);
+            int currentPosX = (int) Math.Floor(attendee.Movement.GridPosX);
+            int currentPosY = (int) Math.Floor(attendee.Movement.GridPosY);
             var possibleDirections = _tileManager.GetRelativeTilePositions(currentPosX, currentPosY);
-            var movementResult = artist.Movement.HandleMovement(possibleDirections);
+            var movementResult = attendee.Movement.HandleMovement(possibleDirections);
             if (movementResult.HasEnteredNewGridTile) HandleAttendeeMovementCollision(movementResult);
         }
     }

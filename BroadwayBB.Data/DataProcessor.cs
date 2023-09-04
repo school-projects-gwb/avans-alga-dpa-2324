@@ -64,7 +64,7 @@ public class DataProcessor
         artists.Add(attendeeFactory.Create(1, 3, 0, 2));
         artists.Add(attendeeFactory.Create(2.5, 3, 0, 1));
         
-        museum.SetArtists(artists);
+        museum.Attendees = artists;
         museum.Tiles = tiles;
         
         return museum;
