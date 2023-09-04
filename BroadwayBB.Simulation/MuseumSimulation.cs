@@ -1,4 +1,4 @@
-﻿using BroadwayBB.Common.Models;
+﻿using BroadwayBB.Common.Entities;
 
 namespace BroadwayBB.Simulation;
 

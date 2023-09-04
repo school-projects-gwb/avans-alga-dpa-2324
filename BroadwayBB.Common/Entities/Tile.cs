@@ -1,14 +1,14 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
-using BroadwayBB.Common.Models.Interfaces;
-using BroadwayBB.Common.Models.Structures;
+using BroadwayBB.Common.Entities.Interfaces;
+using BroadwayBB.Common.Entities.Structures;
 
-namespace BroadwayBB.Common.Models;
+namespace BroadwayBB.Common.Entities;
 
 public class Tile : ITile
 {
     public int PosX { get; }
     public int PosY { get; }
-    public ITileColorBehavior TileColorBehavior { get; }
+    public ITileColorBehavior TileColorBehavior { get; private set; }
 
     public Tile(int posX, int posY, ITileColorBehavior tileColorBehavior)
     {
@@ -17,11 +17,11 @@ public class Tile : ITile
         TileColorBehavior = tileColorBehavior;
     }
 
+    public void UpdateColorBehavior(ITileColorBehavior newBehavior) => TileColorBehavior = newBehavior;
+    
     public ColorBehaviorResult HandleCollision(IAttendee attendee)
     {
         var result = TileColorBehavior.HandleCollision();
         return result;
     } 
-    
-    public bool CanMove(IAttendee attendee) => TileColorBehavior.CanMove();
 }

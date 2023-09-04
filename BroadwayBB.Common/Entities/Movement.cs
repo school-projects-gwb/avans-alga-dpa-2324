@@ -1,6 +1,6 @@
-using BroadwayBB.Common.Models.Interfaces;
+using BroadwayBB.Common.Entities.Interfaces;
 
-namespace BroadwayBB.Common.Models;
+namespace BroadwayBB.Common.Entities;
 
 public class Movement : IMovement
 {

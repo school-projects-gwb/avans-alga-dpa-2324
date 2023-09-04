@@ -1,7 +1,7 @@
 using System.Drawing;
 using BroadwayBB.Common.Behaviors.Interfaces;
-using BroadwayBB.Common.Models.Interfaces;
-using BroadwayBB.Common.Models.Structures;
+using BroadwayBB.Common.Entities.Interfaces;
+using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Common.Behaviors;
 
@@ -18,6 +18,4 @@ public class BlueTileColor : ITileColorBehavior
             UpdatedAdjacentTileColors = new List<ITileColorBehavior>{ new BlueTileColor(), new BlueTileColor() }
         };
     }
-
-    public bool CanMove() => true;
 }

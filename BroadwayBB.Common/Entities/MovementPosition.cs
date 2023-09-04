@@ -1,4 +1,4 @@
-namespace BroadwayBB.Common.Models;
+namespace BroadwayBB.Common.Entities;
 
 public class MovementPosition
 {

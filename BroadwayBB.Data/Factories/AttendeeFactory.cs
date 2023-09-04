@@ -1,5 +1,5 @@
-using BroadwayBB.Common.Models;
-using BroadwayBB.Common.Models.Interfaces;
+using BroadwayBB.Common.Entities;
+using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Data.Factories.Interfaces;
 
 namespace BroadwayBB.Data.Factories;

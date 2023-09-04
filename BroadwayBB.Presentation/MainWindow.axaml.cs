@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using BroadwayBB.Common.Models;
+using BroadwayBB.Common.Entities;
 using BroadwayBB.Data;
 using BroadwayBB.Simulation;
 

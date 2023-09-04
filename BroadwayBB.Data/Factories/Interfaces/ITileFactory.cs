@@ -1,4 +1,4 @@
-using BroadwayBB.Common.Models.Interfaces;
+using BroadwayBB.Common.Entities.Interfaces;
 
 namespace BroadwayBB.Data.Factories.Interfaces;
 

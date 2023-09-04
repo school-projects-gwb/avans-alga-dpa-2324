@@ -7,8 +7,8 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Threading;
 using BroadwayBB.Common.Helpers;
-using BroadwayBB.Common.Models;
-using BroadwayBB.Common.Models.Interfaces;
+using BroadwayBB.Common.Entities;
+using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Simulation;
 
 namespace BroadwayBB.Presentation;

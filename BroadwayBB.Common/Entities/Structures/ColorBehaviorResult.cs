@@ -1,7 +1,7 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
-using BroadwayBB.Common.Models.Interfaces;
+using BroadwayBB.Common.Entities.Interfaces;
 
-namespace BroadwayBB.Common.Models.Structures;
+namespace BroadwayBB.Common.Entities.Structures;
 
 public class ColorBehaviorResult
 {

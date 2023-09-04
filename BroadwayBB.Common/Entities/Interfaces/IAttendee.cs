@@ -1,4 +1,4 @@
-namespace BroadwayBB.Common.Models.Interfaces;
+namespace BroadwayBB.Common.Entities.Interfaces;
 
 public interface IAttendee
 {

@@ -1,6 +1,6 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
-using BroadwayBB.Common.Models.Interfaces;
-using BroadwayBB.Common.Models.Structures;
+using BroadwayBB.Common.Entities.Interfaces;
+using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Common.Behaviors;
 
@@ -12,6 +12,4 @@ public class RedTileColor : ITileColorBehavior
     {
         return new ColorBehaviorResult{UpdatedCollisionTargetTileColor = new BlueTileColor(), ShouldRemoveArtist = true};
     }
-
-    public bool CanMove() => true;
 }
