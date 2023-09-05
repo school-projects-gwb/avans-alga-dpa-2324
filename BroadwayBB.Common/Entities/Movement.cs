@@ -1,4 +1,6 @@
+using BroadwayBB.Common.Entities.Extensions;
 using BroadwayBB.Common.Entities.Interfaces;
+using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Common.Entities;
 
@@ -49,7 +51,7 @@ public class Movement : IMovement
 
     private MovementResult UpdatePositionOnGrid()
     {
-        int previousPosX = GridPosToInt(GridPosX), previousPosY = GridPosToInt(GridPosY); 
+        int previousPosX = this.GetRoundedGridPosX(), previousPosY = this.GetRoundedGridPosY(); 
         double movementVertical = SpeedVertical, movementHorizontal = SpeedHorizontal;
 
         if (MovementDirection == MovementDirection.North) GridPosY -= movementVertical;
@@ -59,13 +61,11 @@ public class Movement : IMovement
 
         return new MovementResult
         {
-            HasEnteredNewGridTile = previousPosX != GridPosToInt(GridPosX) || previousPosY != GridPosToInt(GridPosY),
-            GridPosX = GridPosToInt(GridPosX),
-            GridPosY = GridPosToInt(GridPosY)
+            HasEnteredNewGridTile = previousPosX != this.GetRoundedGridPosX() || previousPosY != this.GetRoundedGridPosY(),
+            GridPosX = this.GetRoundedGridPosX(),
+            GridPosY = this.GetRoundedGridPosY()
         };
     }
-
-    private int GridPosToInt(double value) => (int) Math.Floor(value);
 
     private double SpeedToDecimal(double target) => target >= _minimumSpeedMultiplierValue ? target *_decimalSpeedMultiplier : target;
 }

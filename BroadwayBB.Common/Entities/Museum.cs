@@ -1,3 +1,4 @@
+using BroadwayBB.Common.Entities.Extensions;
 using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Common.Entities.Structures;
 
@@ -23,15 +24,15 @@ public class Museum
     {
         foreach (var attendee in Attendees)
         {
-            int currentPosX = (int) Math.Floor(attendee.Movement.GridPosX);
-            int currentPosY = (int) Math.Floor(attendee.Movement.GridPosY);
-            var possibleDirections = _tileManager.GetRelativeTilePositions(currentPosX, currentPosY);
+            var possibleDirections = _tileManager.GetRelativeTilePositions(
+                attendee.Movement.GetRoundedGridPosX(), 
+                attendee.Movement.GetRoundedGridPosY()
+                );
             var movementResult = attendee.Movement.HandleMovement(possibleDirections);
-            if (movementResult.HasEnteredNewGridTile)
-            {
-                var tileCollisionResult = _tileManager.HandleCollision(movementResult.GridPosX, movementResult.GridPosY);
-                _attendeeManager.HandleTileCollisionResult(tileCollisionResult, attendee);
-            }
+            if (!movementResult.HasEnteredNewGridTile) continue;
+            
+            var tileCollisionResult = _tileManager.HandleCollision(movementResult.GridPosX, movementResult.GridPosY);
+            _attendeeManager.HandleTileCollisionResult(tileCollisionResult, attendee);
         }
 
         _attendeeManager.HandleAttendeeQueue();

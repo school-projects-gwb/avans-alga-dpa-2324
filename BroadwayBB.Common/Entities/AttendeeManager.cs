@@ -1,3 +1,4 @@
+using BroadwayBB.Common.Entities.Extensions;
 using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Common.Entities.Structures;
 
@@ -14,7 +15,7 @@ public class AttendeeManager
     public void HandleTileCollisionResult(TileCollisionResult tileCollisionResult, IAttendee targetAttendee)
     {
         if (tileCollisionResult.ShouldCreateArtist) 
-            CreateArtist((int) Math.Floor(targetAttendee.Movement.GridPosX), (int) Math.Floor(targetAttendee.Movement.GridPosY));
+            CreateArtist(targetAttendee.Movement.GetRoundedGridPosX(), targetAttendee.Movement.GetRoundedGridPosY());
         
         if (tileCollisionResult.ShouldRemoveArtist)
             RemoveArtist(targetAttendee);

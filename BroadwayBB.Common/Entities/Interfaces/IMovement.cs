@@ -1,3 +1,5 @@
+using BroadwayBB.Common.Entities.Structures;
+
 namespace BroadwayBB.Common.Entities.Interfaces;
 
 public interface IMovement
