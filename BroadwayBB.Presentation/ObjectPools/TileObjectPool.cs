@@ -6,27 +6,27 @@ using BroadwayBB.Common.Helpers;
 
 namespace BroadwayBB.Presentation.ObjectPools;
 
-public class TileObjectPool : IObjectPool
+public class TileObjectPool : IObjectPool<Rectangle>
 {
-    private double _objectWidth, _objectHeight;
-    private readonly int _poolAmount = 50; 
+    private readonly double _objectWidth, _objectHeight;
+    private readonly int _poolAmount;
+    private readonly Dictionary<ColorName, RGBColor> _colors;
     private Dictionary<ColorName, List<Rectangle>> _rectangleObjectPool = new();
     private List<KeyValuePair<ColorName, Rectangle>> _markedForRelease = new();
     private readonly object _poolLock = new();
     
-    public TileObjectPool(double objectWidth, double objectHeight, int maxPoolAmount)
+    public TileObjectPool(double objectWidth, double objectHeight, int maxPoolAmount, Dictionary<ColorName, RGBColor> colors)
     {
         _objectWidth = objectWidth;
         _objectHeight = objectHeight;
         _poolAmount = maxPoolAmount;
+        _colors = colors;
         Create();
     }
     
     public void Create()
     {
-        var allColors = ColorRegistry.Instance.GetAllColors();
-
-        foreach (var colorMapRecord in allColors)
+        foreach (var colorMapRecord in _colors)
         {
             var key = colorMapRecord.Key;
             var values = new List<Rectangle>();
@@ -64,7 +64,7 @@ public class TileObjectPool : IObjectPool
         lock (_poolLock)
             _markedForRelease.Add(new KeyValuePair<ColorName, Rectangle>(key, rectangle));
     }
-
+    
     public void ReleaseMarked()
     {
         lock (_poolLock)
