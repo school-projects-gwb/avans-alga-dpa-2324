@@ -6,7 +6,7 @@ using BroadwayBB.Common.Helpers;
 
 namespace BroadwayBB.Presentation.ObjectPools;
 
-public class TileObjectPool : IObjectPool<Rectangle>
+public class CanvasItemPool : IObjectPool<Rectangle>
 {
     private readonly double _objectWidth, _objectHeight;
     private readonly int _poolAmount;
@@ -15,7 +15,7 @@ public class TileObjectPool : IObjectPool<Rectangle>
     private List<KeyValuePair<ColorName, Rectangle>> _markedForRelease = new();
     private readonly object _poolLock = new();
     
-    public TileObjectPool(double objectWidth, double objectHeight, int maxPoolAmount, Dictionary<ColorName, RGBColor> colors)
+    public CanvasItemPool(double objectWidth, double objectHeight, int maxPoolAmount, Dictionary<ColorName, RGBColor> colors)
     {
         _objectWidth = objectWidth;
         _objectHeight = objectHeight;

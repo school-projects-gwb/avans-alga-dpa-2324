@@ -22,7 +22,6 @@ public class AttendeeManager
 
     private void CreateArtist(int targetPosX, int targetPosY)
     {
-        Console.WriteLine(Attendees.Count);
         if (Attendees.Count >= _attendeeLimit) return;
         var random = new Random();
         var hasVerticalSpeed = random.Next(2) == 1; // 50% chance
