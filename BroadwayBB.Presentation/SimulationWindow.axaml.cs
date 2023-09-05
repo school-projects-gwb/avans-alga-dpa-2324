@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -6,9 +7,11 @@ using Avalonia.Controls.Shapes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Threading;
+using BroadwayBB.Common.Behaviors;
 using BroadwayBB.Common.Helpers;
 using BroadwayBB.Common.Entities;
 using BroadwayBB.Common.Entities.Interfaces;
+using BroadwayBB.Presentation.ObjectPools;
 using BroadwayBB.Simulation;
 
 namespace BroadwayBB.Presentation;
@@ -18,6 +21,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
     private Museum _museum;
     private MuseumSimulation _simulation;
     private readonly Canvas _simulationCanvas;
+    private TileObjectPool _tileObjectPool;
 
     private int _numRows, _numCols;
     private double _tileWidth, _tileHeight;
@@ -38,6 +42,10 @@ public partial class SimulationWindow : Window, ISimulationObserver
         _numCols = _museum.Tiles.Max(tile => tile.PosX) + 1;
         _tileWidth = _simulationCanvas.Width / _numCols;
         _tileHeight = _simulationCanvas.Height / _numRows;
+
+        int maxPoolAmount = _numCols * _numRows;
+        _tileObjectPool = new TileObjectPool(_tileWidth, _tileHeight, maxPoolAmount);
+        _tileObjectPool.Create();
         
         DrawMuseum();
     }
@@ -50,27 +58,21 @@ public partial class SimulationWindow : Window, ISimulationObserver
     private void DrawMuseum()
     {
         _simulationCanvas.Children.Clear();
-        
         double artistSizeModifier = 0.5;
 
         foreach (ITile tile in _museum.Tiles)
         {
-            RGBColor tileColor = ColorRegistry.Instance.GetColor(tile.TileColorBehavior.ColorName);
-            
-            Rectangle tileRectangle = new Rectangle
-            {
-                Width = _tileWidth,
-                Height = _tileHeight,
-                Fill = new SolidColorBrush(Color.FromRgb(tileColor.Red, tileColor.Green, tileColor.Blue)),
-                Stroke = Brushes.Black,
-                StrokeThickness = 1
-            };
+            Rectangle tileRectangle = _tileObjectPool.GetObject(tile.TileColorBehavior.ColorName);
             
             Canvas.SetLeft(tileRectangle, tile.PosX * _tileWidth);
             Canvas.SetTop(tileRectangle, tile.PosY * _tileHeight);
 
             _simulationCanvas.Children.Add(tileRectangle);
+            
+            _tileObjectPool.MarkForRelease(tile.TileColorBehavior.ColorName, tileRectangle);
         }
+
+        _tileObjectPool.ReleaseMarked();
 
         foreach (IAttendee artist in _museum.Attendees)
         {
