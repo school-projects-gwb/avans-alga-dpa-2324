@@ -5,7 +5,6 @@ namespace BroadwayBB.Presentation.ObjectPools;
 
 public interface IObjectPool<T>
 {
-    public void Create();
     public T? GetObject(ColorName key);
     public void ReleaseMarked();
     public void MarkForRelease(ColorName key, T obj);

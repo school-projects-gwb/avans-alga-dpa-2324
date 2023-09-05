@@ -57,19 +57,28 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void CreateTileObjectPool()
     {
-        int maxTilePoolAmount = _numCols * _numRows;
-        var tileColors = ColorRegistry.Instance.GetAllColors();
-        _tileObjectPool = new CanvasItemPool(_tileWidth, _tileHeight, maxTilePoolAmount, tileColors);
-        _tileObjectPool.Create();
+        var config = new ObjectPoolConfiguration()
+        {
+            MaxPoolAmount = _numCols * _numRows,
+            SupportedColors = ColorRegistry.Instance.GetAllColors(),
+            ObjectWidth = _tileWidth,
+            ObjectHeight = _tileHeight
+        };
+        
+        _tileObjectPool = new CanvasItemPool(config);
     }
 
     private void CreateAttendeeObjectPool()
     {
-        int maxAttendeePoolAmount = 175;
-        var attendeeColors = new Dictionary<ColorName, RGBColor>();
-        attendeeColors.Add(ColorName.Black, ColorRegistry.Instance.GetColor(ColorName.Black));
-        _attendeeObjectPool =
-            new CanvasItemPool(_tileWidth * _artistSizeModifier, _tileHeight * _artistSizeModifier, maxAttendeePoolAmount, attendeeColors);
+        var config = new ObjectPoolConfiguration()
+        {
+            MaxPoolAmount = 175,
+            SupportedColors = new Dictionary<ColorName, RGBColor> { { ColorName.Black, ColorRegistry.Instance.GetColor(ColorName.Black) } },
+            ObjectWidth = _tileWidth * _artistSizeModifier,
+            ObjectHeight = _tileHeight * _artistSizeModifier
+        };
+        
+        _attendeeObjectPool = new CanvasItemPool(config);
     }
     
     private void DrawMuseum()

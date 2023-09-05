@@ -8,35 +8,30 @@ namespace BroadwayBB.Presentation.ObjectPools;
 
 public class CanvasItemPool : IObjectPool<Rectangle>
 {
-    private readonly double _objectWidth, _objectHeight;
-    private readonly int _poolAmount;
-    private readonly Dictionary<ColorName, RGBColor> _colors;
-    private Dictionary<ColorName, List<Rectangle>> _rectangleObjectPool = new();
-    private List<KeyValuePair<ColorName, Rectangle>> _markedForRelease = new();
+    private readonly ObjectPoolConfiguration _configuration;
+    private readonly Dictionary<ColorName, List<Rectangle>> _rectangleObjectPool = new();
+    private readonly List<KeyValuePair<ColorName, Rectangle>> _markedForRelease = new();
     private readonly object _poolLock = new();
     
-    public CanvasItemPool(double objectWidth, double objectHeight, int maxPoolAmount, Dictionary<ColorName, RGBColor> colors)
+    public CanvasItemPool(ObjectPoolConfiguration configuration)
     {
-        _objectWidth = objectWidth;
-        _objectHeight = objectHeight;
-        _poolAmount = maxPoolAmount;
-        _colors = colors;
+        _configuration = configuration;
         Create();
     }
     
-    public void Create()
+    private void Create()
     {
-        foreach (var colorMapRecord in _colors)
+        foreach (var colorMapRecord in _configuration.SupportedColors)
         {
             var key = colorMapRecord.Key;
             var values = new List<Rectangle>();
 
-            for (int i = 0; i < _poolAmount; i++)
+            for (int i = 0; i < _configuration.MaxPoolAmount; i++)
             {
                 values.Add(new Rectangle
                 {
-                    Width = _objectWidth,
-                    Height = _objectHeight,
+                    Width = _configuration.ObjectWidth,
+                    Height = _configuration.ObjectHeight,
                     Fill = new SolidColorBrush(Color.FromRgb(colorMapRecord.Value.Red, colorMapRecord.Value.Green, colorMapRecord.Value.Blue)),
                     Stroke = Brushes.Black,
                     StrokeThickness = 1
