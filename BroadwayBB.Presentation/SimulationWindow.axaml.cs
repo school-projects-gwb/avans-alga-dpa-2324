@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
@@ -13,6 +14,7 @@ using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Presentation.Hotkeys;
 using BroadwayBB.Presentation.ObjectPools;
 using BroadwayBB.Simulation;
+using Microsoft.Win32;
 
 namespace BroadwayBB.Presentation;
 
@@ -42,12 +44,24 @@ public partial class SimulationWindow : Window, ISimulationObserver
     private void InitiateSimulationCanvas()
     {
         _simulationCanvas = this.FindControl<Canvas>("simulationCanvas") ?? throw new InvalidOperationException();
-        _simulationCanvas.KeyDown += HandleCommand;
+        _simulationCanvas.KeyDown += (sender, e) => _hotkeyManager.HandleCommand(e.Key, _simulation);
+        _simulationCanvas.PointerMoved += HandlePointerMoved;
         _simulationCanvas.Focusable = true;
         _simulationCanvas.Focus();
     }
 
-    private void HandleCommand(object? sender, KeyEventArgs e) => _hotkeyManager.HandleCommand(e.Key, _simulation);
+    private void HandlePointerMoved(object? sender, PointerEventArgs e)
+    {
+        var pointerPosition = e.GetPosition(_simulationCanvas);
+        
+        int mouseGridPosX = (int)(pointerPosition.X / _tileWidth);
+        int mouseGridPosY = (int)(pointerPosition.Y / _tileHeight);
+        
+        mouseGridPosX = Math.Max(0, Math.Min(mouseGridPosX, _numCols - 1));
+        mouseGridPosY = Math.Max(0, Math.Min(mouseGridPosY, _numRows - 1));
+        
+        _hotkeyManager.UpdateMousePosition(mouseGridPosX, mouseGridPosY);
+    }
     
     private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
 
