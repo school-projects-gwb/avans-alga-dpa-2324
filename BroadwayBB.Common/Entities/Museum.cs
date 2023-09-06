@@ -10,15 +10,27 @@ public class Museum
     private readonly TileManager _tileManager = new();
     private readonly AttendeeManager _attendeeManager = new();
     
-    public List<ITile> Tiles { 
+    public List<ITile> Tiles
+    {
         get => _tileManager.Tiles;
-        set => _tileManager.Tiles = value;
+        set
+        {
+            _tileManager.Tiles = value;
+            SetAttendeeLimit();
+        }
     }
 
     public List<IAttendee> Attendees
     {
         get => _attendeeManager.Attendees;
         set => _attendeeManager.Attendees = value;
+    }
+
+    private void SetAttendeeLimit()
+    {
+        double limitRelativeToTileModifier = 0.2;
+        int roundedLimit = (int)Math.Round(_tileManager.Tiles.Count() * limitRelativeToTileModifier);
+        _attendeeManager.SetAttendeeLimit(roundedLimit);
     }
 
     public void MoveAttendees()

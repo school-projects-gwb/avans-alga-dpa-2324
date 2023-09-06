@@ -10,7 +10,8 @@ public class AttendeeManager
     
     private List<IAttendee> _markedForRemoval = new();
     private List<IAttendee> _markedForCreation = new();
-    private readonly int _markedLimit = 5, _attendeeLimit = 150;
+    private readonly int _markedLimit = 5;
+    private int _attendeeLimit = 50;
     
     public void HandleTileCollisionResult(TileCollisionResult tileCollisionResult, IAttendee targetAttendee)
     {
@@ -20,7 +21,7 @@ public class AttendeeManager
         if (tileCollisionResult.ShouldRemoveArtist)
             RemoveArtist(targetAttendee);
     }
-
+    
     private void CreateArtist(int targetPosX, int targetPosY)
     {
         if (Attendees.Count >= _attendeeLimit) return;
@@ -61,4 +62,6 @@ public class AttendeeManager
         
         _markedForCreation.Clear();
     }
+    
+    public void SetAttendeeLimit(int limit) => _attendeeLimit = limit;
 }

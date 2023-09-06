@@ -33,8 +33,6 @@ public class CanvasItemPool : IObjectPool<Rectangle>
                     Width = _configuration.ObjectWidth,
                     Height = _configuration.ObjectHeight,
                     Fill = new SolidColorBrush(Color.FromRgb(colorMapRecord.Value.Red, colorMapRecord.Value.Green, colorMapRecord.Value.Blue)),
-                    Stroke = Brushes.Black,
-                    StrokeThickness = 1
                 });
             }
             

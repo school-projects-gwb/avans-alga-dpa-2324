@@ -13,5 +13,24 @@ public partial class ShortcutWindow : Window
     {
         InitializeComponent();
         _hotkeyManager = hotkeyManager;
+        Draw();
+    }
+
+    private void Draw()
+    {
+        var hotkeysListBox = this.FindControl<ListBox>("HotkeysListBox");
+        double windowHeight = hotkeysListBox.Height;
+        double hotkeyItemHeight = windowHeight / _hotkeyManager.Hotkeys.Count;
+        
+        foreach (var hotkey in _hotkeyManager.Hotkeys)
+        {
+            var item = new ListBoxItem
+            {
+                Content = $"{hotkey.Description}: {hotkey.Key}",
+                Height = hotkeyItemHeight
+            };
+
+            hotkeysListBox.Items.Add(item);
+        }
     }
 }

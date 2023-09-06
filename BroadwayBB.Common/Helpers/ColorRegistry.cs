@@ -11,10 +11,10 @@ public sealed class ColorRegistry
 
     private ColorRegistry()
     {
-        RegisterColor(ColorName.Red, new RGBColor(255, 0, 0));
-        RegisterColor(ColorName.Grey, new RGBColor(128, 128, 128));
-        RegisterColor(ColorName.Yellow, new RGBColor(255, 255, 0));
-        RegisterColor(ColorName.Blue, new RGBColor(0, 0, 255));
+        RegisterColor(ColorName.Red, new RGBColor(255, 107, 107));
+        RegisterColor(ColorName.Grey, new RGBColor(176, 176, 176));
+        RegisterColor(ColorName.Yellow, new RGBColor(255, 255, 153));
+        RegisterColor(ColorName.Blue, new RGBColor(153, 204, 255));
         RegisterColor(ColorName.White, new RGBColor(255, 255, 255));
         RegisterColor(ColorName.Black, new RGBColor(0, 0, 0));
     }
