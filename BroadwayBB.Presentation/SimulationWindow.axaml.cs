@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using BroadwayBB.Common.Behaviors;
 using BroadwayBB.Common.Helpers;
 using BroadwayBB.Common.Entities;
 using BroadwayBB.Common.Entities.Interfaces;
+using BroadwayBB.Presentation.Hotkeys;
 using BroadwayBB.Presentation.ObjectPools;
 using BroadwayBB.Simulation;
 
@@ -17,8 +19,11 @@ namespace BroadwayBB.Presentation;
 public partial class SimulationWindow : Window, ISimulationObserver
 {
     private Museum _museum;
-    private MuseumSimulation _simulation;
-    private readonly Canvas _simulationCanvas;
+    private IMuseumSimulation _simulation;
+    private MainWindow _mainWindow;
+    private HotkeyManager _hotkeyManager;
+    
+    private Canvas _simulationCanvas;
     private IObjectPool<Rectangle> _tileObjectPool;
     private IObjectPool<Rectangle> _attendeeObjectPool;
 
@@ -26,15 +31,27 @@ public partial class SimulationWindow : Window, ISimulationObserver
     private double _tileWidth, _tileHeight;
     private readonly double _artistSizeModifier = 0.5;
 
-    public SimulationWindow(MainWindow mainWindow)
+    public SimulationWindow(MainWindow mainWindow, HotkeyManager hotkeyManager)
     {
         InitializeComponent();
-        _simulationCanvas = this.FindControl<Canvas>("simulationCanvas") ?? throw new InvalidOperationException();
+        _mainWindow = mainWindow;
+        _hotkeyManager = hotkeyManager;
+        InitiateSimulationCanvas();
     }
+
+    private void InitiateSimulationCanvas()
+    {
+        _simulationCanvas = this.FindControl<Canvas>("simulationCanvas") ?? throw new InvalidOperationException();
+        _simulationCanvas.KeyDown += HandleCommand;
+        _simulationCanvas.Focusable = true;
+        _simulationCanvas.Focus();
+    }
+
+    private void HandleCommand(object? sender, KeyEventArgs e) => _hotkeyManager.HandleCommand(e.Key, _simulation);
     
     private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
 
-    public void LoadSimulation(MuseumSimulation simulation)
+    public void LoadSimulation(IMuseumSimulation simulation)
     {
         _simulation = simulation;
         _simulation.Subscribe(this);

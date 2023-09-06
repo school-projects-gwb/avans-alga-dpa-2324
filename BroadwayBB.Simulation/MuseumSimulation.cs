@@ -2,12 +2,12 @@
 
 namespace BroadwayBB.Simulation;
 
-public class MuseumSimulation
+public class MuseumSimulation : IMuseumSimulation
 {
     private readonly List<ISimulationObserver> _observers = new();
     private Timer _simulationTimer;
     private readonly int _simulationIntervalMilliseconds = 100;
-    public Museum Museum { get; private set; }
+    public Museum Museum { get; }
     
     public MuseumSimulation(Museum museum)
     {
