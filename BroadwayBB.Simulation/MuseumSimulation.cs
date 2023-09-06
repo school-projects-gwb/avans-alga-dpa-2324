@@ -34,4 +34,15 @@ public class MuseumSimulation : IMuseumSimulation
     public void Subscribe(ISimulationObserver observer) => _observers.Add(observer);
 
     private void NotifySubscribers() => _observers.ForEach(observer => observer.UpdateSimulation());
+
+    public void ToggleAttendeeMovement()
+    {
+        Museum.MuseumConfiguration.ShouldMoveAttendees = !Museum.MuseumConfiguration.ShouldMoveAttendees;
+    }
+
+    public void ToggleAttendeeRendering()
+    {
+        Museum.MuseumConfiguration.ShouldRenderAttendees = !Museum.MuseumConfiguration.ShouldRenderAttendees;
+    }
+    
 }

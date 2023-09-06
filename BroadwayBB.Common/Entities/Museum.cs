@@ -6,6 +6,7 @@ namespace BroadwayBB.Common.Entities;
 
 public class Museum
 {
+    public MuseumConfiguration MuseumConfiguration = new();
     private readonly TileManager _tileManager = new();
     private readonly AttendeeManager _attendeeManager = new();
     
@@ -22,6 +23,8 @@ public class Museum
 
     public void MoveAttendees()
     {
+        if (!MuseumConfiguration.ShouldMoveAttendees) return;
+        
         foreach (var attendee in Attendees)
         {
             var possibleDirections = _tileManager.GetRelativeTilePositions(
@@ -32,6 +35,7 @@ public class Museum
             if (!movementResult.HasEnteredNewGridTile) continue;
             
             var tileCollisionResult = _tileManager.HandleCollision(movementResult.GridPosX, movementResult.GridPosY);
+            if (!MuseumConfiguration.ShouldRenderAttendees) tileCollisionResult.ShouldCreateArtist = false;
             _attendeeManager.HandleTileCollisionResult(tileCollisionResult, attendee);
         }
 

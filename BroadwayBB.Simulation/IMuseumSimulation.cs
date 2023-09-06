@@ -8,4 +8,6 @@ public interface IMuseumSimulation
     public void Start();
 
     public void Subscribe(ISimulationObserver observer);
+    public void ToggleAttendeeMovement();
+    public void ToggleAttendeeRendering();
 }
