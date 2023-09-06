@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Input;
+using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Simulation;
 using BroadwayBB.Simulation.Commands;
 
@@ -9,7 +10,7 @@ namespace BroadwayBB.Presentation.Hotkeys;
 
 public class HotkeyManager
 {
-    private List<Hotkey> _hotKeys = new();
+    private readonly List<Hotkey> _hotKeys = new();
     private readonly MouseGridPosition _mouseGridPosition = new () { PosX = 0, PosY = 0 };
     
     public HotkeyManager()
@@ -26,7 +27,7 @@ public class HotkeyManager
         _hotKeys.Add(
             new Hotkey()
             {
-                Key = Key.O, 
+                Key = Key.Enter, 
                 Command = new UpdateTile(),
                 Description = "Herschik vakje waar muispointer zich bevindt."
             }

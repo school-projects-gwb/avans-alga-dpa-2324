@@ -1,4 +1,6 @@
 ﻿using BroadwayBB.Common.Entities;
+using BroadwayBB.Common.Entities.Structures;
+using BroadwayBB.Simulation.Commands;
 
 namespace BroadwayBB.Simulation;
 
@@ -44,5 +46,9 @@ public class MuseumSimulation : IMuseumSimulation
     {
         Museum.MuseumConfiguration.ShouldRenderAttendees = !Museum.MuseumConfiguration.ShouldRenderAttendees;
     }
-    
+
+    public void UpdateTile(MouseGridPosition mouseGridPosition)
+    {
+        Museum.HandleMouseTileUpdate(mouseGridPosition.PosX, mouseGridPosition.PosY);
+    }
 }

@@ -41,4 +41,15 @@ public class Museum
 
         _attendeeManager.HandleAttendeeQueue();
     }
+
+    public void HandleMouseTileUpdate(int mouseGridPosX, int mouseGridPosY)
+    {
+        var tileCollisionResult = _tileManager.HandleCollision(mouseGridPosX, mouseGridPosY);
+        tileCollisionResult.ShouldRemoveArtist = false;
+        // We can pass a new "non-existing" attendee here since removing artists is always disabled.
+        // This is not the cleanest way but works well enough in this one single specific situation.
+        _attendeeManager.HandleTileCollisionResult(
+            tileCollisionResult, 
+            new Artist(0,0,0,0));
+    }
 }
