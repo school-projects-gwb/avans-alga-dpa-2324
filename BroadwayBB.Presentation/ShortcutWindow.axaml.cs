@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -13,7 +14,14 @@ public partial class ShortcutWindow : Window
     {
         InitializeComponent();
         _hotkeyManager = hotkeyManager;
+        Closing += OnClosing;
         Draw();
+    }
+    
+    private void OnClosing(object? sender, WindowClosingEventArgs windowClosingEventArgs)
+    {
+        windowClosingEventArgs.Cancel = true;
+        Hide();
     }
 
     private void Draw()
