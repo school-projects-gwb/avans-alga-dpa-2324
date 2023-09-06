@@ -32,12 +32,6 @@ public class MuseumSimulation : IMuseumSimulation
     {
         _simulationTimer.Change(0, _simulationIntervalMilliseconds);
     }
-
-    public void Subscribe(ISimulationObserver observer) => _observers.Add(observer);
-
-    private void NotifyUpdated() => _observers.ForEach(observer => observer.UpdateSimulation());
-
-    private void NotifyStopped() => _observers.ForEach(observer => observer.StopSimulation());
     
     public void ToggleAttendeeMovement()
     {
@@ -55,4 +49,14 @@ public class MuseumSimulation : IMuseumSimulation
     }
 
     public void OpenFileMenu() => NotifyStopped();
+
+    public void OpenShortcutMenu() => NotifyOpenShortcutMenu();
+    
+    public void Subscribe(ISimulationObserver observer) => _observers.Add(observer);
+
+    private void NotifyUpdated() => _observers.ForEach(observer => observer.UpdateSimulation());
+
+    private void NotifyStopped() => _observers.ForEach(observer => observer.StopSimulation());
+
+    private void NotifyOpenShortcutMenu() => _observers.ForEach(observer => observer.OpenShortcutMenu());
 }

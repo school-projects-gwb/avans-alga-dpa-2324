@@ -6,6 +6,6 @@ public class OpenShortcutMenu : ICommand
 {
     public void HandleCommand(IMuseumSimulation museumSimulation, MouseGridPosition mouseGridGridPosition)
     {
-        throw new NotImplementedException();
+        museumSimulation.OpenShortcutMenu();
     }
 }

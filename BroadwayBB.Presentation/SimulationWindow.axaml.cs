@@ -14,7 +14,6 @@ using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Presentation.Hotkeys;
 using BroadwayBB.Presentation.ObjectPools;
 using BroadwayBB.Simulation;
-using Microsoft.Win32;
 
 namespace BroadwayBB.Presentation;
 
@@ -155,8 +154,13 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     public void StopSimulation()
     {
-        Close();
         _mainWindow.Show();
         _mainWindow.Focus();
+        Close();
+    }
+
+    public void OpenShortcutMenu()
+    {
+        throw new NotImplementedException();
     }
 }

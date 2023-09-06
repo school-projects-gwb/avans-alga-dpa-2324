@@ -4,4 +4,5 @@ public interface ISimulationObserver
 {
     public void UpdateSimulation();
     public void StopSimulation();
+    public void OpenShortcutMenu();
 }
