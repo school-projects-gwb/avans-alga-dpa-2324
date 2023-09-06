@@ -161,6 +161,6 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     public void OpenShortcutMenu()
     {
-        throw new NotImplementedException();
+        _mainWindow.ShowShortcutWindow();
     }
 }
