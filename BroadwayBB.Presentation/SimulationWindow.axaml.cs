@@ -152,4 +152,11 @@ public partial class SimulationWindow : Window, ISimulationObserver
     }
 
     public void UpdateSimulation() => Dispatcher.UIThread.Post(DrawMuseum);
+
+    public void StopSimulation()
+    {
+        Close();
+        _mainWindow.Show();
+        _mainWindow.Focus();
+    }
 }

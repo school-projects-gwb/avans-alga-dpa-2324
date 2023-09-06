@@ -25,7 +25,7 @@ public class MuseumSimulation : IMuseumSimulation
     private void Simulate(object? state)
     {
         Museum.MoveAttendees();
-        NotifySubscribers();
+        NotifyUpdated();
     }
     
     public void Start()
@@ -35,8 +35,10 @@ public class MuseumSimulation : IMuseumSimulation
 
     public void Subscribe(ISimulationObserver observer) => _observers.Add(observer);
 
-    private void NotifySubscribers() => _observers.ForEach(observer => observer.UpdateSimulation());
+    private void NotifyUpdated() => _observers.ForEach(observer => observer.UpdateSimulation());
 
+    private void NotifyStopped() => _observers.ForEach(observer => observer.StopSimulation());
+    
     public void ToggleAttendeeMovement()
     {
         Museum.MuseumConfiguration.ShouldMoveAttendees = !Museum.MuseumConfiguration.ShouldMoveAttendees;
@@ -51,4 +53,6 @@ public class MuseumSimulation : IMuseumSimulation
     {
         Museum.HandleMouseTileUpdate(mouseGridPosition.PosX, mouseGridPosition.PosY);
     }
+
+    public void OpenFileMenu() => NotifyStopped();
 }

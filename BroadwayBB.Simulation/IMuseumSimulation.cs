@@ -13,4 +13,5 @@ public interface IMuseumSimulation
     public void ToggleAttendeeMovement();
     public void ToggleAttendeeRendering();
     public void UpdateTile(MouseGridPosition mouseGridPosition);
+    public void OpenFileMenu();
 }
