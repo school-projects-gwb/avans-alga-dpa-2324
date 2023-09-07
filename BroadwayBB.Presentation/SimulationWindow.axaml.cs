@@ -100,7 +100,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
     {
         var config = new ObjectPoolConfiguration()
         {
-            MaxPoolAmount = 175,
+            MaxPoolAmount = _numCols * _numRows,
             SupportedColors = new Dictionary<ColorName, RGBColor> { { ColorName.Black, ColorRegistry.Instance.GetColor(ColorName.Black) } },
             ObjectWidth = _tileWidth * _artistSizeModifier,
             ObjectHeight = _tileHeight * _artistSizeModifier

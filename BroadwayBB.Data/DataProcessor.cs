@@ -16,48 +16,18 @@ public class DataProcessor
 
         ITileFactory tileFactory = new TileFactory();
         IAttendeeFactory attendeeFactory = new AttendeeFactory();
-        
-        tiles.Add(tileFactory.Create(0, 0, 'R'));
-        tiles.Add(tileFactory.Create(1, 0, 'R'));
-        tiles.Add(tileFactory.Create(2, 0, 'R'));
-        tiles.Add(tileFactory.Create(3, 0, 'R'));
-        tiles.Add(tileFactory.Create(4, 0, 'R'));
-        tiles.Add(tileFactory.Create(5, 0, 'R'));
-        
-        tiles.Add(tileFactory.Create(0, 1, 'B'));
-        tiles.Add(tileFactory.Create(1, 1, 'B'));
-        tiles.Add(tileFactory.Create(2, 1, 'B'));
-        tiles.Add(tileFactory.Create(3, 1, 'B'));
-        tiles.Add(tileFactory.Create(4, 1, 'B'));
-        tiles.Add(tileFactory.Create(5, 1, 'B'));
-        
-        tiles.Add(tileFactory.Create(0, 2, '_'));
-        tiles.Add(tileFactory.Create(1, 2, '_'));
-        tiles.Add(tileFactory.Create(2, 2, '_'));
-        tiles.Add(tileFactory.Create(3, 2, '_'));
-        tiles.Add(tileFactory.Create(4, 2, '_'));
-        tiles.Add(tileFactory.Create(5, 2, '_'));
-        
-        tiles.Add(tileFactory.Create(0, 3, 'Y'));
-        tiles.Add(tileFactory.Create(1, 3, 'Y'));
-        tiles.Add(tileFactory.Create(2, 3, 'Y'));
-        tiles.Add(tileFactory.Create(3, 3, 'Y'));
-        tiles.Add(tileFactory.Create(4, 3, 'Y'));
-        tiles.Add(tileFactory.Create(5, 3, 'Y'));
-        
-        tiles.Add(tileFactory.Create(0, 4, 'G'));
-        tiles.Add(tileFactory.Create(1, 4, 'G'));
-        tiles.Add(tileFactory.Create(2, 4, 'G'));
-        tiles.Add(tileFactory.Create(3, 4, 'G'));
-        tiles.Add(tileFactory.Create(4, 4, 'G'));
-        tiles.Add(tileFactory.Create(5, 4, 'G'));
-        
-        tiles.Add(tileFactory.Create(0, 5, 'B'));
-        tiles.Add(tileFactory.Create(1, 5, 'B'));
-        tiles.Add(tileFactory.Create(2, 5, 'B'));
-        tiles.Add(tileFactory.Create(3, 5, 'B'));
-        tiles.Add(tileFactory.Create(4, 5, 'B'));
-        tiles.Add(tileFactory.Create(5, 5, 'B'));
+
+        char[] colors = new[] { 'R', 'B', '_', 'Y', 'G' };
+        var random = new Random();
+        int colRowAmount = 50;
+
+        for (int y = 0; y < colRowAmount; y++)
+        {
+            for (int x = 0; x < colRowAmount; x++)
+            {
+                tiles.Add(tileFactory.Create(y, x, colors[random.Next(colors.Length)]));
+            }
+        }
         
         artists.Add(attendeeFactory.Create(2.5, 3, 0, 2.5));
         artists.Add(attendeeFactory.Create(2, 2, 2, 0));
