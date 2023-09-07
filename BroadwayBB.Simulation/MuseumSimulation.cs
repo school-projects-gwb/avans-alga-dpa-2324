@@ -28,9 +28,7 @@ public class MuseumSimulation : IMuseumSimulation
     
     private void Simulate(object? state)
     {
-        lock (_museum)
-            _museum.MoveAttendees();
-        
+        lock (_museum) _museum.MoveAttendees();
         NotifyAttendeeUpdated();
     }
     
@@ -61,7 +59,7 @@ public class MuseumSimulation : IMuseumSimulation
 
     public void FastForward()
     {
-        for (int i = 0; i < _timeSkipTickAmount; i++)
+        for (int i = 0; i < _timeSkipTickAmount; i++) 
             lock (_museum) _museum.MoveAttendees();
     }
     
