@@ -6,7 +6,7 @@
         x:Class="BroadwayBB.Presentation.SimulationWindow"
         Title="Broadway Boogie Woogie - Simulatie" Width="800" Height="800">
     <Grid>
-        <Canvas Name="backgroundCanvas" Width="800" Height="800"></Canvas>
+        <Canvas Name="backgroundCanvas" Width="800" Height="800"/>
         <Canvas Name="simulationCanvas" Width="800" Height="800"/>
     </Grid>
 </Window>

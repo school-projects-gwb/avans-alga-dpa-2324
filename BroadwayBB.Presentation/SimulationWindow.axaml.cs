@@ -45,15 +45,15 @@ public partial class SimulationWindow : Window, ISimulationObserver
     private void InitiateSimulationCanvas()
     {
         _simulationCanvas = this.FindControl<Canvas>("simulationCanvas") ?? throw new InvalidOperationException();
-        _simulationCanvas.KeyDown += (sender, e) => _hotkeyManager.HandleCommand(e.Key, _simulation);
-        _simulationCanvas.PointerMoved += HandlePointerMoved;
-        _simulationCanvas.Focusable = true;
-        _simulationCanvas.Focus();
     }
 
     private void InitiateTileCanvas()
     {
         _backgroundCanvas = this.FindControl<Canvas>("backgroundCanvas") ?? throw new InvalidOperationException();
+        _backgroundCanvas.KeyDown += (sender, e) => _hotkeyManager.HandleCommand(e.Key, _simulation);
+        _backgroundCanvas.PointerMoved += HandlePointerMoved;
+        _backgroundCanvas.Focusable = true;
+        _backgroundCanvas.Focus();
     }
 
     private void HandlePointerMoved(object? sender, PointerEventArgs e)
