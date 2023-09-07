@@ -9,8 +9,8 @@ public class MuseumSimulation : IMuseumSimulation
     private readonly List<ISimulationObserver> _observers = new();
     private Timer _simulationTimer;
     private Timer _simulationBackgroundTimer;
-    private readonly int _simulationIntervalMilliseconds = 175;
-    private readonly int _backgroundUpdateIntervalMilliseconds = 500;
+    private readonly int _simulationIntervalMilliseconds = 150;
+    private readonly int _backgroundUpdateIntervalMilliseconds = 400;
     private readonly Museum _museum;
     
     public MuseumSimulation(Museum museum)

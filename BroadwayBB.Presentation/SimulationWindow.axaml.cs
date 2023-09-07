@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media;
 using Avalonia.Threading;
 using BroadwayBB.Common.Behaviors;
 using BroadwayBB.Common.Helpers;
-using BroadwayBB.Common.Entities;
 using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Presentation.Hotkeys;
 using BroadwayBB.Presentation.ObjectPools;
@@ -31,6 +30,8 @@ public partial class SimulationWindow : Window, ISimulationObserver
     private double _tileWidth, _tileHeight;
     private readonly double _artistSizeModifier = 0.5;
     private Canvas _backgroundCanvas;
+    
+    Dictionary<(double X, double Y), Rectangle> _tileRectangles = new();
 
     public SimulationWindow(MainWindow mainWindow, HotkeyManager hotkeyManager)
     {
@@ -78,6 +79,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
         HandleTileConfiguration();
         CreateTileObjectPool();
         CreateAttendeeObjectPool();
+        InitiateTileObjects();
     }
 
     private void HandleTileConfiguration()
@@ -90,8 +92,9 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void CreateTileObjectPool()
     {
-        int maxPercentageOfTilesPerColor = (int) Math.Floor((_numCols * _numRows) / 1.5);
-        var config = new ObjectPoolConfiguration()
+        int maxPercentageOfTilesPerColor = _numCols * _numRows / 4;
+        
+        var config = new ObjectPoolConfiguration
         {
             MaxPoolAmount = maxPercentageOfTilesPerColor, 
             SupportedColors = ColorRegistry.Instance.GetAllColors(),
@@ -104,7 +107,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void CreateAttendeeObjectPool()
     {
-        var config = new ObjectPoolConfiguration()
+        var config = new ObjectPoolConfiguration
         {
             MaxPoolAmount = _simulation.GetMaxMuseumAttendees(),
             SupportedColors = new Dictionary<ColorName, RGBColor> { { ColorName.Black, ColorRegistry.Instance.GetColor(ColorName.Black) } },
@@ -123,18 +126,34 @@ public partial class SimulationWindow : Window, ISimulationObserver
     
     private void DrawMuseumBackground()
     {
-        _backgroundCanvas.Children.Clear();
-        DrawTiles();
+        UpdateTileColors();
     }
 
-    private void DrawTiles()
+    private void UpdateTileColors()
     {
         foreach (ITile tile in _simulation.GetMuseumTiles())
         {
             double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
-            DrawCanvasItem(_tileObjectPool, tile.TileColorBehavior.ColorName, posX, posY, _backgroundCanvas);
+            if (!_tileRectangles.TryGetValue((posX, posY), out Rectangle rectangle)) continue;
+            
+            var rgb = ColorRegistry.Instance.GetColor(tile.TileColorBehavior.ColorName);
+            rectangle.Fill = new SolidColorBrush(Color.FromRgb(rgb.Red, rgb.Green, rgb.Blue));
         }
+    }
 
+    private void InitiateTileObjects()
+    {
+        foreach (ITile tile in _simulation.GetMuseumTiles())
+        {
+            double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
+            var item = _tileObjectPool.GetObject(tile.TileColorBehavior.ColorName);
+            if (item == null) return;
+        
+            DrawCanvasItem(item, posX, posY, _backgroundCanvas);
+            _tileObjectPool.MarkForRelease(tile.TileColorBehavior.ColorName, item);
+            _tileRectangles[(posX, posY)] = item;
+        }
+            
         _tileObjectPool.ReleaseMarked();
     }
 
@@ -143,22 +162,22 @@ public partial class SimulationWindow : Window, ISimulationObserver
         foreach (IAttendee artist in _simulation.GetMuseumAttendees())
         {
             double posX = artist.Movement.GridPosX * _tileWidth, posY = artist.Movement.GridPosY * _tileHeight;
-            DrawCanvasItem(_attendeeObjectPool, ColorName.Black, posX, posY, _simulationCanvas);
+            var item = _attendeeObjectPool.GetObject(ColorName.Black);
+            if (item == null) return;
+            
+            DrawCanvasItem(item, posX, posY, _simulationCanvas);
+            _attendeeObjectPool.MarkForRelease(ColorName.Black, item);
         }
         
         _attendeeObjectPool.ReleaseMarked();
     }
 
-    private void DrawCanvasItem(IObjectPool<Rectangle> objectPool, ColorName itemColor, double posX, double posY, Canvas canvas)
+    private void DrawCanvasItem(Rectangle item, double posX, double posY, Canvas canvas)
     {
-        var item = objectPool.GetObject(itemColor);
-        if (item == null) return;
-        
         Canvas.SetLeft(item, posX);
         Canvas.SetTop(item, posY);
         
         canvas.Children.Add(item);
-        objectPool.MarkForRelease(itemColor, item);
     }
 
     public void UpdateSimulation() => Dispatcher.UIThread.Post(DrawMuseumAttendees);
