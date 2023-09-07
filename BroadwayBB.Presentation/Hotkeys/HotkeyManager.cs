@@ -64,7 +64,7 @@ public class HotkeyManager
             new Hotkey()
             {
                 Key = Key.Right,
-                Command = new RewindSimulation(),
+                Command = new FastForwardSimulation(),
                 Description = "Simulatie vooruitspoelen"
             }
         );

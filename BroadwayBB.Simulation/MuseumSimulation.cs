@@ -10,6 +10,7 @@ public class MuseumSimulation : IMuseumSimulation
     private Timer _simulationTimer;
     private Timer _simulationBackgroundTimer;
     private readonly int _simulationIntervalMilliseconds = 150;
+    private readonly int _timeSkipTickAmount = 10;
     private readonly int _backgroundUpdateIntervalMilliseconds = 400;
     private readonly Museum _museum;
     
@@ -27,14 +28,10 @@ public class MuseumSimulation : IMuseumSimulation
     
     private void Simulate(object? state)
     {
-        _museum.MoveAttendees();
+        lock (_museum)
+            _museum.MoveAttendees();
+        
         NotifyAttendeeUpdated();
-    }
-    
-    public void Start()
-    {
-        _simulationTimer.Change(0, _simulationIntervalMilliseconds);
-        _simulationBackgroundTimer.Change(0, _backgroundUpdateIntervalMilliseconds);
     }
     
     public void ToggleAttendeeMovement()
@@ -61,6 +58,12 @@ public class MuseumSimulation : IMuseumSimulation
     public void OpenFileMenu() => NotifyStopped();
 
     public void OpenShortcutMenu() => NotifyOpenShortcutMenu();
+
+    public void FastForward()
+    {
+        for (int i = 0; i < _timeSkipTickAmount; i++)
+            lock (_museum) _museum.MoveAttendees();
+    }
     
     public void Subscribe(ISimulationObserver observer) => _observers.Add(observer);
 
