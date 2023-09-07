@@ -1,6 +1,6 @@
 ﻿using BroadwayBB.Common.Entities;
+using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Common.Entities.Structures;
-using BroadwayBB.Simulation.Commands;
 
 namespace BroadwayBB.Simulation;
 
@@ -11,11 +11,11 @@ public class MuseumSimulation : IMuseumSimulation
     private Timer _simulationBackgroundTimer;
     private readonly int _simulationIntervalMilliseconds = 175;
     private readonly int _backgroundUpdateIntervalMilliseconds = 500;
-    public Museum Museum { get; }
+    private readonly Museum _museum;
     
     public MuseumSimulation(Museum museum)
     {
-        Museum = museum;
+        _museum = museum;
         InitializeSimulationTimers();
     }
     
@@ -27,7 +27,7 @@ public class MuseumSimulation : IMuseumSimulation
     
     private void Simulate(object? state)
     {
-        Museum.MoveAttendees();
+        _museum.MoveAttendees();
         NotifyAttendeeUpdated();
     }
     
@@ -39,18 +39,24 @@ public class MuseumSimulation : IMuseumSimulation
     
     public void ToggleAttendeeMovement()
     {
-        Museum.MuseumConfiguration.ShouldMoveAttendees = !Museum.MuseumConfiguration.ShouldMoveAttendees;
+        _museum.MuseumConfiguration.ShouldMoveAttendees = !_museum.MuseumConfiguration.ShouldMoveAttendees;
     }
 
     public void ToggleAttendeeRendering()
     {
-        Museum.MuseumConfiguration.ShouldRenderAttendees = !Museum.MuseumConfiguration.ShouldRenderAttendees;
+        _museum.MuseumConfiguration.ShouldRenderAttendees = !_museum.MuseumConfiguration.ShouldRenderAttendees;
     }
 
     public void UpdateTile(MouseGridPosition mouseGridPosition)
     {
-        Museum.HandleMouseTileUpdate(mouseGridPosition.PosX, mouseGridPosition.PosY);
+        _museum.HandleMouseTileUpdate(mouseGridPosition.PosX, mouseGridPosition.PosY);
     }
+
+    public List<ITile> GetMuseumTiles() => _museum.Tiles;
+    
+    public List<IAttendee> GetMuseumAttendees() => _museum.Attendees;
+
+    public int GetMaxMuseumAttendees() => _museum.GetMaxAttendees();
 
     public void OpenFileMenu() => NotifyStopped();
 

@@ -6,7 +6,7 @@ namespace BroadwayBB.Common.Entities;
 
 public class Museum
 {
-    public MuseumConfiguration MuseumConfiguration = new();
+    public readonly MuseumConfiguration MuseumConfiguration = new();
     private readonly TileManager _tileManager = new();
     private readonly AttendeeManager _attendeeManager = new();
     
@@ -64,4 +64,6 @@ public class Museum
             tileCollisionResult, 
             new Artist(0,0,0,0));
     }
+
+    public int GetMaxAttendees() => _attendeeManager.AttendeeLimit;
 }

@@ -19,7 +19,6 @@ namespace BroadwayBB.Presentation;
 
 public partial class SimulationWindow : Window, ISimulationObserver
 {
-    private Museum _museum;
     private IMuseumSimulation _simulation;
     private MainWindow _mainWindow;
     private HotkeyManager _hotkeyManager;
@@ -75,7 +74,6 @@ public partial class SimulationWindow : Window, ISimulationObserver
     {
         _simulation = simulation;
         _simulation.Subscribe(this);
-        _museum = _simulation.Museum;
         
         HandleTileConfiguration();
         CreateTileObjectPool();
@@ -84,17 +82,18 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void HandleTileConfiguration()
     {
-        _numRows = _museum.Tiles.Max(tile => tile.PosY) + 1;
-        _numCols = _museum.Tiles.Max(tile => tile.PosX) + 1;
+        _numRows = _simulation.GetMuseumTiles().Max(tile => tile.PosY) + 1;
+        _numCols = _simulation.GetMuseumTiles().Max(tile => tile.PosX) + 1;
         _tileWidth = _simulationCanvas.Width / _numCols;
         _tileHeight = _simulationCanvas.Height / _numRows;
     }
 
     private void CreateTileObjectPool()
     {
+        int maxPercentageOfTilesPerColor = (int) Math.Floor((_numCols * _numRows) / 1.5);
         var config = new ObjectPoolConfiguration()
         {
-            MaxPoolAmount = _numCols * _numRows,
+            MaxPoolAmount = maxPercentageOfTilesPerColor, 
             SupportedColors = ColorRegistry.Instance.GetAllColors(),
             ObjectWidth = _tileWidth,
             ObjectHeight = _tileHeight
@@ -107,7 +106,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
     {
         var config = new ObjectPoolConfiguration()
         {
-            MaxPoolAmount = _numCols * _numRows,
+            MaxPoolAmount = _simulation.GetMaxMuseumAttendees(),
             SupportedColors = new Dictionary<ColorName, RGBColor> { { ColorName.Black, ColorRegistry.Instance.GetColor(ColorName.Black) } },
             ObjectWidth = _tileWidth * _artistSizeModifier,
             ObjectHeight = _tileHeight * _artistSizeModifier
@@ -130,7 +129,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void DrawTiles()
     {
-        foreach (ITile tile in _museum.Tiles)
+        foreach (ITile tile in _simulation.GetMuseumTiles())
         {
             double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
             DrawCanvasItem(_tileObjectPool, tile.TileColorBehavior.ColorName, posX, posY, _backgroundCanvas);
@@ -141,7 +140,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void DrawAttendees()
     {
-        foreach (IAttendee artist in _museum.Attendees)
+        foreach (IAttendee artist in _simulation.GetMuseumAttendees())
         {
             double posX = artist.Movement.GridPosX * _tileWidth, posY = artist.Movement.GridPosY * _tileHeight;
             DrawCanvasItem(_attendeeObjectPool, ColorName.Black, posX, posY, _simulationCanvas);
