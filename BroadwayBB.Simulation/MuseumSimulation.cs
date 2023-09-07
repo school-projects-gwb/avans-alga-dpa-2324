@@ -8,29 +8,33 @@ public class MuseumSimulation : IMuseumSimulation
 {
     private readonly List<ISimulationObserver> _observers = new();
     private Timer _simulationTimer;
-    private readonly int _simulationIntervalMilliseconds = 100;
+    private Timer _simulationBackgroundTimer;
+    private readonly int _simulationIntervalMilliseconds = 175;
+    private readonly int _backgroundUpdateIntervalMilliseconds = 500;
     public Museum Museum { get; }
     
     public MuseumSimulation(Museum museum)
     {
         Museum = museum;
-        InitializeSimulationTimer();
+        InitializeSimulationTimers();
     }
     
-    private void InitializeSimulationTimer()
+    private void InitializeSimulationTimers()
     {
         _simulationTimer = new Timer(Simulate, null, 0, _simulationIntervalMilliseconds);
+        _simulationBackgroundTimer = new Timer(NotifyBackgroundUpdate, null, 0, _backgroundUpdateIntervalMilliseconds);
     }
     
     private void Simulate(object? state)
     {
         Museum.MoveAttendees();
-        NotifyUpdated();
+        NotifyAttendeeUpdated();
     }
     
     public void Start()
     {
         _simulationTimer.Change(0, _simulationIntervalMilliseconds);
+        _simulationBackgroundTimer.Change(0, _backgroundUpdateIntervalMilliseconds);
     }
     
     public void ToggleAttendeeMovement()
@@ -54,7 +58,8 @@ public class MuseumSimulation : IMuseumSimulation
     
     public void Subscribe(ISimulationObserver observer) => _observers.Add(observer);
 
-    private void NotifyUpdated() => _observers.ForEach(observer => observer.UpdateSimulation());
+    private void NotifyAttendeeUpdated() => _observers.ForEach(observer => observer.UpdateSimulation());
+    private void NotifyBackgroundUpdate(object? state) => _observers.ForEach(observer => observer.UpdateBackground());
 
     private void NotifyStopped() => _observers.ForEach(observer => observer.StopSimulation());
 

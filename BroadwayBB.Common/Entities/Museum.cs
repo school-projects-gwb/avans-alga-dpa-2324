@@ -28,7 +28,7 @@ public class Museum
 
     private void SetAttendeeLimit()
     {
-        double limitRelativeToTileModifier = 0.2;
+        double limitRelativeToTileModifier = 0.075;
         int roundedLimit = (int)Math.Round(_tileManager.Tiles.Count() * limitRelativeToTileModifier);
         _attendeeManager.SetAttendeeLimit(roundedLimit);
     }

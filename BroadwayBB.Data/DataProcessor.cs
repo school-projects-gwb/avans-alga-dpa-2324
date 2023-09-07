@@ -17,9 +17,9 @@ public class DataProcessor
         ITileFactory tileFactory = new TileFactory();
         IAttendeeFactory attendeeFactory = new AttendeeFactory();
 
-        char[] colors = new[] { 'R', 'B', '_', 'Y', 'G' };
+        char[] colors = { 'R', 'B', '_', 'Y', 'G' };
         var random = new Random();
-        int colRowAmount = 50;
+        int colRowAmount = 60;
 
         for (int y = 0; y < colRowAmount; y++)
         {

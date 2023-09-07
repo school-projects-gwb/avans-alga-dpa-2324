@@ -31,6 +31,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
     private int _numRows, _numCols;
     private double _tileWidth, _tileHeight;
     private readonly double _artistSizeModifier = 0.5;
+    private Canvas _backgroundCanvas;
 
     public SimulationWindow(MainWindow mainWindow, HotkeyManager hotkeyManager)
     {
@@ -38,6 +39,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
         _mainWindow = mainWindow;
         _hotkeyManager = hotkeyManager;
         InitiateSimulationCanvas();
+        InitiateTileCanvas();
     }
 
     private void InitiateSimulationCanvas()
@@ -47,6 +49,11 @@ public partial class SimulationWindow : Window, ISimulationObserver
         _simulationCanvas.PointerMoved += HandlePointerMoved;
         _simulationCanvas.Focusable = true;
         _simulationCanvas.Focus();
+    }
+
+    private void InitiateTileCanvas()
+    {
+        _backgroundCanvas = this.FindControl<Canvas>("backgroundCanvas") ?? throw new InvalidOperationException();
     }
 
     private void HandlePointerMoved(object? sender, PointerEventArgs e)
@@ -109,11 +116,16 @@ public partial class SimulationWindow : Window, ISimulationObserver
         _attendeeObjectPool = new CanvasItemPool(config);
     }
     
-    private void DrawMuseum()
+    private void DrawMuseumAttendees()
     {
         _simulationCanvas.Children.Clear();
-        DrawTiles();
         DrawAttendees();
+    }
+    
+    private void DrawMuseumBackground()
+    {
+        _backgroundCanvas.Children.Clear();
+        DrawTiles();
     }
 
     private void DrawTiles()
@@ -121,7 +133,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
         foreach (ITile tile in _museum.Tiles)
         {
             double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
-            DrawCanvasItem(_tileObjectPool, tile.TileColorBehavior.ColorName, posX, posY);
+            DrawCanvasItem(_tileObjectPool, tile.TileColorBehavior.ColorName, posX, posY, _backgroundCanvas);
         }
 
         _tileObjectPool.ReleaseMarked();
@@ -132,13 +144,13 @@ public partial class SimulationWindow : Window, ISimulationObserver
         foreach (IAttendee artist in _museum.Attendees)
         {
             double posX = artist.Movement.GridPosX * _tileWidth, posY = artist.Movement.GridPosY * _tileHeight;
-            DrawCanvasItem(_attendeeObjectPool, ColorName.Black, posX, posY);
+            DrawCanvasItem(_attendeeObjectPool, ColorName.Black, posX, posY, _simulationCanvas);
         }
         
         _attendeeObjectPool.ReleaseMarked();
     }
 
-    private void DrawCanvasItem(IObjectPool<Rectangle> objectPool, ColorName itemColor, double posX, double posY)
+    private void DrawCanvasItem(IObjectPool<Rectangle> objectPool, ColorName itemColor, double posX, double posY, Canvas canvas)
     {
         var item = objectPool.GetObject(itemColor);
         if (item == null) return;
@@ -146,21 +158,20 @@ public partial class SimulationWindow : Window, ISimulationObserver
         Canvas.SetLeft(item, posX);
         Canvas.SetTop(item, posY);
         
-        _simulationCanvas.Children.Add(item);
+        canvas.Children.Add(item);
         objectPool.MarkForRelease(itemColor, item);
     }
 
-    public void UpdateSimulation() => Dispatcher.UIThread.Post(DrawMuseum);
+    public void UpdateSimulation() => Dispatcher.UIThread.Post(DrawMuseumAttendees);
 
+    public void UpdateBackground() => Dispatcher.UIThread.Post(DrawMuseumBackground);
+
+    public void OpenShortcutMenu() => _mainWindow.ShowShortcutWindow();
+    
     public void StopSimulation()
     {
         _mainWindow.Show();
         _mainWindow.Focus();
         Close();
-    }
-
-    public void OpenShortcutMenu()
-    {
-        _mainWindow.ShowShortcutWindow();
     }
 }

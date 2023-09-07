@@ -10,7 +10,7 @@ public class AttendeeManager
     
     private List<IAttendee> _markedForRemoval = new();
     private List<IAttendee> _markedForCreation = new();
-    private readonly int _markedLimit = 5;
+    private readonly int _markedLimit = 5, _attendeeHardLimit = 250;
     private int _attendeeLimit = 50;
     
     public void HandleTileCollisionResult(TileCollisionResult tileCollisionResult, IAttendee targetAttendee)
@@ -29,7 +29,7 @@ public class AttendeeManager
         var hasVerticalSpeed = random.Next(2) == 1; // 50% chance
         double minSpeed = 1.0, maxSpeed = 3.0;
         var speed = Math.Clamp(random.NextDouble() * (maxSpeed - minSpeed) + minSpeed, minSpeed, maxSpeed);
-        
+        Console.WriteLine(Attendees.Count);
         var newArtist = new Artist(targetPosX, targetPosY, hasVerticalSpeed ? speed : 0, hasVerticalSpeed ? 0 : speed);
         _markedForCreation.Add(newArtist);
     }
@@ -63,5 +63,5 @@ public class AttendeeManager
         _markedForCreation.Clear();
     }
     
-    public void SetAttendeeLimit(int limit) => _attendeeLimit = limit;
+    public void SetAttendeeLimit(int limit) => _attendeeLimit = limit <= _attendeeHardLimit ? limit : _attendeeHardLimit;
 }
