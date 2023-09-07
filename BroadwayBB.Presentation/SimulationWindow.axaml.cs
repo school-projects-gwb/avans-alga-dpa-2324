@@ -31,13 +31,15 @@ public partial class SimulationWindow : Window, ISimulationObserver
     private readonly double _artistSizeModifier = 0.5;
     private Canvas _backgroundCanvas;
     
-    Dictionary<(double X, double Y), Rectangle> _tileRectangles = new();
+    private readonly Dictionary<(double X, double Y), Rectangle> _tileRectangles = new();
+    private readonly Dictionary<ColorName, SolidColorBrush> _colorMap = new();
 
     public SimulationWindow(MainWindow mainWindow, HotkeyManager hotkeyManager)
     {
         InitializeComponent();
         _mainWindow = mainWindow;
         _hotkeyManager = hotkeyManager;
+        InitiateColorMap();
         InitiateSimulationCanvas();
         InitiateTileCanvas();
     }
@@ -45,6 +47,15 @@ public partial class SimulationWindow : Window, ISimulationObserver
     private void InitiateSimulationCanvas()
     {
         _simulationCanvas = this.FindControl<Canvas>("simulationCanvas") ?? throw new InvalidOperationException();
+    }
+
+    private void InitiateColorMap()
+    {
+        foreach (var colorRecord in ColorRegistry.Instance.GetAllColors())
+        {
+            Color rgbColor = Color.FromRgb(colorRecord.Value.Red, colorRecord.Value.Green, colorRecord.Value.Blue);
+            _colorMap[colorRecord.Key] = new SolidColorBrush(rgbColor);
+        }
     }
 
     private void InitiateTileCanvas()
@@ -136,8 +147,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
             double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
             if (!_tileRectangles.TryGetValue((posX, posY), out Rectangle rectangle)) continue;
             
-            var rgb = ColorRegistry.Instance.GetColor(tile.TileColorBehavior.ColorName);
-            rectangle.Fill = new SolidColorBrush(Color.FromRgb(rgb.Red, rgb.Green, rgb.Blue));
+            rectangle.Fill = _colorMap[tile.TileColorBehavior.ColorName];
         }
     }
 
