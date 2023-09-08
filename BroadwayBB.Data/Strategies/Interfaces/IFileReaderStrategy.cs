@@ -2,7 +2,7 @@ using BroadwayBB.Data.Structs;
 
 namespace BroadwayBB.Data.Strategies.Interfaces;
 
-public interface IFileLoaderStrategy
+public interface IFileReaderStrategy
 {
-    FileData loadFile(Uri uri);
+    object ReadFile(FileData file);
 }
