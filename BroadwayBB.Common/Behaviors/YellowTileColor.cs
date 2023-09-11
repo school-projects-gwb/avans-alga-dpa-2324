@@ -7,7 +7,7 @@ namespace BroadwayBB.Common.Behaviors;
 public class YellowTileColor : ITileColorBehavior
 {
     public ColorName ColorName => ColorName.Yellow;
-    private TileColorCounter TileColorCounter { get; } = new(2);
+    private TileColorCounter TileColorCounter { get; set; } = new(2);
     
     public ColorBehaviorResult HandleCollision()
     {
@@ -16,5 +16,13 @@ public class YellowTileColor : ITileColorBehavior
             return new ColorBehaviorResult{UpdatedCollisionTargetTileColor = this, ShouldCreateArtist = true};
         
         return new ColorBehaviorResult{UpdatedCollisionTargetTileColor = new GreyTileColor(), ShouldCreateArtist = true};
+    }
+    
+    public ITileColorBehavior DeepCopy()
+    {
+        var colorBehaviorCopy = new YellowTileColor();
+        colorBehaviorCopy.TileColorCounter = TileColorCounter.DeepCopy();
+
+        return colorBehaviorCopy;
     }
 }

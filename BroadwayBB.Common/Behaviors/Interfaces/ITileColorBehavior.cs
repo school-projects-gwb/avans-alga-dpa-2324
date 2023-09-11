@@ -7,4 +7,5 @@ public interface ITileColorBehavior
 {
     public ColorName ColorName { get; }
     public ColorBehaviorResult HandleCollision();
+    public ITileColorBehavior DeepCopy();
 }

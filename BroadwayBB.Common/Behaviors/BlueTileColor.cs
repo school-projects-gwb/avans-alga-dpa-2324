@@ -18,4 +18,6 @@ public class BlueTileColor : ITileColorBehavior
             UpdatedAdjacentTileColors = new List<ITileColorBehavior>{ new BlueTileColor(), new BlueTileColor() }
         };
     }
+
+    public ITileColorBehavior DeepCopy() => new BlueTileColor();
 }

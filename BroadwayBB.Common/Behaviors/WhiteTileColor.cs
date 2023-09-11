@@ -11,4 +11,6 @@ public class WhiteTileColor : ITileColorBehavior
     {
         return new ColorBehaviorResult { UpdatedCollisionTargetTileColor = this };
     }
+    
+    public ITileColorBehavior DeepCopy() => new WhiteTileColor();
 }

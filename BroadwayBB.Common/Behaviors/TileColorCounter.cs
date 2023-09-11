@@ -12,4 +12,12 @@ public class TileColorCounter
     public void Increase() => _counterValue++;
     
     public bool LimitReached() => CounterLimit == _counterValue;
+
+    public TileColorCounter DeepCopy()
+    {
+        var counterCopy = new TileColorCounter(CounterLimit);
+        counterCopy._counterValue = _counterValue;
+
+        return counterCopy;
+    }
 }

@@ -12,4 +12,6 @@ public class RedTileColor : ITileColorBehavior
     {
         return new ColorBehaviorResult{UpdatedCollisionTargetTileColor = new BlueTileColor(), ShouldRemoveArtist = true};
     }
+    
+    public ITileColorBehavior DeepCopy() => new RedTileColor();
 }

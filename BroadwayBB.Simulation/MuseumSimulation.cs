@@ -7,8 +7,8 @@ namespace BroadwayBB.Simulation;
 public class MuseumSimulation : IMuseumSimulation
 {
     private readonly List<ISimulationObserver> _observers = new();
-    private Timer _simulationTimer;
-    private Timer _simulationBackgroundTimer;
+    private Timer _simulationTickTimer;
+    private Timer _simulationBackgroundRefreshTimer;
     private readonly int _simulationIntervalMilliseconds = 150;
     private readonly int _timeSkipTickAmount = 10;
     private readonly int _backgroundUpdateIntervalMilliseconds = 400;
@@ -22,8 +22,8 @@ public class MuseumSimulation : IMuseumSimulation
     
     private void InitializeSimulationTimers()
     {
-        _simulationTimer = new Timer(Simulate, null, 0, _simulationIntervalMilliseconds);
-        _simulationBackgroundTimer = new Timer(NotifyBackgroundUpdate, null, 0, _backgroundUpdateIntervalMilliseconds);
+        _simulationTickTimer = new Timer(Simulate, null, 0, _simulationIntervalMilliseconds);
+        _simulationBackgroundRefreshTimer = new Timer(NotifyBackgroundUpdate, null, 0, _backgroundUpdateIntervalMilliseconds);
     }
     
     private void Simulate(object? state)

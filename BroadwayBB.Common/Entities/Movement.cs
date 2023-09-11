@@ -68,4 +68,6 @@ public class Movement : IMovement
     }
 
     private double SpeedToDecimal(double target) => target >= _minimumSpeedMultiplierValue ? target *_decimalSpeedMultiplier : target;
+
+    public IMovement DeepCopy() => new Movement(GridPosX, GridPosY, SpeedVertical, SpeedHorizontal, MovementDirection);
 }

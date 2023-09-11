@@ -7,7 +7,7 @@ public class GreyTileColor : ITileColorBehavior
 {
     public ColorName ColorName => ColorName.Grey;
 
-    private TileColorCounter TileColorCounter { get; } = new(3);
+    private TileColorCounter TileColorCounter { get; set; } = new(3);
 
     public ColorBehaviorResult HandleCollision()
     {
@@ -16,5 +16,13 @@ public class GreyTileColor : ITileColorBehavior
             return new ColorBehaviorResult { UpdatedCollisionTargetTileColor = new RedTileColor()};
         
         return new ColorBehaviorResult { UpdatedCollisionTargetTileColor = this };
+    }
+    
+    public ITileColorBehavior DeepCopy()
+    {
+        var colorBehaviorCopy = new GreyTileColor();
+        colorBehaviorCopy.TileColorCounter = TileColorCounter.DeepCopy();
+
+        return colorBehaviorCopy;
     }
 }

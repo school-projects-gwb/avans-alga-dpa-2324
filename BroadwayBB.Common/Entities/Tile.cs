@@ -23,5 +23,7 @@ public class Tile : ITile
     {
         var result = TileColorBehavior.HandleCollision();
         return result;
-    } 
+    }
+
+    public ITile DeepCopy() => new Tile(PosX, PosY, TileColorBehavior.DeepCopy());
 }

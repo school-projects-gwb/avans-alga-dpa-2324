@@ -69,4 +69,6 @@ public class TileManager
     }
     
     private ITile? FindTile(int posX, int posY) => Tiles.Find(tile => tile.PosX == posX && tile.PosY == posY);
+    
+    public List<ITile> CreateMemento() => Tiles.Select(tile => tile.DeepCopy()).ToList();
 }

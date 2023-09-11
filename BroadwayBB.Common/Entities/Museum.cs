@@ -66,4 +66,10 @@ public class Museum
     }
 
     public int GetMaxAttendees() => _attendeeManager.AttendeeLimit;
+
+    public void CreateMemento()
+    {
+        var tiles = _tileManager.CreateMemento();
+        List<IAttendee> attendees = new();
+    }
 }
