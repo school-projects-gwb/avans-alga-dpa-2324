@@ -9,11 +9,14 @@ public class MuseumSimulation : IMuseumSimulation
     private readonly List<ISimulationObserver> _observers = new();
     private Timer _simulationTickTimer;
     private Timer _simulationBackgroundRefreshTimer;
+    private Timer _mementoCreationTimer;
     private readonly int _simulationIntervalMilliseconds = 150;
+    private int _currentTick = 0;
     private readonly int _timeSkipTickAmount = 10;
     private readonly int _backgroundUpdateIntervalMilliseconds = 400;
+    private readonly int _mementoCreationIntervalMilliseconds = 500;
     private readonly Museum _museum;
-    
+
     public MuseumSimulation(Museum museum)
     {
         _museum = museum;
@@ -24,6 +27,17 @@ public class MuseumSimulation : IMuseumSimulation
     {
         _simulationTickTimer = new Timer(Simulate, null, 0, _simulationIntervalMilliseconds);
         _simulationBackgroundRefreshTimer = new Timer(NotifyBackgroundUpdate, null, 0, _backgroundUpdateIntervalMilliseconds);
+        _mementoCreationTimer = new Timer(CreateMemento, null, 0, _mementoCreationIntervalMilliseconds);
+    }
+
+    private void CreateMemento(object? state)
+    {
+        _currentTick++;
+        if (_currentTick != _timeSkipTickAmount) return;
+
+        lock (_museum) _museum.CreateMemento();
+        
+        _currentTick = 0;
     }
     
     private void Simulate(object? state)

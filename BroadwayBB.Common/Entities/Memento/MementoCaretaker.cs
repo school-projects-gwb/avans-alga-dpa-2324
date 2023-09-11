@@ -6,10 +6,5 @@ public class MementoCaretaker
     
     public void AddMemento(MuseumMemento memento) => mementos.Push(memento);
     
-    public MuseumMemento GetMemento()
-    {
-        return mementos.Pop();
-
-        throw new NotImplementedException();
-    }
+    public MuseumMemento? GetMemento() => mementos.Count > 0 ? mementos.Pop() : null;
 }
