@@ -36,6 +36,7 @@ public class MuseumSimulation : IMuseumSimulation
         if (_currentTick != _timeSkipTickAmount) return;
 
         lock (_museum) _museum.CreateMemento();
+        Console.WriteLine("memento created");
         
         _currentTick = 0;
     }
@@ -75,6 +76,11 @@ public class MuseumSimulation : IMuseumSimulation
     {
         for (int i = 0; i < _timeSkipTickAmount; i++) 
             lock (_museum) _museum.MoveAttendees();
+    }
+
+    public void Rewind()
+    {
+        lock (_museum) _museum.RewindMemento();
     }
     
     public void Subscribe(ISimulationObserver observer) => _observers.Add(observer);

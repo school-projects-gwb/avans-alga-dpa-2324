@@ -1,7 +1,6 @@
 using BroadwayBB.Common.Entities;
 using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Common.Entities.Structures;
-using BroadwayBB.Simulation.Commands;
 
 namespace BroadwayBB.Simulation;
 
@@ -16,5 +15,6 @@ public interface IMuseumSimulation
     public void UpdateTile(MouseGridPosition mouseGridPosition);
     public void OpenFileMenu();
     public void FastForward();
+    public void Rewind();
     public void OpenShortcutMenu();
 }

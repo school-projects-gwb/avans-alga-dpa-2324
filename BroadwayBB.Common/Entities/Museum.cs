@@ -75,4 +75,16 @@ public class Museum
         var attendees = _attendeeManager.CreateMemento();
         _mementoCaretaker.AddMemento(new MuseumMemento(tiles, attendees));
     }
+
+    public void RewindMemento()
+    {
+        var lastMemento = _mementoCaretaker.GetMemento();
+        if (lastMemento == null) return;
+        
+        Tiles.Clear();
+        Tiles = lastMemento.Tiles;
+
+        Attendees.Clear();
+        Attendees = lastMemento.Attendees;
+    }
 }
