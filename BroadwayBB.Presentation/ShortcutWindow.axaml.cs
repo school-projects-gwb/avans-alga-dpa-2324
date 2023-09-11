@@ -1,14 +1,12 @@
-using System.ComponentModel;
-using Avalonia;
+using System;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using BroadwayBB.Presentation.Hotkeys;
 
 namespace BroadwayBB.Presentation;
 
 public partial class ShortcutWindow : Window
 {
-    private HotkeyManager _hotkeyManager;
+    private readonly HotkeyManager _hotkeyManager;
     
     public ShortcutWindow(HotkeyManager hotkeyManager)
     {
@@ -26,7 +24,7 @@ public partial class ShortcutWindow : Window
 
     private void Draw()
     {
-        var hotkeysListBox = this.FindControl<ListBox>("HotkeysListBox");
+        var hotkeysListBox = this.FindControl<ListBox>("HotkeysListBox") ?? throw new InvalidOperationException();
         double windowHeight = hotkeysListBox.Height;
         double hotkeyItemHeight = windowHeight / _hotkeyManager.Hotkeys.Count;
         

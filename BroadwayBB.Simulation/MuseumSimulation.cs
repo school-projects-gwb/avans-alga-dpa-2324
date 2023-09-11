@@ -66,6 +66,7 @@ public class MuseumSimulation : IMuseumSimulation
     public void Subscribe(ISimulationObserver observer) => _observers.Add(observer);
 
     private void NotifyAttendeeUpdated() => _observers.ForEach(observer => observer.UpdateSimulation());
+    
     private void NotifyBackgroundUpdate(object? state) => _observers.ForEach(observer => observer.UpdateBackground());
 
     private void NotifyStopped() => _observers.ForEach(observer => observer.StopSimulation());

@@ -18,7 +18,7 @@ public partial class MainWindow : Window
         InitializeComponent();
         _hotkeyManager = new HotkeyManager();
         _shortcutWindow = new ShortcutWindow(_hotkeyManager);
-    } 
+    }
     
     private void ShowSimulation_Click(object sender, RoutedEventArgs e)
     {

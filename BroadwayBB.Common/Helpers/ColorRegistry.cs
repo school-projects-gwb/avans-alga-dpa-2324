@@ -5,7 +5,7 @@ namespace BroadwayBB.Common.Helpers;
 
 public sealed class ColorRegistry
 {
-    private static readonly Lazy<ColorRegistry> _instance = new(() => new ColorRegistry());
+    private static readonly Lazy<ColorRegistry> Instance = new(() => new ColorRegistry());
 
     private readonly Dictionary<ColorName, RGBColor> _colorMap = new();
 
@@ -19,7 +19,7 @@ public sealed class ColorRegistry
         RegisterColor(ColorName.Black, new RGBColor(0, 0, 0));
     }
 
-    public static ColorRegistry Instance => _instance.Value;
+    public static ColorRegistry GetInstance => Instance.Value;
 
     public RGBColor GetColor(ColorName colorName)
     {

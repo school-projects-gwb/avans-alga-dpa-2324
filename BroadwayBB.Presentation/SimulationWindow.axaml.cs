@@ -19,8 +19,8 @@ namespace BroadwayBB.Presentation;
 public partial class SimulationWindow : Window, ISimulationObserver
 {
     private IMuseumSimulation _simulation;
-    private MainWindow _mainWindow;
-    private HotkeyManager _hotkeyManager;
+    private readonly MainWindow _mainWindow;
+    private readonly HotkeyManager _hotkeyManager;
     
     private Canvas _simulationCanvas;
     private IObjectPool<Rectangle> _tileObjectPool;
@@ -42,6 +42,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
         InitiateColorMap();
         InitiateSimulationCanvas();
         InitiateTileCanvas();
+        Closed += (sender, e) => _mainWindow.Show();
     }
 
     private void InitiateSimulationCanvas()
@@ -51,7 +52,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void InitiateColorMap()
     {
-        foreach (var colorRecord in ColorRegistry.Instance.GetAllColors())
+        foreach (var colorRecord in ColorRegistry.GetInstance.GetAllColors())
         {
             Color rgbColor = Color.FromRgb(colorRecord.Value.Red, colorRecord.Value.Green, colorRecord.Value.Blue);
             _colorMap[colorRecord.Key] = new SolidColorBrush(rgbColor);
@@ -108,7 +109,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
         var config = new ObjectPoolConfiguration
         {
             MaxPoolAmount = maxPercentageOfTilesPerColor, 
-            SupportedColors = ColorRegistry.Instance.GetAllColors(),
+            SupportedColors = ColorRegistry.GetInstance.GetAllColors(),
             ObjectWidth = _tileWidth,
             ObjectHeight = _tileHeight
         };
@@ -121,7 +122,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
         var config = new ObjectPoolConfiguration
         {
             MaxPoolAmount = _simulation.GetMaxMuseumAttendees(),
-            SupportedColors = new Dictionary<ColorName, RGBColor> { { ColorName.Black, ColorRegistry.Instance.GetColor(ColorName.Black) } },
+            SupportedColors = new Dictionary<ColorName, RGBColor> { { ColorName.Black, ColorRegistry.GetInstance.GetColor(ColorName.Black) } },
             ObjectWidth = _tileWidth * _artistSizeModifier,
             ObjectHeight = _tileHeight * _artistSizeModifier
         };
