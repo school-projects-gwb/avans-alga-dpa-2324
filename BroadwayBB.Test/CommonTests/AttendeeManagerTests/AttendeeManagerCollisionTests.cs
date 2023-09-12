@@ -6,16 +6,6 @@ namespace BroadwayBB.Test.CommonTests.AttendeeManagerTests;
 
 public class AttendeeManagerCollisionTests
 {
-    private List<IAttendee> CreateAttendees(int amount = 20)
-    {
-        var attendees = new List<IAttendee>();
-        
-        for (int i = 0; i < amount; i++)
-            attendees.Add(new Artist(0, 0, 2, 0));
-
-        return attendees;
-    }
-    
     [Fact]
     public void AttendeeManager_CreateAttendeeFromCollisionResult_Correct()
     {

@@ -5,7 +5,7 @@ namespace BroadwayBB.Test.CommonTests.TileManagerTests;
 public class TileManagerDeepCopyTests : TileTestBase
 {
     [Fact]
-    void TileManager_CreateMemento_Correct()
+    void TileManager_CreateMemento_DifferentObjects()
     {
         var tileManager = new TileManager();
         tileManager.Tiles = CreateWhiteColorTestGrid();
