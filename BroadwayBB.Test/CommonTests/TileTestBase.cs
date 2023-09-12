@@ -30,7 +30,7 @@ public abstract class TileTestBase
         return tiles;
     }
     
-    protected List<ITile> CreateWhiteColorGridWithTopLeftColor(int targetPosX, int targetPosY,  ITileColorBehavior targetColorBehavior)
+    protected List<ITile> CreateWhiteColorGridWithGivenColor(int targetPosX, int targetPosY,  ITileColorBehavior targetColorBehavior)
     {
         List<ITile> tiles = new();
 

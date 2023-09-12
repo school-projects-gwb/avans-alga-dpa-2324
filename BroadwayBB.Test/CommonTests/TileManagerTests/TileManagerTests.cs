@@ -64,7 +64,7 @@ public class TileManagerTests : TileTestBase
     [Fact]
     void TileManager_BlueTileCollision_ResultCorrect()
     {
-        _tileManager.Tiles = CreateWhiteColorGridWithTopLeftColor(collisionTilePosX, collisionTilePosY, new BlueTileColor());
+        _tileManager.Tiles = CreateWhiteColorGridWithGivenColor(collisionTilePosX, collisionTilePosY, new BlueTileColor());
         var collisionResult = _tileManager.HandleCollision(collisionTilePosX, collisionTilePosY);
 
         var targetCollisionTile =
@@ -105,7 +105,7 @@ public class TileManagerTests : TileTestBase
     [Fact]
     void TileManager_GreyTileCollision_ResultCorrect()
     {
-        _tileManager.Tiles = CreateWhiteColorGridWithTopLeftColor(collisionTilePosX, collisionTilePosY, new GreyTileColor());
+        _tileManager.Tiles = CreateWhiteColorGridWithGivenColor(collisionTilePosX, collisionTilePosY, new GreyTileColor());
         
         var targetCollisionTile =
             _tileManager.Tiles.Find(tile => tile.PosX == collisionTilePosX && tile.PosY == collisionTilePosY);
@@ -133,7 +133,7 @@ public class TileManagerTests : TileTestBase
     [Fact]
     void TileManager_RedTileCollision_ResultCorrect()
     {
-        _tileManager.Tiles = CreateWhiteColorGridWithTopLeftColor(collisionTilePosX, collisionTilePosY, new RedTileColor());
+        _tileManager.Tiles = CreateWhiteColorGridWithGivenColor(collisionTilePosX, collisionTilePosY, new RedTileColor());
         var collisionResult = _tileManager.HandleCollision(collisionTilePosX, collisionTilePosY);
 
         var targetCollisionTile =
@@ -151,7 +151,7 @@ public class TileManagerTests : TileTestBase
     [Fact]
     void TileManager_WhiteTileCollision_ResultCorrect()
     {
-        _tileManager.Tiles = CreateWhiteColorGridWithTopLeftColor(collisionTilePosX, collisionTilePosY, new WhiteTileColor());
+        _tileManager.Tiles = CreateWhiteColorGridWithGivenColor(collisionTilePosX, collisionTilePosY, new WhiteTileColor());
         var collisionResult = _tileManager.HandleCollision(collisionTilePosX, collisionTilePosY);
 
         var targetCollisionTile =
@@ -169,7 +169,7 @@ public class TileManagerTests : TileTestBase
     [Fact]
     void TileManager_YellowTileCollision_ResultCorrect()
     {
-        _tileManager.Tiles = CreateWhiteColorGridWithTopLeftColor(collisionTilePosX, collisionTilePosY, new YellowTileColor());
+        _tileManager.Tiles = CreateWhiteColorGridWithGivenColor(collisionTilePosX, collisionTilePosY, new YellowTileColor());
         
         var targetCollisionTile =
             _tileManager.Tiles.Find(tile => tile.PosX == collisionTilePosX && tile.PosY == collisionTilePosY);

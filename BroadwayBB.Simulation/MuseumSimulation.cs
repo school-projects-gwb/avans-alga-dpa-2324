@@ -36,7 +36,6 @@ public class MuseumSimulation : IMuseumSimulation
         if (_currentTick != _timeSkipTickAmount) return;
 
         lock (_museum) _museum.CreateMemento();
-        Console.WriteLine("memento created");
         
         _currentTick = 0;
     }
