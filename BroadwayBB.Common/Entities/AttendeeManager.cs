@@ -6,7 +6,7 @@ namespace BroadwayBB.Common.Entities;
 
 public class AttendeeManager
 {
-    public List<IAttendee> Attendees { get; set; }
+    public List<IAttendee> Attendees { get; set; } = new();
     
     private readonly List<IAttendee> _markedForRemoval = new();
     private readonly List<IAttendee> _markedForCreation = new();
@@ -37,7 +37,7 @@ public class AttendeeManager
     private void RemoveArtist(IAttendee removalTarget)
     {
         if (_markedForRemoval.Count > _markedLimit) return;
-        _markedForRemoval.Add(removalTarget);  
+        _markedForRemoval.Add(removalTarget);
     } 
 
     public void HandleAttendeeQueue()
