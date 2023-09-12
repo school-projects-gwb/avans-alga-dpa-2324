@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BroadwayBB.Data", "Broadway
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BroadwayBB.Common", "BroadwayBB.Common\BroadwayBB.Common.csproj", "{1A77EA8A-E322-4D66-BF86-2FF58D4BD555}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BroadwayBB.Test", "BroadwayBB.Test\BroadwayBB.Test.csproj", "{9F2988A1-063C-4B52-A25D-30020D9797EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{1A77EA8A-E322-4D66-BF86-2FF58D4BD555}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A77EA8A-E322-4D66-BF86-2FF58D4BD555}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A77EA8A-E322-4D66-BF86-2FF58D4BD555}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F2988A1-063C-4B52-A25D-30020D9797EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F2988A1-063C-4B52-A25D-30020D9797EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F2988A1-063C-4B52-A25D-30020D9797EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F2988A1-063C-4B52-A25D-30020D9797EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

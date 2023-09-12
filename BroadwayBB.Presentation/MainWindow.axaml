@@ -4,6 +4,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="BroadwayBB.Presentation.MainWindow"
-        Title="BroadwayBB.Presentation">
+        Title="Broadway Boogie Woogie - Museum laden">
     <Button Content="Show Simulation" Click="ShowSimulation_Click"/>
 </Window>
