@@ -41,7 +41,7 @@ public class Museum
         
         foreach (var attendee in Attendees)
         {
-            var possibleDirections = _tileManager.GetRelativeTilePositions(
+            var possibleDirections = _tileManager.GetAllowedRelativeTilePositions(
                 attendee.Movement.GetRoundedGridPosX(), 
                 attendee.Movement.GetRoundedGridPosY()
                 );

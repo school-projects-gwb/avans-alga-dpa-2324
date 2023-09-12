@@ -8,7 +8,7 @@ public class TileManager
 {
     public List<ITile> Tiles { get; set; }
     
-    public List<MovementDirection> GetRelativeTilePositions(int currentTilePosX, int currentTilePosY)
+    public List<MovementDirection> GetAllowedRelativeTilePositions(int currentTilePosX, int currentTilePosY)
     {
         var possibleDirections = new List<MovementDirection>();
         
