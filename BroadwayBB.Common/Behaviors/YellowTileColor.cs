@@ -13,9 +13,9 @@ public class YellowTileColor : ITileColorBehavior
     {
         TileColorCounter.Increase();
         if (TileColorCounter.LimitReached())
-            return new ColorBehaviorResult{UpdatedCollisionTargetTileColor = this, ShouldCreateArtist = true};
+            return new ColorBehaviorResult{UpdatedCollisionTargetTileColor = new GreyTileColor(), ShouldCreateArtist = true};
         
-        return new ColorBehaviorResult{UpdatedCollisionTargetTileColor = new GreyTileColor(), ShouldCreateArtist = true};
+        return new ColorBehaviorResult{UpdatedCollisionTargetTileColor = this, ShouldCreateArtist = true};
     }
     
     public ITileColorBehavior DeepCopy()
