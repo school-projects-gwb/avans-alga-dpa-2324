@@ -12,8 +12,6 @@ public class TileManagerDeepCopyTests : TileTestBase
 
         var tileCopy = tileManager.CreateMemento();
         
-        bool referenceEquals = ReferenceEquals(tileManager.Tiles, tileCopy);
-        
-        Assert.False(referenceEquals);
+        Assert.NotSame(tileManager.Tiles, tileCopy);
     }
 }

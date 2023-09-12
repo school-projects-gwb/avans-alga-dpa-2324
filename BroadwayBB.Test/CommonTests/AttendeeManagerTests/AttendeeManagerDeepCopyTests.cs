@@ -13,9 +13,7 @@ public class AttendeeManagerDeepCopyTests
         attendeeManager.Attendees = new List<IAttendee> { randomAttendee };
 
         var attendeeCopy = attendeeManager.CreateMemento();
-        
-        bool referenceEquals = ReferenceEquals(attendeeManager.Attendees, attendeeCopy);
-        
-        Assert.False(referenceEquals);
+
+        Assert.NotSame(attendeeManager.Attendees, attendeeCopy);
     }
 }

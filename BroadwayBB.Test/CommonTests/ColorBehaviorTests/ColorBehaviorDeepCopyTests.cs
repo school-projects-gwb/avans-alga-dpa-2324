@@ -9,9 +9,8 @@ public class ColorBehaviorDeepCopyTests
     {
         var originalColorBehavior = new RedTileColor();
         var deepCopyColorBehavior = originalColorBehavior.DeepCopy();
-        bool referenceEquals = ReferenceEquals(originalColorBehavior, deepCopyColorBehavior);
         
-        Assert.False(referenceEquals);
+        Assert.NotSame(originalColorBehavior, deepCopyColorBehavior);
     }
     
     [Fact]
@@ -23,9 +22,7 @@ public class ColorBehaviorDeepCopyTests
         originalTileCounter.Increase(); // Value = 2
         var deepCopyTileCounter = originalTileCounter.DeepCopy();
         
-        bool referenceEquals = ReferenceEquals(originalTileCounter, deepCopyTileCounter);
-        
-        Assert.False(referenceEquals);
+        Assert.NotSame(originalTileCounter, deepCopyTileCounter);
         Assert.True(deepCopyTileCounter.LimitReached()); // Value = 2
     }
 }
