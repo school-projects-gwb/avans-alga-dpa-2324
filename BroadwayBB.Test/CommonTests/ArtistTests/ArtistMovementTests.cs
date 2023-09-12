@@ -1,6 +1,6 @@
 using BroadwayBB.Common.Entities;
 
-namespace BroadwayBB.Test.ArtistTests;
+namespace BroadwayBB.Test.CommonTests.ArtistTests;
 
 public class ArtistMovementTests : TileTestBase
 {

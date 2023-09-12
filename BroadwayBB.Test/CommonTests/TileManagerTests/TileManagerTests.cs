@@ -1,8 +1,8 @@
 using BroadwayBB.Common.Behaviors;
-using BroadwayBB.Common.Behaviors.Interfaces;
 using BroadwayBB.Common.Entities;
+using BroadwayBB.Common.Entities.Interfaces;
 
-namespace BroadwayBB.Test.TileManagerTests;
+namespace BroadwayBB.Test.CommonTests.TileManagerTests;
 
 public class TileManagerTests : TileTestBase
 {
@@ -77,6 +77,29 @@ public class TileManagerTests : TileTestBase
         Assert.True(collisionResult.ShouldCreateArtist);
         Assert.False(collisionResult.ShouldRemoveArtist);
         Assert.Equal(2, adjacentTileChangeCount);
+    }
+    
+    [Fact]
+    public void GetAdjacentTileColorChangedAmount_ReturnsCorrectCount()
+    {
+        // Create a list of test tiles with different colors.
+        var tiles = new List<ITile>
+        {
+            new Tile(0, 0, new WhiteTileColor()), // Default color
+            new Tile(0, 1, new RedTileColor()),     // Different color
+            new Tile(1, 0, new BlueTileColor()),    // Different color
+            new Tile(1, 1, new WhiteTileColor()), // Default color
+        };
+
+        var targetPosX = 0;
+        var targetPosY = 0;
+
+        // Calculate the expected count of changed adjacent tiles.
+        int expectedCount = 2;
+
+        // Call the function and assert the result.
+        var result = GetAdjacentTileColorChangedAmount(tiles, targetPosX, targetPosY);
+        Assert.Equal(expectedCount, result);
     }
     
     [Fact]

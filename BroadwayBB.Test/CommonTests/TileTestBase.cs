@@ -3,7 +3,7 @@ using BroadwayBB.Common.Behaviors.Interfaces;
 using BroadwayBB.Common.Entities;
 using BroadwayBB.Common.Entities.Interfaces;
 
-namespace BroadwayBB.Test;
+namespace BroadwayBB.Test.CommonTests;
 
 public abstract class TileTestBase
 {
@@ -48,16 +48,19 @@ public abstract class TileTestBase
     {
         int changedCounter = 0;
         
-        for (int y = targetPosY - 1; y <= targetPosY + 1; y++)
-        {
-            for (int x = targetPosX - 1; x <= targetPosX + 1; x++)
-            {
-                int x1 = x, y1 = y;
-                var tile = tiles.Find(tile => tile.PosX == x1 && tile.PosY == y1);
+        var relativeGridPositions = new List<(int posX, int posY)> { (-1, 0), (1, 0), (0, -1), (0, 1) };
+        var random = new Random();
 
-                if (tile == null || (x1 == targetPosX && y1 == targetPosY)) continue;
-                if (tile.TileColorBehavior.GetType() != defaultColorType) changedCounter++;
-            }
+        while (relativeGridPositions.Count > 0)
+        {
+            var randomDirection = relativeGridPositions[random.Next(relativeGridPositions.Count)];
+            int adjacentX = targetPosX + randomDirection.posX, 
+                adjacentY = targetPosY + randomDirection.posY;
+            var adjacentTile = tiles.FirstOrDefault(tile => tile.PosX == adjacentX && tile.PosY == adjacentY);
+
+            if (adjacentTile != null) if (adjacentTile.TileColorBehavior.GetType() != defaultColorType) changedCounter++;
+            
+            relativeGridPositions.Remove(randomDirection);
         }
 
         return changedCounter;

@@ -61,10 +61,8 @@ public class TileManager
                 adjacentTile.UpdateColorBehavior(updatedAdjacentTileColors.First());
                 updatedAdjacentTileColors.Remove(updatedAdjacentTileColors.First());
             }
-            else
-            {
-                relativeGridPositions.Remove(randomDirection);
-            }
+            
+            relativeGridPositions.Remove(randomDirection);
         }
     }
     

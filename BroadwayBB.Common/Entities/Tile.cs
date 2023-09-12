@@ -16,14 +16,8 @@ public class Tile : ITile
         PosY = posY;
         TileColorBehavior = tileColorBehavior;
     }
-
+    
     public void UpdateColorBehavior(ITileColorBehavior newBehavior) => TileColorBehavior = newBehavior;
     
-    public ColorBehaviorResult HandleCollision(IAttendee attendee)
-    {
-        var result = TileColorBehavior.HandleCollision();
-        return result;
-    }
-
     public ITile DeepCopy() => new Tile(PosX, PosY, TileColorBehavior.DeepCopy());
 }

@@ -1,9 +1,8 @@
 using BroadwayBB.Common.Behaviors;
-using BroadwayBB.Common.Entities.Structures;
 
-namespace BroadwayBB.Test;
+namespace BroadwayBB.Test.CommonTests.ColorBehaviorTests;
 
-public class ColorBehaviorTests
+public class ColorBehaviorCollisionTests
 {
     [Fact]
     public void BlueColor_OnCollision_ResultCorrect()
