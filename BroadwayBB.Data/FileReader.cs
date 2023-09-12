@@ -22,37 +22,35 @@ namespace BroadwayBB.Data
             _readerFactory = new FileReaderFactory();
         }
 
-        public void ReadFile(string path)
+        public DTO? ReadFile(string path)
         {
             // var uri = new Uri(path);
 
             Uri[] uris = {
-                new Uri(path),
+                new Uri("https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/graph.xml?alt=media"),
                 new Uri("D:/Avans/Advanced Design Patterns/Assesment Files/artists.csv"),
                 new Uri("https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/grid.txt?alt=media"),
-                new Uri("https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/graph.xml?alt=media"),
+                new Uri(path),
                 new Uri("https://www.geeksforgeeks.org/quick-sort/"),
                 new Uri("D:/Avans/Advanced Design Patterns/Assesment Files/")
             };
+            var uri = uris[0];
 
-            foreach (var uri in uris)
+            IFileLoaderStrategy? fileLoader = _loaderFactory.GetFileLoader(uri);
+            if (fileLoader == null)
             {
-                IFileLoaderStrategy? fileLoader = _loaderFactory.GetFileLoader(uri);
-                if (fileLoader == null)
-                {
-                    return /*null*/;
-                }
-
-                var file = fileLoader.loadFile(uri);
-
-                IFileReaderStrategy? fileReader = _readerFactory.GetFileReader(file);
-                if (fileReader == null)
-                {
-                    return /*null*/;
-                }
-
-                var jsonFileData = fileReader.ReadFile(file);
+                return null;
             }
+
+            var file = fileLoader.loadFile(uri);
+
+            IFileReaderStrategy? fileReader = _readerFactory.GetFileReader(file);
+            if (fileReader == null)
+            {
+                return null;
+            }
+
+            return fileReader.ReadFile(file);
         }
     }
 }
