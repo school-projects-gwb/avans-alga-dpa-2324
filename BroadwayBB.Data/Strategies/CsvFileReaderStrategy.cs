@@ -1,3 +1,4 @@
+using BroadwayBB.Data.DTOs;
 using BroadwayBB.Data.Strategies.Interfaces;
 using BroadwayBB.Data.Structs;
 
@@ -20,7 +21,7 @@ public class CsvFileReaderStrategy : IFileReaderStrategy
             var vx = line[header.IndexOf("vx")];
             var vy = line[header.IndexOf("vy")];
 
-            artists.Artists.Add(new Artist(x, y, vx, vy));
+            artists.Artists.Add(new ArtistDTO(x, y, vx, vy));
         }
 
         return artists;

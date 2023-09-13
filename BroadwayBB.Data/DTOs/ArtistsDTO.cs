@@ -1,9 +1,14 @@
+using BroadwayBB.Data.DTOs;
 using BroadwayBB.Data.Strategies.Interfaces;
-using BroadwayBB.Data.Structs;
 
 namespace BroadwayBB.Data.Strategies;
 
-public class ArtistsDTO : DTO
+public struct ArtistsDTO : DTO
 {
-    public List<Artist> Artists = new List<Artist>();
+    public List<ArtistDTO> Artists;
+
+    public ArtistsDTO()
+    {
+        Artists = new List<ArtistDTO>();
+    }
 }

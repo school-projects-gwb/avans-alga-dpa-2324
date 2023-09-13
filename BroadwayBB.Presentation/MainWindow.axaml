@@ -6,7 +6,7 @@
         x:Class="BroadwayBB.Presentation.MainWindow"
         Title="BroadwayBB.Presentation">
   <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
-    <Button Width="NaN" Content="Select Grid file (.txt or .xml)" Click="SelectGrid_Click"/>
+    <Button Width="NaN" Content="Select Grid file (.xml)" Click="SelectGrid_Click"/>
     <Button Width="NaN" Content="Select Artists file (.csv)" Click="SelectArtists_Click"/>
     <Button Width="NaN" Content="Show Simulation" Click="ShowSimulation_Click"/>
   </StackPanel>
