@@ -104,7 +104,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void CreateTileObjectPool()
     {
-        int maxPercentageOfTilesPerColor = _numCols * _numRows / 4;
+        int maxPercentageOfTilesPerColor = _numCols * _numRows;
         
         var config = new ObjectPoolConfiguration
         {

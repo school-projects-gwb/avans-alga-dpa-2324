@@ -34,7 +34,7 @@ namespace BroadwayBB.Data
                 new Uri("https://www.geeksforgeeks.org/quick-sort/"),
                 new Uri("D:/Avans/Advanced Design Patterns/Assesment Files/")
             };
-            var uri = uris[0];
+            var uri = new Uri(path);
 
             IFileLoaderStrategy? fileLoader = _loaderFactory.GetFileLoader(uri);
             if (fileLoader == null)

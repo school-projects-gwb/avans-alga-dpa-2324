@@ -15,9 +15,16 @@ namespace BroadwayBB.Data.DTOs
         public Coords Coords;
         public List<Coords> Edges;
 
-        public NodeDTO(NodeTypeDTO type, Coords coords)
+        public NodeDTO(NodeTypeDTO? type, Coords coords)
         {
-            Type = type;
+            if (type != null) {
+                Type = (NodeTypeDTO)type; 
+            }
+            else
+            {
+                Type = new NodeTypeDTO(0, Color.White, '_');
+            }
+
             Coords = coords;
             Edges = new List<Coords>();
         }

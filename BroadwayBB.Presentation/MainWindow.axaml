@@ -5,9 +5,20 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="BroadwayBB.Presentation.MainWindow"
         Title="Broadway Boogie Woogie - Museum laden">
-  <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
-    <Button Width="NaN" Content="Select Grid file (.xml)" Click="SelectGrid_Click"/>
-    <Button Width="NaN" Content="Select Artists file (.csv)" Click="SelectArtists_Click"/>
-    <Button Width="NaN" Content="Show Simulation" Click="ShowSimulation_Click"/>
+  
+  <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="75">
+      <Button VerticalAlignment="Center" Content="Select Grid file (.xml)" Click="SelectGrid_Click"/>
+      <TextBlock VerticalAlignment="Center"  Height="25"> or </TextBlock>
+      <TextBox VerticalAlignment="Center" Height="25" Watermark="URL to Grid file" />
+    </StackPanel>
+    
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="75">
+      <Button HorizontalAlignment="Center" Content="Select Artists file (.csv)" Click="SelectArtists_Click"/>
+      <TextBlock VerticalAlignment="Center"  Height="25"> or </TextBlock>
+      <TextBox VerticalAlignment="Center" Height="25" Watermark="URL to Artists file" />
+    </StackPanel>
+    
+    <Button HorizontalAlignment="Center" Name="StartSimulation" Content="Show Simulation" Click="ShowSimulation_Click"/>
   </StackPanel>
 </Window>
