@@ -148,7 +148,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
             double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
             if (!_tileRectangles.TryGetValue((posX, posY), out Rectangle rectangle)) continue;
             
-            rectangle.Fill = _colorMap[tile.TileColorBehavior.ColorName];
+            rectangle.Fill = _colorMap[tile.ColorBehaviorStrategy.ColorName];
         }
     }
 
@@ -157,11 +157,11 @@ public partial class SimulationWindow : Window, ISimulationObserver
         foreach (ITile tile in _simulation.GetMuseumTiles())
         {
             double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
-            var item = _tileObjectPool.GetObject(tile.TileColorBehavior.ColorName);
+            var item = _tileObjectPool.GetObject(tile.ColorBehaviorStrategy.ColorName);
             if (item == null) return;
         
             DrawCanvasItem(item, posX, posY, _backgroundCanvas);
-            _tileObjectPool.MarkForRelease(tile.TileColorBehavior.ColorName, item);
+            _tileObjectPool.MarkForRelease(tile.ColorBehaviorStrategy.ColorName, item);
             _tileRectangles[(posX, posY)] = item;
         }
             

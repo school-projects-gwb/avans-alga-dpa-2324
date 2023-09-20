@@ -5,7 +5,7 @@ using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Common.Behaviors;
 
-public class BlueTileColor : ITileColorBehavior
+public class BlueColorBehaviorStrategy : IColorBehaviorStrategy
 {
     public ColorName ColorName => ColorName.Blue;
 
@@ -13,11 +13,11 @@ public class BlueTileColor : ITileColorBehavior
     {
         return new ColorBehaviorResult
         {
-            UpdatedCollisionTargetTileColor = new YellowTileColor(), 
+            UpdatedCollisionTargetColor = new YellowColorBehaviorStrategy(), 
             ShouldCreateArtist = true, 
-            UpdatedAdjacentTileColors = new List<ITileColorBehavior>{ new BlueTileColor(), new BlueTileColor() }
+            UpdatedAdjacentTileColors = new List<IColorBehaviorStrategy>{ new BlueColorBehaviorStrategy(), new BlueColorBehaviorStrategy() }
         };
     }
 
-    public ITileColorBehavior DeepCopy() => new BlueTileColor();
+    public IColorBehaviorStrategy DeepCopy() => new BlueColorBehaviorStrategy();
 }

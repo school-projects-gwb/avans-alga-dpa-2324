@@ -11,12 +11,12 @@ public class TileFactory : ITileFactory
     {
         return color switch
         {
-            'B' => new Tile(posX, posY, new BlueTileColor()),
-            'Y' => new Tile(posX, posY, new YellowTileColor()),
-            'R' => new Tile(posX, posY, new RedTileColor()),
-            'G' => new Tile(posX, posY, new GreyTileColor()),
-            '_' => new Tile(posX, posY, new WhiteTileColor()),
-            _ => new Tile(posX, posY, new WhiteTileColor())
+            'B' => new Tile(posX, posY, new BlueColorBehaviorStrategy()),
+            'Y' => new Tile(posX, posY, new YellowColorBehaviorStrategy()),
+            'R' => new Tile(posX, posY, new RedColorBehaviorStrategy()),
+            'G' => new Tile(posX, posY, new GreyColorBehaviorStrategy()),
+            '_' => new Tile(posX, posY, new WhiteColorBehaviorStrategy()),
+            _ => new Tile(posX, posY, new WhiteColorBehaviorStrategy())
         };
     }
 }

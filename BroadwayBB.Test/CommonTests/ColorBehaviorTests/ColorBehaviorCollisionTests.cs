@@ -7,10 +7,10 @@ public class ColorBehaviorCollisionTests
     [Fact]
     public void BlueColor_OnCollision_ResultCorrect()
     {
-        var tileColor = new BlueTileColor();
+        var tileColor = new BlueColorBehaviorStrategy();
         var result = tileColor.HandleCollision();
 
-        Assert.IsType<YellowTileColor>(result.UpdatedCollisionTargetTileColor);
+        Assert.IsType<YellowColorBehaviorStrategy>(result.UpdatedCollisionTargetColor);
         Assert.Equal(2, result.UpdatedAdjacentTileColors.Count);
         Assert.True(result.ShouldCreateArtist);
         Assert.False(result.ShouldRemoveArtist);
@@ -19,20 +19,20 @@ public class ColorBehaviorCollisionTests
     [Fact]
     public void GreyColor_OnCollision_ResultCorrect()
     {
-        var tileColor = new GreyTileColor();
+        var tileColor = new GreyColorBehaviorStrategy();
         
         // Collision 1
         var result = tileColor.HandleCollision();
-        Assert.IsType<GreyTileColor>(result.UpdatedCollisionTargetTileColor);
+        Assert.IsType<GreyColorBehaviorStrategy>(result.UpdatedCollisionTargetColor);
         
         // Collision 2
         result = tileColor.HandleCollision();
-        Assert.IsType<GreyTileColor>(result.UpdatedCollisionTargetTileColor);
+        Assert.IsType<GreyColorBehaviorStrategy>(result.UpdatedCollisionTargetColor);
 
         // Collision 3
         result = tileColor.HandleCollision();
         
-        Assert.IsType<RedTileColor>(result.UpdatedCollisionTargetTileColor);
+        Assert.IsType<RedColorBehaviorStrategy>(result.UpdatedCollisionTargetColor);
         Assert.Empty(result.UpdatedAdjacentTileColors);
         Assert.False(result.ShouldCreateArtist);
         Assert.False(result.ShouldRemoveArtist);
@@ -41,10 +41,10 @@ public class ColorBehaviorCollisionTests
     [Fact]
     public void RedColor_OnCollision_ResultCorrect()
     {
-        var tileColor = new RedTileColor();
+        var tileColor = new RedColorBehaviorStrategy();
         var result = tileColor.HandleCollision();
         
-        Assert.IsType<BlueTileColor>(result.UpdatedCollisionTargetTileColor);
+        Assert.IsType<BlueColorBehaviorStrategy>(result.UpdatedCollisionTargetColor);
         Assert.Empty(result.UpdatedAdjacentTileColors);
         Assert.False(result.ShouldCreateArtist);
         Assert.True(result.ShouldRemoveArtist);
@@ -53,10 +53,10 @@ public class ColorBehaviorCollisionTests
     [Fact]
     public void WhiteColor_OnCollision_ResultCorrect()
     {
-        var tileColor = new WhiteTileColor();
+        var tileColor = new WhiteColorBehaviorStrategy();
         var result = tileColor.HandleCollision();
         
-        Assert.IsType<WhiteTileColor>(result.UpdatedCollisionTargetTileColor);
+        Assert.IsType<WhiteColorBehaviorStrategy>(result.UpdatedCollisionTargetColor);
         Assert.Empty(result.UpdatedAdjacentTileColors);
         Assert.False(result.ShouldCreateArtist);
         Assert.False(result.ShouldRemoveArtist);
@@ -65,17 +65,17 @@ public class ColorBehaviorCollisionTests
     [Fact]
     public void YellowColor_OnCollision_ResultCorrect()
     {
-        var tileColor = new YellowTileColor();
+        var tileColor = new YellowColorBehaviorStrategy();
         
         // Collision 1
         var result = tileColor.HandleCollision();
-        Assert.IsType<YellowTileColor>(result.UpdatedCollisionTargetTileColor);
+        Assert.IsType<YellowColorBehaviorStrategy>(result.UpdatedCollisionTargetColor);
         Assert.True(result.ShouldCreateArtist);
         
         // Collision 2
         result = tileColor.HandleCollision();
         
-        Assert.IsType<GreyTileColor>(result.UpdatedCollisionTargetTileColor);
+        Assert.IsType<GreyColorBehaviorStrategy>(result.UpdatedCollisionTargetColor);
         Assert.Empty(result.UpdatedAdjacentTileColors);
         Assert.True(result.ShouldCreateArtist);
         Assert.False(result.ShouldRemoveArtist);

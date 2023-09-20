@@ -4,14 +4,6 @@ namespace BroadwayBB.Test.CommonTests.AttendeeTests;
 
 public class AttendeeMovementTests : TileTestBase
 {
-    void Test()
-    {
-        var artist = new Artist(0,0, 2, 0);
-        
-        var tileManager = new TileManager();
-        tileManager.Tiles = CreateWhiteColorTestGrid();
-    }
-
     [Fact]
     public void AttendeeMovement_NoPossibleDirections_IsDefaultResult()
     {
