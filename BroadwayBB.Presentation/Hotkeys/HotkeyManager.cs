@@ -15,7 +15,7 @@ public class HotkeyManager
     public HotkeyManager()
     {
         Hotkeys.Add(
-            new Hotkey()
+            new Hotkey
             {
                 Key = Key.Space, 
                 Command = new ToggleArtistMovement(),
@@ -24,7 +24,7 @@ public class HotkeyManager
         );
         
         Hotkeys.Add(
-            new Hotkey()
+            new Hotkey
             {
                 Key = Key.Enter, 
                 Command = new UpdateTile(),
@@ -33,7 +33,7 @@ public class HotkeyManager
         );
         
         Hotkeys.Add(
-            new Hotkey()
+            new Hotkey
             {
                 Key = Key.O, 
                 Command = new OpenFileMenu(),
@@ -42,7 +42,7 @@ public class HotkeyManager
         );
         
         Hotkeys.Add(
-            new Hotkey()
+            new Hotkey
             {
                 Key = Key.A, 
                 Command = new ToggleArtistRendering(),
@@ -51,7 +51,7 @@ public class HotkeyManager
         );
         
         Hotkeys.Add(
-            new Hotkey()
+            new Hotkey
             {
                 Key = Key.Left, 
                 Command = new RewindSimulation(),
@@ -60,7 +60,7 @@ public class HotkeyManager
         );
         
         Hotkeys.Add(
-            new Hotkey()
+            new Hotkey
             {
                 Key = Key.Right,
                 Command = new FastForwardSimulation(),
@@ -69,7 +69,7 @@ public class HotkeyManager
         );
         
         Hotkeys.Add(
-            new Hotkey()
+            new Hotkey
             {
                 Key = Key.M,
                 Command = new OpenShortcutMenu(),
@@ -88,5 +88,12 @@ public class HotkeyManager
     {
         var hotkey = Hotkeys.FirstOrDefault(hotkey => hotkey.Key == pressedKey);
         hotkey?.Command.HandleCommand(museumSimulation, _mouseGridPosition);
+    }
+
+    public void UpdateHotkey(Key currentKey, Key newKey)
+    {
+        var current = Hotkeys.First(key => key.Key == currentKey);
+        var newCheck = Hotkeys.FirstOrDefault(key => key.Key == newKey);
+        if (newCheck == null) current.Key = newKey;
     }
 }

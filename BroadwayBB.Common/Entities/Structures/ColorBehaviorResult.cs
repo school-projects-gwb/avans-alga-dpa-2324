@@ -1,5 +1,4 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
-using BroadwayBB.Common.Entities.Interfaces;
 
 namespace BroadwayBB.Common.Entities.Structures;
 

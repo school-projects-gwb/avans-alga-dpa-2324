@@ -52,7 +52,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void InitiateColorMap()
     {
-        foreach (var colorRecord in ColorRegistry.GetInstance.GetAllColors())
+        foreach (var colorRecord in ColorRegistryHelper.GetInstance.GetAllColors())
         {
             Color rgbColor = Color.FromRgb(colorRecord.Value.Red, colorRecord.Value.Green, colorRecord.Value.Blue);
             _colorMap[colorRecord.Key] = new SolidColorBrush(rgbColor);
@@ -87,7 +87,6 @@ public partial class SimulationWindow : Window, ISimulationObserver
     {
         _simulation = simulation;
         _simulation.Subscribe(this);
-        
         HandleTileConfiguration();
         CreateTileObjectPool();
         CreateAttendeeObjectPool();
@@ -109,7 +108,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
         var config = new ObjectPoolConfiguration
         {
             MaxPoolAmount = maxPercentageOfTilesPerColor, 
-            SupportedColors = ColorRegistry.GetInstance.GetAllColors(),
+            SupportedColors = ColorRegistryHelper.GetInstance.GetAllColors(),
             ObjectWidth = _tileWidth,
             ObjectHeight = _tileHeight
         };
@@ -122,7 +121,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
         var config = new ObjectPoolConfiguration
         {
             MaxPoolAmount = _simulation.GetMaxMuseumAttendees(),
-            SupportedColors = new Dictionary<ColorName, RGBColor> { { ColorName.Black, ColorRegistry.GetInstance.GetColor(ColorName.Black) } },
+            SupportedColors = new Dictionary<ColorName, RgbColor> { { ColorName.Black, ColorRegistryHelper.GetInstance.GetColor(ColorName.Black) } },
             ObjectWidth = _tileWidth * _artistSizeModifier,
             ObjectHeight = _tileHeight * _artistSizeModifier
         };
