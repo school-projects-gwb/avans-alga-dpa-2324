@@ -29,13 +29,13 @@ public class MuseumAttendeeMovementTests : TileTestBase
         var museum = new Museum();
         var attendee = new Artist(0, 0, 0, 15);
         
-        museum.Tiles = CreateWhiteColorGridWithGivenColor(collisionTilePosX,collisionTilePosY, new RedTileColor());
+        museum.Tiles = CreateWhiteColorGridWithGivenColor(collisionTilePosX,collisionTilePosY, new RedColorBehaviorStrategy());
         museum.Attendees = new List<IAttendee> { attendee };
         
         museum.MoveAttendees();
         
-        Assert.IsType<BlueTileColor>(museum.Tiles.Find(tile =>
-            tile.PosX == collisionTilePosX && tile.PosY == collisionTilePosY)?.TileColorBehavior);
+        Assert.IsType<BlueColorBehaviorStrategy>(museum.Tiles.Find(tile =>
+            tile.PosX == collisionTilePosX && tile.PosY == collisionTilePosY)?.ColorBehaviorStrategy);
     }
     
     [Fact]
@@ -46,7 +46,7 @@ public class MuseumAttendeeMovementTests : TileTestBase
         var museum = new Museum();
         var attendee = new Artist(0, 0, 0, 15);
         
-        museum.Tiles = CreateWhiteColorGridWithGivenColor(collisionTilePosX,collisionTilePosY, new RedTileColor());
+        museum.Tiles = CreateWhiteColorGridWithGivenColor(collisionTilePosX,collisionTilePosY, new RedColorBehaviorStrategy());
         museum.Attendees = new List<IAttendee> { attendee };
         
         museum.MoveAttendees();

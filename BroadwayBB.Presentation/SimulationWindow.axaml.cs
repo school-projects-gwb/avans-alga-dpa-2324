@@ -52,7 +52,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void InitiateColorMap()
     {
-        foreach (var colorRecord in ColorRegistry.GetInstance.GetAllColors())
+        foreach (var colorRecord in ColorRegistryHelper.GetInstance.GetAllColors())
         {
             Color rgbColor = Color.FromRgb(colorRecord.Value.Red, colorRecord.Value.Green, colorRecord.Value.Blue);
             _colorMap[colorRecord.Key] = new SolidColorBrush(rgbColor);
@@ -87,7 +87,6 @@ public partial class SimulationWindow : Window, ISimulationObserver
     {
         _simulation = simulation;
         _simulation.Subscribe(this);
-        
         HandleTileConfiguration();
         CreateTileObjectPool();
         CreateAttendeeObjectPool();
@@ -109,7 +108,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
         var config = new ObjectPoolConfiguration
         {
             MaxPoolAmount = maxPercentageOfTilesPerColor, 
-            SupportedColors = ColorRegistry.GetInstance.GetAllColors(),
+            SupportedColors = ColorRegistryHelper.GetInstance.GetAllColors(),
             ObjectWidth = _tileWidth,
             ObjectHeight = _tileHeight
         };
@@ -122,7 +121,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
         var config = new ObjectPoolConfiguration
         {
             MaxPoolAmount = _simulation.GetMaxMuseumAttendees(),
-            SupportedColors = new Dictionary<ColorName, RGBColor> { { ColorName.Black, ColorRegistry.GetInstance.GetColor(ColorName.Black) } },
+            SupportedColors = new Dictionary<ColorName, RgbColor> { { ColorName.Black, ColorRegistryHelper.GetInstance.GetColor(ColorName.Black) } },
             ObjectWidth = _tileWidth * _artistSizeModifier,
             ObjectHeight = _tileHeight * _artistSizeModifier
         };
@@ -148,7 +147,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
             double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
             if (!_tileRectangles.TryGetValue((posX, posY), out Rectangle rectangle)) continue;
             
-            rectangle.Fill = _colorMap[tile.TileColorBehavior.ColorName];
+            rectangle.Fill = _colorMap[tile.ColorBehaviorStrategy.ColorName];
         }
     }
 
@@ -157,11 +156,11 @@ public partial class SimulationWindow : Window, ISimulationObserver
         foreach (ITile tile in _simulation.GetMuseumTiles())
         {
             double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
-            var item = _tileObjectPool.GetObject(tile.TileColorBehavior.ColorName);
+            var item = _tileObjectPool.GetObject(tile.ColorBehaviorStrategy.ColorName);
             if (item == null) return;
         
             DrawCanvasItem(item, posX, posY, _backgroundCanvas);
-            _tileObjectPool.MarkForRelease(tile.TileColorBehavior.ColorName, item);
+            _tileObjectPool.MarkForRelease(tile.ColorBehaviorStrategy.ColorName, item);
             _tileRectangles[(posX, posY)] = item;
         }
             

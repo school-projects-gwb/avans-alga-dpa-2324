@@ -8,16 +8,16 @@ public class Tile : ITile
 {
     public int PosX { get; }
     public int PosY { get; }
-    public ITileColorBehavior TileColorBehavior { get; private set; }
+    public IColorBehaviorStrategy ColorBehaviorStrategy { get; private set; }
 
-    public Tile(int posX, int posY, ITileColorBehavior tileColorBehavior)
+    public Tile(int posX, int posY, IColorBehaviorStrategy colorBehaviorStrategy)
     {
         PosX = posX;
         PosY = posY;
-        TileColorBehavior = tileColorBehavior;
+        ColorBehaviorStrategy = colorBehaviorStrategy;
     }
     
-    public void UpdateColorBehavior(ITileColorBehavior newBehavior) => TileColorBehavior = newBehavior;
+    public void UpdateColorBehavior(IColorBehaviorStrategy newBehaviorStrategy) => ColorBehaviorStrategy = newBehaviorStrategy;
     
-    public ITile DeepCopy() => new Tile(PosX, PosY, TileColorBehavior.DeepCopy());
+    public ITile DeepCopy() => new Tile(PosX, PosY, ColorBehaviorStrategy.DeepCopy());
 }

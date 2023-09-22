@@ -8,9 +8,9 @@ public interface ITile
     public int PosX { get; }
     public int PosY { get; }
     
-    public ITileColorBehavior TileColorBehavior { get; }
+    public IColorBehaviorStrategy ColorBehaviorStrategy { get; }
 
-    public void UpdateColorBehavior(ITileColorBehavior newBehavior);
+    public void UpdateColorBehavior(IColorBehaviorStrategy newBehaviorStrategy);
     
     public ITile DeepCopy();
 }

@@ -33,8 +33,8 @@ public class TileManager
         var targetTile = FindTile(tilePosX, tilePosY);
         if (targetTile == null) return collisionResult;
         
-        var colorBehaviorResult = targetTile.TileColorBehavior.HandleCollision();
-        targetTile.UpdateColorBehavior(colorBehaviorResult.UpdatedCollisionTargetTileColor);
+        var colorBehaviorResult = targetTile.ColorBehaviorStrategy.HandleCollision();
+        targetTile.UpdateColorBehavior(colorBehaviorResult.UpdatedCollisionTargetColor);
         UpdateAdjacentTiles(targetTile, colorBehaviorResult.UpdatedAdjacentTileColors);
 
         collisionResult.ShouldCreateArtist = colorBehaviorResult!.ShouldCreateArtist;
@@ -43,7 +43,7 @@ public class TileManager
         return collisionResult;
     }
 
-    private void UpdateAdjacentTiles(ITile relativeTile, List<ITileColorBehavior> updatedAdjacentTileColors)
+    private void UpdateAdjacentTiles(ITile relativeTile, List<IColorBehaviorStrategy> updatedAdjacentTileColors)
     {
         if (updatedAdjacentTileColors.Count == 0) return;
         var relativeGridPositions = new List<(int posX, int posY)> { (-1, 0), (1, 0), (0, -1), (0, 1) };

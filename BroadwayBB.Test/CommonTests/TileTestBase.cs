@@ -8,8 +8,8 @@ namespace BroadwayBB.Test.CommonTests;
 public abstract class TileTestBase
 {
     private static int colRowAmount = 3;
-    private Type defaultColorType = typeof(WhiteTileColor);
-    private ITileColorBehavior defaultColorBehavior = new WhiteTileColor();
+    private Type defaultColorType = typeof(WhiteColorBehaviorStrategy);
+    private IColorBehaviorStrategy _defaultColorBehaviorStrategy = new WhiteColorBehaviorStrategy();
 
     protected Dictionary<string, (int, int)> gridEdges = new Dictionary<string, (int, int)>
     {
@@ -25,21 +25,21 @@ public abstract class TileTestBase
 
         for (int y = 0; y < colRowAmount; y++)
             for (int x = 0; x < colRowAmount; x++)
-                tiles.Add(new Tile(x, y, new WhiteTileColor()));
+                tiles.Add(new Tile(x, y, new WhiteColorBehaviorStrategy()));
 
         return tiles;
     }
     
-    protected List<ITile> CreateWhiteColorGridWithGivenColor(int targetPosX, int targetPosY,  ITileColorBehavior targetColorBehavior)
+    protected List<ITile> CreateWhiteColorGridWithGivenColor(int targetPosX, int targetPosY,  IColorBehaviorStrategy targetColorBehaviorStrategy)
     {
         List<ITile> tiles = new();
 
         for (int y = 0; y < colRowAmount; y++)
             for (int x = 0; x < colRowAmount; x++)
                 if (x == targetPosX && y == targetPosY)
-                    tiles.Add(new Tile(x, y, targetColorBehavior));
+                    tiles.Add(new Tile(x, y, targetColorBehaviorStrategy));
                 else
-                    tiles.Add( new Tile(x, y, defaultColorBehavior.DeepCopy()));
+                    tiles.Add( new Tile(x, y, _defaultColorBehaviorStrategy.DeepCopy()));
         
         return tiles;
     }
@@ -58,7 +58,7 @@ public abstract class TileTestBase
                 adjacentY = targetPosY + randomDirection.posY;
             var adjacentTile = tiles.FirstOrDefault(tile => tile.PosX == adjacentX && tile.PosY == adjacentY);
 
-            if (adjacentTile != null) if (adjacentTile.TileColorBehavior.GetType() != defaultColorType) changedCounter++;
+            if (adjacentTile != null) if (adjacentTile.ColorBehaviorStrategy.GetType() != defaultColorType) changedCounter++;
             
             relativeGridPositions.Remove(randomDirection);
         }

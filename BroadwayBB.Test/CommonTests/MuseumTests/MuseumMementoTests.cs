@@ -11,7 +11,7 @@ public class MuseumMementoTests
     {
         var museum = new Museum();
         museum.Attendees = new List<IAttendee> { new Artist(0, 0, 0, 0) };
-        museum.Tiles = new List<ITile> { new Tile(0, 0, new WhiteTileColor()) };
+        museum.Tiles = new List<ITile> { new Tile(0, 0, new WhiteColorBehaviorStrategy()) };
     }
     
     [Fact]
@@ -19,7 +19,7 @@ public class MuseumMementoTests
     {
         var museum = new Museum();
         museum.Attendees = new List<IAttendee> { new Artist(0, 0, 0, 0) };
-        museum.Tiles = new List<ITile> { new Tile(0, 0, new WhiteTileColor()) };
+        museum.Tiles = new List<ITile> { new Tile(0, 0, new WhiteColorBehaviorStrategy()) };
         
         var previousAttendees = museum.Attendees;
         var previousTiles = museum.Tiles;
@@ -34,7 +34,7 @@ public class MuseumMementoTests
     {
         var museum = new Museum();
         museum.Attendees = new List<IAttendee> { new Artist(0, 0, 0, 0) };
-        museum.Tiles = new List<ITile> { new Tile(0, 0, new WhiteTileColor()) };
+        museum.Tiles = new List<ITile> { new Tile(0, 0, new WhiteColorBehaviorStrategy()) };
         
         var previousAttendees = museum.Attendees;
         var previousTiles = museum.Tiles;

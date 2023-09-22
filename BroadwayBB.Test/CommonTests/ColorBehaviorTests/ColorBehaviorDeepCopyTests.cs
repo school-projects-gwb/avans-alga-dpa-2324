@@ -7,7 +7,7 @@ public class ColorBehaviorDeepCopyTests
     [Fact]
     public void ColorBehavior_DeepCopy_Correct()
     {
-        var originalColorBehavior = new RedTileColor();
+        var originalColorBehavior = new RedColorBehaviorStrategy();
         var deepCopyColorBehavior = originalColorBehavior.DeepCopy();
         
         Assert.NotSame(originalColorBehavior, deepCopyColorBehavior);
@@ -17,7 +17,7 @@ public class ColorBehaviorDeepCopyTests
     public void TileColorCounter_DeepCopy_Correct()
     {
         int tileCounterLimit = 2;
-        var originalTileCounter = new TileColorCounter(tileCounterLimit);
+        var originalTileCounter = new ColorBehaviorStrategyCounter(tileCounterLimit);
         originalTileCounter.Increase(); // Value = 1
         originalTileCounter.Increase(); // Value = 2
         var deepCopyTileCounter = originalTileCounter.DeepCopy();

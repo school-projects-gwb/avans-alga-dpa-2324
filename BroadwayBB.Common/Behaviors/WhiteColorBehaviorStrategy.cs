@@ -3,14 +3,14 @@ using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Common.Behaviors;
 
-public class WhiteTileColor : ITileColorBehavior
+public class WhiteColorBehaviorStrategy : IColorBehaviorStrategy
 {
     public ColorName ColorName => ColorName.White;
 
     public ColorBehaviorResult HandleCollision()
     {
-        return new ColorBehaviorResult { UpdatedCollisionTargetTileColor = this };
+        return new ColorBehaviorResult { UpdatedCollisionTargetColor = this };
     }
     
-    public ITileColorBehavior DeepCopy() => new WhiteTileColor();
+    public IColorBehaviorStrategy DeepCopy() => new WhiteColorBehaviorStrategy();
 }
