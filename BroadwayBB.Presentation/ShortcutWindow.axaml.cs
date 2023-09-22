@@ -1,10 +1,8 @@
 using System;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Platform;
 using BroadwayBB.Presentation.Hotkeys;
 
 namespace BroadwayBB.Presentation;
@@ -29,13 +27,13 @@ public partial class ShortcutWindow : Window
         AvaloniaXamlLoader.Load(this);
         _hotkeysListBox = this.FindControl<ListBox>("HotkeysListBox");
         _hotkeysListBox.Tapped += OnHotkeyItemClicked;
-        _hotkeysListBox.KeyDown += OnKeyDown;
+        KeyDown += OnKeyDown;
     }
     
     private void OnKeyDown(object? sender, KeyEventArgs args)
     {
         if (!_isHotkeySelected) return;
-        
+
         _hotkeyManager.UpdateHotkey(_selectedHotkeyKey, args.Key);
         _isHotkeySelected = false;
         Draw();
@@ -53,14 +51,15 @@ public partial class ShortcutWindow : Window
         
         _isHotkeySelected = true;
         _selectedHotkeyKey = ((Hotkey)listBoxItem.Tag).Key;
+        _hotkeysListBox.IsEnabled = false;
     }
 
     private void Draw()
     {
-        var hotkeysListBox = this.FindControl<ListBox>("HotkeysListBox") ?? throw new InvalidOperationException();
-        hotkeysListBox.Items.Clear();
+        _hotkeysListBox.Items.Clear();
+        _hotkeysListBox.IsEnabled = true;
         
-        double windowHeight = hotkeysListBox.Height;
+        double windowHeight = _hotkeysListBox.Height;
         double hotkeyItemHeight = windowHeight / _hotkeyManager.Hotkeys.Count;
         
         foreach (var hotkey in _hotkeyManager.Hotkeys)
@@ -72,7 +71,7 @@ public partial class ShortcutWindow : Window
                 Tag = hotkey
             };
 
-            hotkeysListBox.Items.Add(item);
+            _hotkeysListBox.Items.Add(item);
         }
     }
 }
