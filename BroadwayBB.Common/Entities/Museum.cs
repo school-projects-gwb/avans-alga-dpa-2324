@@ -12,12 +12,12 @@ public class Museum
     private readonly AttendeeManager _attendeeManager = new();
     private readonly MementoCaretaker _mementoCaretaker = new();
     
-    public List<ITile> Tiles
+    public List<TileNode> Tiles
     {
-        get => _tileManager.Tiles;
+        get => _tileManager.Nodes;
         set
         {
-            _tileManager.Tiles = value;
+            _tileManager.Nodes = value;
             SetAttendeeLimit();
         }
     }
@@ -31,7 +31,7 @@ public class Museum
     private void SetAttendeeLimit()
     {
         double limitRelativeToTileModifier = 0.075;
-        int roundedLimit = (int)Math.Round(_tileManager.Tiles.Count() * limitRelativeToTileModifier);
+        int roundedLimit = (int)Math.Round(_tileManager.Nodes.Count() * limitRelativeToTileModifier);
         _attendeeManager.SetAttendeeLimit(roundedLimit);
     }
 
@@ -45,6 +45,7 @@ public class Museum
                 attendee.Movement.GetRoundedGridPosX(), 
                 attendee.Movement.GetRoundedGridPosY()
                 );
+            
             var movementResult = attendee.Movement.HandleMovement(possibleDirections);
             if (!movementResult.HasEnteredNewGridTile) continue;
             
@@ -71,20 +72,25 @@ public class Museum
 
     public void CreateMemento()
     {
-        var tiles = _tileManager.CreateMemento();
-        var attendees = _attendeeManager.CreateMemento();
-        _mementoCaretaker.AddMemento(new MuseumMemento(tiles, attendees));
+        lock (this) {
+            var tiles = _tileManager.CreateMemento();
+            var attendees = _attendeeManager.CreateMemento();
+            _mementoCaretaker.AddMemento(new MuseumMemento(tiles, attendees));
+        }
     }
 
     public void RewindMemento()
     {
-        var lastMemento = _mementoCaretaker.GetMemento();
-        if (lastMemento == null) return;
-        
-        Tiles.Clear();
-        Tiles = lastMemento.Tiles;
+        lock (this)
+        {
+            var lastMemento = _mementoCaretaker.GetMemento();
+            if (lastMemento == null) return;
 
-        Attendees.Clear();
-        Attendees = lastMemento.Attendees;
+            Tiles.Clear();
+            Tiles = lastMemento.TileNodes;
+
+            Attendees.Clear();
+            Attendees = lastMemento.Attendees;
+        }
     }
 }

@@ -61,7 +61,7 @@ public class MuseumSimulation : IMuseumSimulation
         _museum.HandleMouseTileUpdate(mouseGridPosition.PosX, mouseGridPosition.PosY);
     }
 
-    public List<ITile> GetMuseumTiles() => _museum.Tiles;
+    public List<TileNode> GetMuseumTiles() => _museum.Tiles;
     
     public List<IAttendee> GetMuseumAttendees() => _museum.Attendees;
 

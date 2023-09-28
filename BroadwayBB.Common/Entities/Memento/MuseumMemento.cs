@@ -5,11 +5,11 @@ namespace BroadwayBB.Common.Entities.Memento;
 public class MuseumMemento
 {
     public List<IAttendee> Attendees { get; }
-    public List<ITile> Tiles { get; }
+    public List<TileNode> TileNodes { get; }
 
-    public MuseumMemento(List<ITile> tiles, List<IAttendee> attendees)
+    public MuseumMemento(List<TileNode> tileNodes, List<IAttendee> attendees)
     {
+        TileNodes = tileNodes;
         Attendees = attendees;
-        Tiles = tiles;
     }
 }
