@@ -6,7 +6,9 @@ using Avalonia.Styling;
 using BroadwayBB.Common.Entities;
 using BroadwayBB.Data;
 using BroadwayBB.Presentation.Hotkeys;
+using BroadwayBB.Presentation.ViewModels;
 using BroadwayBB.Simulation;
+using System;
 using System.IO;
 
 namespace BroadwayBB.Presentation;
@@ -22,6 +24,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        DataContext = new MainWindowViewModel();
         _hotkeyManager = new HotkeyManager();
         _shortcutWindow = new ShortcutWindow(_hotkeyManager);
         _gridFileLocation = "";
@@ -30,15 +33,13 @@ public partial class MainWindow : Window
 
     private void ShowSimulation_Click(object sender, RoutedEventArgs e)
     {
-        if (string.IsNullOrEmpty(_gridFileLocation) || string.IsNullOrEmpty(_artistsFileLocation))
+        if (DataContext is MainWindowViewModel viewModel)
         {
-            return;
+            _simulationWindow = new SimulationWindow(this, _hotkeyManager);
+            _simulationWindow.LoadSimulation(LoadMuseumSimulation(viewModel.GridPath, viewModel.ArtistsPath));
+            _simulationWindow.Show();
+            Hide();
         }
-
-        _simulationWindow = new SimulationWindow(this, _hotkeyManager);
-        _simulationWindow.LoadSimulation(LoadMuseumSimulation(_gridFileLocation, _artistsFileLocation));
-        _simulationWindow.Show();
-        Hide();
     }
 
     private async void SelectGrid_Click(object sender, RoutedEventArgs e)
@@ -54,10 +55,13 @@ public partial class MainWindow : Window
             AllowMultiple = false
         });
 
-
-        if (files.Count >= 1)
+        if (DataContext is MainWindowViewModel viewModel)
         {
-            _gridFileLocation = files[0].Path.LocalPath;
+            viewModel.GridPath = files[0].Path.LocalPath;
+        }
+        else
+        {
+            throw new InvalidProgramException();
         }
     }
 
@@ -77,7 +81,13 @@ public partial class MainWindow : Window
 
         if (files.Count >= 1)
         {
-            _artistsFileLocation = files[0].Path.LocalPath;
+            if (DataContext is MainWindowViewModel viewModel)
+            {
+                viewModel.ArtistsPath = files[0].Path.LocalPath;
+            }
+            else { 
+                throw new InvalidProgramException();
+            }
         }
     }
 
