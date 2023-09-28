@@ -26,10 +26,35 @@ public class DataProcessor
         Museum museum = new Museum();
         List<ITile> tiles = new List<ITile>();
         List<IAttendee> artists = new List<IAttendee>();
+        GridDTO gridDTO;
+        ArtistsDTO artistsDTO;
 
-        GridDTO gridDTO = (GridDTO?)_reader.ReadFile(gridFile) ?? new GridDTO();
-        ArtistsDTO artistsDTO = (ArtistsDTO?)_reader.ReadFile(artistsFile) ?? new ArtistsDTO();
-       
+        try
+        {
+            gridDTO = (GridDTO)_reader.ReadFile(gridFile);
+        }
+        catch (ArgumentException AEx)
+        {
+            throw new ArgumentException("GRIDFILE: " + AEx.Message);
+        }
+        catch (InvalidCastException)
+        {
+            throw new InvalidCastException("GRIDFILE: File does not contain griddata.");
+        }
+
+        try
+        {
+            artistsDTO = (ArtistsDTO)_reader.ReadFile(artistsFile);
+        }
+        catch (ArgumentException AEx)
+        {
+            throw new ArgumentException("ARTISTSFILE: " + AEx.Message);
+        }
+        catch (InvalidCastException)
+        {
+            throw new InvalidCastException("ARTISTSFILE: File does not contain artistsdata.");
+        }
+
 
         char[] colors = { 'R', 'B', '_', 'Y', 'G' };
         NodeDTO nullNode = new NodeDTO(null, new Structs.Coords(0,0));
@@ -46,7 +71,6 @@ public class DataProcessor
 
                     tile = nullNode;
                 }
-
 
                 tiles.Add(_tileFactory.Create((int)tile.Coords.Y, (int)tile.Coords.X, tile.Type.Tag));
             }

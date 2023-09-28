@@ -22,24 +22,14 @@ namespace BroadwayBB.Data
             _readerFactory = new FileReaderFactory();
         }
 
-        public DTO? ReadFile(string path)
+        public DTO ReadFile(string path)
         {
-            // var uri = new Uri(path);
-
-            Uri[] uris = {
-                new Uri("https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/graph.xml?alt=media"),
-                new Uri("D:/Avans/Advanced Design Patterns/Assesment Files/artists.csv"),
-                new Uri("https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/grid.txt?alt=media"),
-                new Uri(path),
-                new Uri("https://www.geeksforgeeks.org/quick-sort/"),
-                new Uri("D:/Avans/Advanced Design Patterns/Assesment Files/")
-            };
             var uri = new Uri(path);
 
             IFileLoaderStrategy? fileLoader = _loaderFactory.GetFileLoader(uri);
             if (fileLoader == null)
             {
-                return null;
+                throw new ArgumentException("File not found");
             }
 
             var file = fileLoader.loadFile(uri);
@@ -47,7 +37,7 @@ namespace BroadwayBB.Data
             IFileReaderStrategy? fileReader = _readerFactory.GetFileReader(file);
             if (fileReader == null)
             {
-                return null;
+                throw new ArgumentException($"File type {file.Extension} not supported");
             }
 
             return fileReader.ReadFile(file);

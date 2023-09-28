@@ -8,8 +8,6 @@ namespace BroadwayBB.Data.Factories;
 
 public class FileReaderFactory : IFileReaderFactory
 {
-
-    private const string DefaultReaderStrategy = "txt";
     private const string ReaderStrategyClassName = "FileReaderStrategy";
     private readonly Dictionary<string, Type> ReaderStrategies = new Dictionary<string, Type>();
 
@@ -33,8 +31,7 @@ public class FileReaderFactory : IFileReaderFactory
     {
         if (!ReaderStrategies.TryGetValue(file.Extension, out Type? readerStrategy))
         {
-            ReaderStrategies.TryGetValue(DefaultReaderStrategy, out Type? defaultReader);
-            return (IFileReaderStrategy?)Activator.CreateInstance(defaultReader);
+            return null;
         }
 
         return (IFileReaderStrategy?)Activator.CreateInstance(readerStrategy);
