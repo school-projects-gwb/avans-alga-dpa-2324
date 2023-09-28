@@ -2,8 +2,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:BroadwayBB.Presentation.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="BroadwayBB.Presentation.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        x:CompileBindings="True"
         Title="Broadway Boogie Woogie - Museum laden">
-    <Button Content="Show Simulation" Click="ShowSimulation_Click"/>
+  
+  <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
+      <Button HorizontalAlignment="Center" Content="Select Grid file (.xml)" Click="SelectGrid_Click"/>
+      <TextBlock HorizontalAlignment="Center"  Height="25"> Path to grid:</TextBlock>
+      <TextBox Name="GridLink" HorizontalAlignment="Center" Height="25" Watermark="URL to Grid file"  Text="{Binding GridPath, Mode=TwoWay}"/>
+    </StackPanel>
+    
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
+      <Button HorizontalAlignment="Center" Content="Select Artists file (.csv)" Click="SelectArtists_Click"/>
+      <TextBlock HorizontalAlignment="Center" Height="25"> Path to artists:</TextBlock>
+      <TextBox Name="ArtistsLink" HorizontalAlignment="Center" Height="25" Watermark="URL to Artists file"  Text="{Binding ArtistsPath, Mode=TwoWay}"/>
+    </StackPanel>
+    
+    <Button HorizontalAlignment="Center" Name="StartSimulation" Content="Show Simulation" Click="ShowSimulation_Click" IsEnabled="{Binding Enable}"/>
+  </StackPanel>
 </Window>

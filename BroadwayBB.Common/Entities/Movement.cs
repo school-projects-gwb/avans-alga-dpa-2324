@@ -34,7 +34,7 @@ public class Movement : IMovement
     private void UpdateMovementDirection(List<MovementDirection> possibleDirections)
     {
         var allowedDirections = possibleDirections.Where(HasSpeedForDirection).ToList();
-        if (allowedDirections.Contains(MovementDirection) || possibleDirections.Count == 0) return;
+        if (allowedDirections.Contains(MovementDirection) || possibleDirections.Count == 0 || allowedDirections.Count == 0) return;
 
         int randomPositionIndex = new Random().Next(
             allowedDirections.Count);
