@@ -1,8 +1,9 @@
 using BroadwayBB.Data.Structs;
+using System.Runtime.CompilerServices;
 
 namespace BroadwayBB.Data.Strategies.Interfaces;
 
-public interface IFileLoaderStrategy
+public interface DTO
 {
-    FileData loadFile(Uri uri);
+
 }
