@@ -95,8 +95,8 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void HandleTileConfiguration()
     {
-        _numRows = _simulation.GetMuseumTiles().Select(n => n.Tile).Max(tile => tile.PosY) + 1;
-        _numCols = _simulation.GetMuseumTiles().Select(n => n.Tile).Max(tile => tile.PosX) + 1;
+        _numRows = _simulation.GetMuseumTiles().Max(tile => tile.PosY) + 1;
+        _numCols = _simulation.GetMuseumTiles().Max(tile => tile.PosX) + 1;
         _tileWidth = _simulationCanvas.Width / _numCols;
         _tileHeight = _simulationCanvas.Height / _numRows;
     }
@@ -144,10 +144,10 @@ public partial class SimulationWindow : Window, ISimulationObserver
     {
         foreach (var tile in _simulation.GetMuseumTiles())
         {
-            double posX = tile.Tile.PosX * _tileWidth, posY = tile.Tile.PosY * _tileHeight;
+            double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
             if (!_tileRectangles.TryGetValue((posX, posY), out Rectangle rectangle)) continue;
             
-            rectangle.Fill = _colorMap[tile.Tile.ColorBehaviorStrategy.ColorName];
+            rectangle.Fill = _colorMap[tile.ColorBehaviorStrategy.ColorName];
         }
     }
 
@@ -155,12 +155,12 @@ public partial class SimulationWindow : Window, ISimulationObserver
     {
         foreach (var tile in _simulation.GetMuseumTiles())
         {
-            double posX = tile.Tile.PosX * _tileWidth, posY = tile.Tile.PosY * _tileHeight;
-            var item = _tileObjectPool.GetObject(tile.Tile.ColorBehaviorStrategy.ColorName);
+            double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
+            var item = _tileObjectPool.GetObject(tile.ColorBehaviorStrategy.ColorName);
             if (item == null) return;
         
             DrawCanvasItem(item, posX, posY, _backgroundCanvas);
-            _tileObjectPool.MarkForRelease(tile.Tile.ColorBehaviorStrategy.ColorName, item);
+            _tileObjectPool.MarkForRelease(tile.ColorBehaviorStrategy.ColorName, item);
             _tileRectangles[(posX, posY)] = item;
         }
             

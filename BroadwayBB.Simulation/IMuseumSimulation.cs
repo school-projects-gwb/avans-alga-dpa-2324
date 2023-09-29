@@ -7,7 +7,7 @@ namespace BroadwayBB.Simulation;
 public interface IMuseumSimulation
 {
     public void Subscribe(ISimulationObserver observer);
-    public List<TileNode> GetMuseumTiles();
+    public List<ITile> GetMuseumTiles();
     public List<IAttendee> GetMuseumAttendees();
     public int GetMaxMuseumAttendees();
     public void ToggleAttendeeMovement();

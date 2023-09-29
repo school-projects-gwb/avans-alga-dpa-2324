@@ -1,11 +1,39 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
+using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Common.Entities;
 
 public class TileManager
 {
-    public List<TileNode> Nodes { get; set; } = new();
+    private List<ITile> _tiles = new();
+    public List<ITile> Tiles
+    {
+        get => _tiles;
+        set => ProcessTiles(value);
+    }
+
+    private List<TileNode> _tileGraph = new();
+
+    private void ProcessTiles(List<ITile> tiles)
+    {
+        _tiles = tiles;
+        BuildTileGraph(tiles);
+    }
+
+    private void BuildTileGraph(List<ITile> tiles)
+    {
+        List<TileNode> nodes = new List<TileNode>();
+        
+        foreach (var tile in tiles)
+        {
+            var node = new TileNode(tile);
+            nodes.Add(node);
+            ConnectOrthogonalNeighbors(node, nodes);
+        }
+
+        _tileGraph = nodes;
+    }
     
     public List<MovementDirection> GetAllowedRelativeTilePositions(int currentTilePosX, int currentTilePosY)
     {
@@ -62,38 +90,20 @@ public class TileManager
         }
     }
     
-    private TileNode? FindNode(int posX, int posY) => Nodes.FirstOrDefault(node => node.Tile.PosX == posX && node.Tile.PosY == posY);
+    private TileNode? FindNode(int posX, int posY) => _tileGraph.FirstOrDefault(node => node.Tile.PosX == posX && node.Tile.PosY == posY);
     
-    public List<TileNode> CreateMemento() => CreateTileNodeMemento();
-
-    private List<TileNode> CreateTileNodeMemento()
-    {
-        // Deep copy the TileNodes without neighbors
-        
-        var deepCopies = Nodes.Select(node => node.DeepCopy()).ToList();
-
-        foreach (var x in deepCopies)
-        {
-            ConnectOrthogonalNeighbors(x, deepCopies);
-        }
-        
-        return deepCopies;
-    }
-
-    List<(int posX, int posY)> neighborOffsets = new List<(int posX, int posY)>
-    {
-        (-1, 0), (1, 0), (0, -1), (0, 1)
-    };
+    public List<ITile> CreateMemento() => Tiles.Select(tile => tile.DeepCopy()).ToList();
     
     void ConnectOrthogonalNeighbors(TileNode currentNode, List<TileNode> allNodes)
     {
-        int posX = currentNode.Tile.PosX;
-        int posY = currentNode.Tile.PosY;
+        var neighborOffsets = new List<(int posX, int posY)> { (-1, 0), (1, 0), (0, -1), (0, 1) };
+        var posX = currentNode.Tile.PosX;
+        var posY = currentNode.Tile.PosY;
 
         foreach (var offset in neighborOffsets)
         {
-            int neighborX = posX + offset.posX;
-            int neighborY = posY + offset.posY;
+            var neighborX = posX + offset.posX;
+            var neighborY = posY + offset.posY;
             
             var neighborNode = allNodes.FirstOrDefault(node =>
                 node.Tile.PosX == neighborX && node.Tile.PosY == neighborY);

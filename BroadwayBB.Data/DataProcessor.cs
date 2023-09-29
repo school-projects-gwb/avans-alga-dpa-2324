@@ -20,17 +20,14 @@ public class DataProcessor
         var random = new Random();
         int colRowAmount = 60;
 
-        List<TileNode> nodes = new List<TileNode>();
+        List<ITile> tiles = new();
 
         for (int y = 0; y < colRowAmount; y++)
         {
             for (int x = 0; x < colRowAmount; x++)
             {
                 var tile = tileFactory.Create(y, x, colors[random.Next(colors.Length)]);
-                var node = new TileNode(tile);
-                
-                nodes.Add(node);
-                ConnectOrthogonalNeighbors(node, nodes);
+                tiles.Add(tile);
             }
         }
         
@@ -40,35 +37,8 @@ public class DataProcessor
         artists.Add(attendeeFactory.Create(2.5, 3, 0, 1));
         
         museum.Attendees = artists;
-        museum.Tiles = nodes;
+        museum.Tiles = tiles;
         
         return museum;
     }
-    
-    List<(int posX, int posY)> neighborOffsets = new List<(int posX, int posY)>
-    {
-        (-1, 0), (1, 0), (0, -1), (0, 1)
-    };
-
-    // Function to connect orthogonal neighbors
-    void ConnectOrthogonalNeighbors(TileNode currentNode, List<TileNode> allNodes)
-    {
-        int posX = currentNode.Tile.PosX;
-        int posY = currentNode.Tile.PosY;
-
-        foreach (var offset in neighborOffsets)
-        {
-            int neighborX = posX + offset.posX;
-            int neighborY = posY + offset.posY;
-            
-            var neighborNode = allNodes.FirstOrDefault(node =>
-                node.Tile.PosX == neighborX && node.Tile.PosY == neighborY);
-
-            if (neighborNode == null) continue;
-            
-            currentNode.Neighbors.Add(neighborNode);
-            neighborNode.Neighbors.Add(currentNode);
-        }
-    }
-
 }

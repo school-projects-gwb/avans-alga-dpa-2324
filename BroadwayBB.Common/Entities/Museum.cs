@@ -12,12 +12,12 @@ public class Museum
     private readonly AttendeeManager _attendeeManager = new();
     private readonly MementoCaretaker _mementoCaretaker = new();
     
-    public List<TileNode> Tiles
+    public List<ITile> Tiles
     {
-        get => _tileManager.Nodes;
+        get => _tileManager.Tiles;
         set
         {
-            _tileManager.Nodes = value;
+            _tileManager.Tiles = value;
             SetAttendeeLimit();
         }
     }
@@ -31,7 +31,7 @@ public class Museum
     private void SetAttendeeLimit()
     {
         double limitRelativeToTileModifier = 0.075;
-        int roundedLimit = (int)Math.Round(_tileManager.Nodes.Count() * limitRelativeToTileModifier);
+        int roundedLimit = (int)Math.Round(_tileManager.Tiles.Count() * limitRelativeToTileModifier);
         _attendeeManager.SetAttendeeLimit(roundedLimit);
     }
 
@@ -81,14 +81,17 @@ public class Museum
 
     public void RewindMemento()
     {
-        lock (this)
+        var lastMemento = _mementoCaretaker.GetMemento();
+        if (lastMemento == null) return;
+
+        lock (Tiles)
         {
-            var lastMemento = _mementoCaretaker.GetMemento();
-            if (lastMemento == null) return;
-
             Tiles.Clear();
-            Tiles = lastMemento.TileNodes;
+            Tiles = lastMemento.Tiles;
+        }
 
+        lock (Attendees)
+        {
             Attendees.Clear();
             Attendees = lastMemento.Attendees;
         }
