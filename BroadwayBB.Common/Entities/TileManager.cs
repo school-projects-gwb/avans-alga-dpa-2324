@@ -6,67 +6,112 @@ namespace BroadwayBB.Common.Entities;
 
 public class TileManager
 {
-    public List<ITile> Tiles { get; set; }
+    private List<ITile> _tiles = new();
+    public List<ITile> Tiles
+    {
+        get => _tiles;
+        set => ProcessTiles(value);
+    }
+
+    private List<TileNode> _tileGraph = new();
+
+    private void ProcessTiles(List<ITile> tiles)
+    {
+        _tiles = tiles;
+        BuildTileGraph(tiles);
+    }
+
+    private void BuildTileGraph(List<ITile> tiles)
+    {
+        List<TileNode> nodes = new List<TileNode>();
+        
+        foreach (var tile in tiles)
+        {
+            var node = new TileNode(tile);
+            nodes.Add(node);
+            ConnectOrthogonalNeighbors(node, nodes);
+        }
+
+        _tileGraph = nodes;
+    }
     
     public List<MovementDirection> GetAllowedRelativeTilePositions(int currentTilePosX, int currentTilePosY)
     {
         var possibleDirections = new List<MovementDirection>();
+
+        var currentNode = FindNode(currentTilePosX, currentTilePosY);
         
-        if (Tiles.Find(tile => tile.PosX == currentTilePosX && tile.PosY == currentTilePosY - 1) != null)
-            possibleDirections.Add(MovementDirection.North);
-        
-        if (Tiles.Find(tile => tile.PosX == currentTilePosX + 1 && tile.PosY == currentTilePosY) != null) 
-            possibleDirections.Add(MovementDirection.East);
-        
-        if (Tiles.Find(tile => tile.PosX == currentTilePosX && tile.PosY == currentTilePosY + 1) != null) 
-            possibleDirections.Add(MovementDirection.South);
-        
-        if (Tiles.Find(tile => tile.PosX == currentTilePosX - 1 && tile.PosY == currentTilePosY) != null) 
-            possibleDirections.Add(MovementDirection.West);
-        
+        if (currentNode == null) return possibleDirections;
+
+        foreach (var neighborNode in currentNode.Neighbors)
+        {
+            if (neighborNode.Tile.PosX == currentNode.Tile.PosX && neighborNode.Tile.PosY == currentNode.Tile.PosY - 1)
+                possibleDirections.Add(MovementDirection.North);
+
+            if (neighborNode.Tile.PosX == currentNode.Tile.PosX + 1 && neighborNode.Tile.PosY == currentNode.Tile.PosY)
+                possibleDirections.Add(MovementDirection.East);
+
+            if (neighborNode.Tile.PosX == currentNode.Tile.PosX && neighborNode.Tile.PosY == currentNode.Tile.PosY + 1)
+                possibleDirections.Add(MovementDirection.South);
+
+            if (neighborNode.Tile.PosX == currentNode.Tile.PosX - 1 && neighborNode.Tile.PosY == currentNode.Tile.PosY)
+                possibleDirections.Add(MovementDirection.West);
+        }
+
         return possibleDirections;
     }
 
     public TileCollisionResult HandleCollision(int tilePosX, int tilePosY)
     {
         var collisionResult = new TileCollisionResult();
-        var targetTile = FindTile(tilePosX, tilePosY);
-        if (targetTile == null) return collisionResult;
-        
-        var colorBehaviorResult = targetTile.ColorBehaviorStrategy.HandleCollision();
-        targetTile.UpdateColorBehavior(colorBehaviorResult.UpdatedCollisionTargetColor);
-        UpdateAdjacentTiles(targetTile, colorBehaviorResult.UpdatedAdjacentTileColors);
+        var targetNode = FindNode(tilePosX, tilePosY);
+        if (targetNode == null) return collisionResult;
 
-        collisionResult.ShouldCreateArtist = colorBehaviorResult!.ShouldCreateArtist;
-        collisionResult.ShouldRemoveArtist = colorBehaviorResult!.ShouldRemoveArtist;
-        
+        var colorBehaviorResult = targetNode.Tile.ColorBehaviorStrategy.HandleCollision();
+        targetNode.Tile.UpdateColorBehavior(colorBehaviorResult.UpdatedCollisionTargetColor);
+        UpdateAdjacentTiles(targetNode, colorBehaviorResult.UpdatedAdjacentTileColors);
+
+        collisionResult.ShouldCreateArtist = colorBehaviorResult.ShouldCreateArtist;
+        collisionResult.ShouldRemoveArtist = colorBehaviorResult.ShouldRemoveArtist;
+
         return collisionResult;
     }
 
-    private void UpdateAdjacentTiles(ITile relativeTile, List<IColorBehaviorStrategy> updatedAdjacentTileColors)
+    private void UpdateAdjacentTiles(TileNode node, List<IColorBehaviorStrategy> updatedAdjacentTileColors)
     {
         if (updatedAdjacentTileColors.Count == 0) return;
-        var relativeGridPositions = new List<(int posX, int posY)> { (-1, 0), (1, 0), (0, -1), (0, 1) };
-        var random = new Random();
 
-        while (updatedAdjacentTileColors.Count > 0 && relativeGridPositions.Count > 0)
+        foreach (var neighborNode in node.Neighbors)
         {
-            var randomDirection = relativeGridPositions[random.Next(relativeGridPositions.Count)];
-            int adjacentX = relativeTile.PosX + randomDirection.posX, 
-                adjacentY = relativeTile.PosY + randomDirection.posY;
-            var adjacentTile = Tiles.FirstOrDefault(tile => tile.PosX == adjacentX && tile.PosY == adjacentY);
-            
-            if (adjacentTile != null)
-            {
-                adjacentTile.UpdateColorBehavior(updatedAdjacentTileColors.First());
-                updatedAdjacentTileColors.Remove(updatedAdjacentTileColors.First());
-            }
-            
-            relativeGridPositions.Remove(randomDirection);
+            if (updatedAdjacentTileColors.Count == 0) break;
+
+            neighborNode.Tile.UpdateColorBehavior(updatedAdjacentTileColors.First());
+            updatedAdjacentTileColors.RemoveAt(0);
         }
     }
     
-    private ITile? FindTile(int posX, int posY) => Tiles.Find(tile => tile.PosX == posX && tile.PosY == posY);
+    private TileNode? FindNode(int posX, int posY) => _tileGraph.FirstOrDefault(node => node.Tile.PosX == posX && node.Tile.PosY == posY);
     
     public List<ITile> CreateMemento() => Tiles.Select(tile => tile.DeepCopy()).ToList();
+    
+    void ConnectOrthogonalNeighbors(TileNode currentNode, List<TileNode> allNodes)
+    {
+        var neighborOffsets = new List<(int posX, int posY)> { (-1, 0), (1, 0), (0, -1), (0, 1) };
+        var posX = currentNode.Tile.PosX;
+        var posY = currentNode.Tile.PosY;
+
+        foreach (var offset in neighborOffsets)
+        {
+            var neighborX = posX + offset.posX;
+            var neighborY = posY + offset.posY;
+            
+            var neighborNode = allNodes.FirstOrDefault(node =>
+                node.Tile.PosX == neighborX && node.Tile.PosY == neighborY);
+
+            if (neighborNode == null) continue;
+            
+            currentNode.Neighbors.Add(neighborNode);
+            neighborNode.Neighbors.Add(currentNode);
+        }
+    }
 }

@@ -9,7 +9,7 @@ public class MuseumMemento
 
     public MuseumMemento(List<ITile> tiles, List<IAttendee> attendees)
     {
-        Attendees = attendees;
         Tiles = tiles;
+        Attendees = attendees;
     }
 }

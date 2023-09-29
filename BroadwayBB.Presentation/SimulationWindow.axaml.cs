@@ -142,7 +142,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void UpdateTileColors()
     {
-        foreach (ITile tile in _simulation.GetMuseumTiles())
+        foreach (var tile in _simulation.GetMuseumTiles())
         {
             double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
             if (!_tileRectangles.TryGetValue((posX, posY), out Rectangle rectangle)) continue;
@@ -153,7 +153,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void InitiateTileObjects()
     {
-        foreach (ITile tile in _simulation.GetMuseumTiles())
+        foreach (var tile in _simulation.GetMuseumTiles())
         {
             double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
             var item = _tileObjectPool.GetObject(tile.ColorBehaviorStrategy.ColorName);

@@ -45,6 +45,7 @@ public class Museum
                 attendee.Movement.GetRoundedGridPosX(), 
                 attendee.Movement.GetRoundedGridPosY()
                 );
+            
             var movementResult = attendee.Movement.HandleMovement(possibleDirections);
             if (!movementResult.HasEnteredNewGridTile) continue;
             
@@ -71,20 +72,28 @@ public class Museum
 
     public void CreateMemento()
     {
-        var tiles = _tileManager.CreateMemento();
-        var attendees = _attendeeManager.CreateMemento();
-        _mementoCaretaker.AddMemento(new MuseumMemento(tiles, attendees));
+        lock (this) {
+            var tiles = _tileManager.CreateMemento();
+            var attendees = _attendeeManager.CreateMemento();
+            _mementoCaretaker.AddMemento(new MuseumMemento(tiles, attendees));
+        }
     }
 
     public void RewindMemento()
     {
         var lastMemento = _mementoCaretaker.GetMemento();
         if (lastMemento == null) return;
-        
-        Tiles.Clear();
-        Tiles = lastMemento.Tiles;
 
-        Attendees.Clear();
-        Attendees = lastMemento.Attendees;
+        lock (Tiles)
+        {
+            Tiles.Clear();
+            Tiles = lastMemento.Tiles;
+        }
+
+        lock (Attendees)
+        {
+            Attendees.Clear();
+            Attendees = lastMemento.Attendees;
+        }
     }
 }
