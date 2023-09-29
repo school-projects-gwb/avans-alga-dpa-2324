@@ -14,6 +14,11 @@ public class AttendeeManager
     private readonly double _minSpeed = 1.0, _maxSpeed = 3.0;
     private readonly Random _random = new();
     public int AttendeeLimit { get; private set; } = 50;
+
+    public void HandleCollision(double gridPosX, double gridPosY)
+    {
+        // todo implement
+    }
     
     public void HandleTileCollisionResult(TileCollisionResult tileCollisionResult, IAttendee targetAttendee)
     {

@@ -46,15 +46,24 @@ public class Museum
                 attendee.Movement.GetRoundedGridPosY()
                 );
             
-            var movementResult = attendee.Movement.HandleMovement(possibleDirections);
-            if (!movementResult.HasEnteredNewGridTile) continue;
-            
-            var tileCollisionResult = _tileManager.HandleCollision(movementResult.GridPosX, movementResult.GridPosY);
-            if (!MuseumConfiguration.ShouldRenderAttendees) tileCollisionResult.ShouldCreateArtist = false;
-            _attendeeManager.HandleTileCollisionResult(tileCollisionResult, attendee);
+            HandleAttendeeMovement(attendee, possibleDirections);
         }
 
         _attendeeManager.HandleAttendeeQueue();
+    }
+
+    private void HandleAttendeeMovement(IAttendee attendee, List<MovementDirection> possibleDirections)
+    {
+        var movementResult = attendee.Movement.HandleMovement(possibleDirections);
+        _attendeeManager.HandleCollision(attendee.Movement.GridPosX, attendee.Movement.GridPosY);
+        if (movementResult.HasEnteredNewGridTile) HandleTileCollision(attendee, movementResult);
+    }
+
+    private void HandleTileCollision(IAttendee attendee, MovementResult movementResult)
+    {
+        var tileCollisionResult = _tileManager.HandleCollision(movementResult.GridPosX, movementResult.GridPosY);
+        if (!MuseumConfiguration.ShouldRenderAttendees) tileCollisionResult.ShouldCreateArtist = false;
+        _attendeeManager.HandleTileCollisionResult(tileCollisionResult, attendee);
     }
 
     public void HandleMouseTileUpdate(int mouseGridPosX, int mouseGridPosY)
@@ -62,7 +71,6 @@ public class Museum
         var tileCollisionResult = _tileManager.HandleCollision(mouseGridPosX, mouseGridPosY);
         tileCollisionResult.ShouldRemoveArtist = false;
         // We can pass a new "non-existing" attendee here since removing artists is always disabled.
-        // This is not the cleanest way but works well enough in this one single specific situation.
         _attendeeManager.HandleTileCollisionResult(
             tileCollisionResult, 
             new Artist(0,0,0,0));
@@ -76,6 +84,7 @@ public class Museum
             var tiles = _tileManager.CreateMemento();
             var attendees = _attendeeManager.CreateMemento();
             _mementoCaretaker.AddMemento(new MuseumMemento(tiles, attendees));
+            Console.WriteLine("Memento created");
         }
     }
 
