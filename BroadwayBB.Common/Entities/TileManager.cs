@@ -63,6 +63,8 @@ public class TileManager
 
     public TileCollisionResult HandleCollision(int tilePosX, int tilePosY)
     {
+        // TileCollisionResult uitbreiden met IsTileInPath
+        // Logica uitbreiden met check of attendee op path tile staat
         var collisionResult = new TileCollisionResult();
         var targetNode = FindNode(tilePosX, tilePosY);
         if (targetNode == null) return collisionResult;
