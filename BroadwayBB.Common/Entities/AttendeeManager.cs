@@ -10,7 +10,7 @@ public class AttendeeManager
     
     private readonly List<IAttendee> _markedForRemoval = new();
     private readonly List<IAttendee> _markedForCreation = new();
-    private readonly int _markedLimit = 5, _attendeeHardLimit = 250;
+    private readonly int _markedLimit = 5, _attendeeHardLimit = 100;
     private readonly double _minSpeed = 1.0, _maxSpeed = 3.0;
     private readonly Random _random = new();
     public int AttendeeLimit { get; private set; } = 50;

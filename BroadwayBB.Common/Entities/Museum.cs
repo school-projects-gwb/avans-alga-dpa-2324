@@ -1,7 +1,9 @@
+using System.Drawing;
 using BroadwayBB.Common.Entities.Extensions;
 using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Common.Entities.Memento;
 using BroadwayBB.Common.Entities.Structures;
+using BroadwayBB.Common.Entities.Quadtree;
 
 namespace BroadwayBB.Common.Entities;
 
@@ -11,6 +13,7 @@ public class Museum
     private readonly TileManager _tileManager = new();
     private readonly AttendeeManager _attendeeManager = new();
     private readonly MementoCaretaker _mementoCaretaker = new();
+    private Quadtree<IAttendee> _attendeeQuadtree = new(0, new Rectangle(0, 0, 53, 53));
     
     public List<ITile> Tiles
     {
@@ -28,6 +31,14 @@ public class Museum
         set => _attendeeManager.Attendees = value;
     }
 
+    public List<Rectangle> GetDebugInfo()
+    {
+        var debugInfo = new List<Rectangle>();
+        if (MuseumConfiguration.ShouldRenderQuadtree) debugInfo = _attendeeQuadtree.GetNodeCoordinates();
+        
+        return debugInfo;
+    } 
+
     private void SetAttendeeLimit()
     {
         double limitRelativeToTileModifier = 0.075;
@@ -39,6 +50,8 @@ public class Museum
     {
         if (!MuseumConfiguration.ShouldMoveAttendees) return;
         
+        _attendeeQuadtree.Clear();
+        
         foreach (var attendee in Attendees)
         {
             var possibleDirections = _tileManager.GetAllowedRelativeTilePositions(
@@ -47,8 +60,10 @@ public class Museum
                 );
             
             HandleAttendeeMovement(attendee, possibleDirections);
+            
+            _attendeeQuadtree.Insert(attendee);
         }
-
+        
         _attendeeManager.HandleAttendeeQueue();
     }
 
@@ -80,12 +95,9 @@ public class Museum
 
     public void CreateMemento()
     {
-        lock (this) {
-            var tiles = _tileManager.CreateMemento();
-            var attendees = _attendeeManager.CreateMemento();
-            _mementoCaretaker.AddMemento(new MuseumMemento(tiles, attendees));
-            Console.WriteLine("Memento created");
-        }
+        var tiles = _tileManager.CreateMemento();
+        var attendees = _attendeeManager.CreateMemento();
+        _mementoCaretaker.AddMemento(new MuseumMemento(tiles, attendees));
     }
 
     public void RewindMemento()
