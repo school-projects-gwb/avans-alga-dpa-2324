@@ -61,7 +61,11 @@ public class Museum
             
             HandleAttendeeMovement(attendee, possibleDirections);
             
-            _attendeeQuadtree.Insert(attendee);
+            _attendeeQuadtree.Insert(
+                attendee, 
+                attendee.Movement.GetRoundedGridPosX(), 
+                attendee.Movement.GetRoundedGridPosY()
+                );
         }
         
         _attendeeManager.HandleAttendeeQueue();

@@ -6,18 +6,18 @@ namespace BroadwayBB.Common.Entities.Quadtree;
 
 public class Quadtree<T>
 {
-    private int maxObjects = 5;
-    private int objSize = 0;
-    private int maxLevels = 3;
+    private readonly int _maxObjectsBeforeSplit = 5;
+    private readonly int _objectSize = 0;
+    private readonly int _maxTreeDepth = 3;
 
-    private int _level;
-    private List<T> _objects = new();
-    private Rectangle _bounds;
-    private Quadtree<T>?[] _nodes = new Quadtree<T>?[4] {null, null, null, null};
+    private readonly int _currentTreeDepth;
+    private readonly List<TreeObject<T>> _objects = new();
+    private readonly Rectangle _bounds;
+    private readonly Quadtree<T>?[] _nodes = new Quadtree<T>?[4] {null, null, null, null};
 
-    public Quadtree(int level, Rectangle bounds)
+    public Quadtree(int currentTreeDepth, Rectangle bounds)
     {
-        _level = level;
+        _currentTreeDepth = currentTreeDepth;
         _bounds = bounds;
     }
 
@@ -46,28 +46,28 @@ public class Quadtree<T>
         int childHeight1 = subHeight + (_bounds.Height % 2);
         int childHeight2 = subHeight;
 
-        _nodes[0] = new Quadtree<T>(_level + 1, new Rectangle(x + childWidth2, y, childWidth1, childHeight2));
-        _nodes[1] = new Quadtree<T>(_level + 1, new Rectangle(x, y, childWidth2, childHeight2));
-        _nodes[2] = new Quadtree<T>(_level + 1, new Rectangle(x, y + childHeight2, childWidth2, childHeight1));
-        _nodes[3] = new Quadtree<T>(_level + 1, new Rectangle(x + childWidth2, y + childHeight2, childWidth1, childHeight1));
+        _nodes[0] = new Quadtree<T>(_currentTreeDepth + 1, new Rectangle(x + childWidth2, y, childWidth1, childHeight2));
+        _nodes[1] = new Quadtree<T>(_currentTreeDepth + 1, new Rectangle(x, y, childWidth2, childHeight2));
+        _nodes[2] = new Quadtree<T>(_currentTreeDepth + 1, new Rectangle(x, y + childHeight2, childWidth2, childHeight1));
+        _nodes[3] = new Quadtree<T>(_currentTreeDepth + 1, new Rectangle(x + childWidth2, y + childHeight2, childWidth1, childHeight1));
     }
 
-    private int GetIndex(T target)
+    private int GetIndex(TreeObject<T> target)
     {
-        int index = -1;
-        IAttendee obj = (IAttendee)target;
+        var index = -1;
+        TreeObject<T> obj = target;
         double verticalMidpoint = _bounds.X + (_bounds.Width / 2.0);
         double horizontalMidpoint = _bounds.Y + (_bounds.Height / 2.0);
 
-        bool isTop = obj.Movement.GetRoundedGridPosY() < horizontalMidpoint && obj.Movement.GetRoundedGridPosY() + objSize < horizontalMidpoint;
-        bool isBottom = obj.Movement.GetRoundedGridPosY() > horizontalMidpoint;
+        bool isTop = obj.PosY < horizontalMidpoint && obj.PosY + _objectSize < horizontalMidpoint;
+        bool isBottom = obj.PosY > horizontalMidpoint;
 
-        if (obj.Movement.GetRoundedGridPosX() < verticalMidpoint && obj.Movement.GetRoundedGridPosX() + objSize < verticalMidpoint)
+        if (obj.PosX < verticalMidpoint && obj.PosX + _objectSize < verticalMidpoint)
         {
             if (isTop) index = 1;
             if (isBottom) index = 2;
         }
-        else if (obj.Movement.GetRoundedGridPosX() > verticalMidpoint)
+        else if (obj.PosX > verticalMidpoint)
         {
             if (isTop) index = 0;
             if (isBottom) index = 3;
@@ -76,11 +76,15 @@ public class Quadtree<T>
         return index;
     }
 
-    public void Insert(T obj)
+    private void Insert(TreeObject<T> obj) => Insert(obj.Object, obj.PosX, obj.PosY);
+    
+    public void Insert(T baseObject, int objectPosX, int objectPosY)
     {
+        TreeObject<T> obj = new TreeObject<T>(baseObject, objectPosX, objectPosY);
+        
         if (_nodes[0] != null)
         {
-            int index = GetIndex(obj);
+            var index = GetIndex(obj);
             if (index != -1)
             {
                 _nodes[index]?.Insert(obj);
@@ -89,26 +93,25 @@ public class Quadtree<T>
         }
         
         _objects.Add(obj);
-        
-        if (_objects.Count > maxObjects && _level < maxLevels)
-        {
-            if (_nodes[0] == null) SplitNode();
 
-            int i = 0;
-            while (i < _objects.Count)
+        if (_objects.Count <= _maxObjectsBeforeSplit || _currentTreeDepth >= _maxTreeDepth) return;
+        
+        if (_nodes[0] == null) SplitNode();
+
+        var i = 0;
+        while (i < _objects.Count)
+        {
+            int index = GetIndex(_objects[i]);
+            if (index != -1)
             {
-                int index = GetIndex(_objects[i]);
-                if (index != -1)
-                {
-                    _nodes[index].Insert(_objects[i]);
-                    _objects.Remove(_objects[i]);
-                }
-                else
-                {
-                    i++;
-                }
+                _nodes[index].Insert(_objects[i]);
+                _objects.Remove(_objects[i]);
+                continue;
             }
+            
+            i++;
         }
+        
     }
 
     public List<Rectangle> GetNodeCoordinates()
@@ -121,18 +124,9 @@ public class Quadtree<T>
     private void CollectNodeCoordinates(Quadtree<T> node, List<Rectangle> coordinates)
     {
         if (node._nodes[0] == null)
-        {
             coordinates.Add(node._bounds);
-        }
         else
-        {
-            for (int i = 0; i < node._nodes.Length; i++)
-            {
-                if (node._nodes[i] != null)
-                {
-                    CollectNodeCoordinates(node._nodes[i], coordinates);
-                }
-            }
-        }
+            foreach (var obj in node._nodes)
+                if (obj != null) CollectNodeCoordinates(obj, coordinates);
     }
 }
