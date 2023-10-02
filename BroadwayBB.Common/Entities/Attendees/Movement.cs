@@ -2,7 +2,7 @@ using BroadwayBB.Common.Entities.Extensions;
 using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Common.Entities.Structures;
 
-namespace BroadwayBB.Common.Entities;
+namespace BroadwayBB.Common.Entities.Attendees;
 
 public class Movement : IMovement
 {

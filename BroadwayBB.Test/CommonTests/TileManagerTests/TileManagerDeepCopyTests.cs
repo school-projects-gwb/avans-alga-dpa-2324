@@ -1,4 +1,5 @@
 using BroadwayBB.Common.Entities;
+using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Test.CommonTests.TileManagerTests;
 

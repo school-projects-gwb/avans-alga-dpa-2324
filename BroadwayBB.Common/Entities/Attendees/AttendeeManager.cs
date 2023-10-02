@@ -1,12 +1,15 @@
+using System.Drawing;
 using BroadwayBB.Common.Entities.Extensions;
 using BroadwayBB.Common.Entities.Interfaces;
+using BroadwayBB.Common.Entities.Quadtree;
 using BroadwayBB.Common.Entities.Structures;
 
-namespace BroadwayBB.Common.Entities;
+namespace BroadwayBB.Common.Entities.Attendees;
 
 public class AttendeeManager
 {
     public List<IAttendee> Attendees { get; set; } = new();
+    public Quadtree<IAttendee> AttendeeQuadtree;
     
     private readonly List<IAttendee> _markedForRemoval = new();
     private readonly List<IAttendee> _markedForCreation = new();
@@ -14,10 +17,15 @@ public class AttendeeManager
     private readonly double _minSpeed = 1.0, _maxSpeed = 3.0;
     private readonly Random _random = new();
     public int AttendeeLimit { get; private set; } = 50;
-
-    public void HandleCollision(double gridPosX, double gridPosY)
+    
+    public void HandleCollision(IAttendee attendee)
     {
         // todo implement
+    }
+
+    public void InitQuadtree(int width, int height)
+    {
+        AttendeeQuadtree = new Quadtree<IAttendee>(0, new Rectangle(0, 0, width, height));
     }
     
     public void HandleTileCollisionResult(TileCollisionResult tileCollisionResult, IAttendee targetAttendee)

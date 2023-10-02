@@ -1,4 +1,4 @@
-namespace BroadwayBB.Common.Entities;
+namespace BroadwayBB.Common.Entities.Attendees;
 
 public enum MovementDirection
 {

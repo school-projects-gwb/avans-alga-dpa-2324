@@ -1,9 +1,10 @@
 using System.Drawing;
+using BroadwayBB.Common.Entities.Attendees;
 using BroadwayBB.Common.Entities.Extensions;
 using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Common.Entities.Memento;
 using BroadwayBB.Common.Entities.Structures;
-using BroadwayBB.Common.Entities.Quadtree;
+using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Common.Entities;
 
@@ -13,7 +14,6 @@ public class Museum
     private readonly TileManager _tileManager = new();
     private readonly AttendeeManager _attendeeManager = new();
     private readonly MementoCaretaker _mementoCaretaker = new();
-    private Quadtree<IAttendee> _attendeeQuadtree = new(0, new Rectangle(0, 0, 53, 53));
     
     public List<ITile> Tiles
     {
@@ -21,6 +21,7 @@ public class Museum
         set
         {
             _tileManager.Tiles = value;
+            _attendeeManager.InitQuadtree(value.Max(tile => tile.PosX), value.Max(tile => tile.PosY));
             SetAttendeeLimit();
         }
     }
@@ -30,14 +31,6 @@ public class Museum
         get => _attendeeManager.Attendees;
         set => _attendeeManager.Attendees = value;
     }
-
-    public List<Rectangle> GetDebugInfo()
-    {
-        var debugInfo = new List<Rectangle>();
-        if (MuseumConfiguration.ShouldRenderQuadtree) debugInfo = _attendeeQuadtree.GetNodeCoordinates();
-        
-        return debugInfo;
-    } 
 
     private void SetAttendeeLimit()
     {
@@ -50,7 +43,7 @@ public class Museum
     {
         if (!MuseumConfiguration.ShouldMoveAttendees) return;
         
-        _attendeeQuadtree.Clear();
+        _attendeeManager.AttendeeQuadtree.Clear();
         
         foreach (var attendee in Attendees)
         {
@@ -61,12 +54,14 @@ public class Museum
             
             HandleAttendeeMovement(attendee, possibleDirections);
             
-            _attendeeQuadtree.Insert(
+            _attendeeManager.AttendeeQuadtree.Insert(
                 attendee, 
                 attendee.Movement.GetRoundedGridPosX(), 
                 attendee.Movement.GetRoundedGridPosY()
-                );
+            );
         }
+        
+        Attendees.ForEach(attendee => _attendeeManager.HandleCollision(attendee));
         
         _attendeeManager.HandleAttendeeQueue();
     }
@@ -74,7 +69,6 @@ public class Museum
     private void HandleAttendeeMovement(IAttendee attendee, List<MovementDirection> possibleDirections)
     {
         var movementResult = attendee.Movement.HandleMovement(possibleDirections);
-        _attendeeManager.HandleCollision(attendee.Movement.GridPosX, attendee.Movement.GridPosY);
         if (movementResult.HasEnteredNewGridTile) HandleTileCollision(attendee, movementResult);
     }
 
@@ -97,6 +91,14 @@ public class Museum
 
     public int GetMaxAttendees() => _attendeeManager.AttendeeLimit;
 
+    public List<Rectangle> GetDebugInfo()
+    {
+        var debugInfo = new List<Rectangle>();
+        if (MuseumConfiguration.ShouldRenderQuadtree) debugInfo = _attendeeManager.AttendeeQuadtree.GetNodeCoordinates();
+        
+        return debugInfo;
+    } 
+    
     public void CreateMemento()
     {
         var tiles = _tileManager.CreateMemento();

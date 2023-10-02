@@ -44,6 +44,7 @@ public class MuseumSimulation : IMuseumSimulation
     private void Simulate(object? state)
     {
         lock (_museum) _museum.MoveAttendees();
+        
         NotifyAttendeeUpdated();
     }
     

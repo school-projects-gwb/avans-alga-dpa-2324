@@ -1,4 +1,5 @@
 using BroadwayBB.Common.Entities;
+using BroadwayBB.Common.Entities.Attendees;
 
 namespace BroadwayBB.Test.CommonTests.AttendeeTests;
 
