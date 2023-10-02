@@ -8,8 +8,8 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Threading;
 using BroadwayBB.Common.Behaviors;
+using BroadwayBB.Common.Entities.Attendees;
 using BroadwayBB.Common.Helpers;
-using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Presentation.Hotkeys;
 using BroadwayBB.Presentation.ObjectPools;
 using BroadwayBB.Simulation;
@@ -127,7 +127,11 @@ public partial class SimulationWindow : Window, ISimulationObserver
         var config = new ObjectPoolConfiguration
         {
             MaxPoolAmount = _simulation.GetMaxMuseumAttendees(),
-            SupportedColors = new Dictionary<ColorName, RgbColor> { { ColorName.Black, ColorRegistryHelper.GetInstance.GetColor(ColorName.Black) } },
+            SupportedColors = new Dictionary<ColorName, RgbColor>
+            {
+                { ColorName.Black, ColorRegistryHelper.GetInstance.GetColor(ColorName.Black) },
+                { ColorName.Red, ColorRegistryHelper.GetInstance.GetColor(ColorName.Red) }
+            },
             ObjectWidth = _tileWidth * _artistSizeModifier,
             ObjectHeight = _tileHeight * _artistSizeModifier
         };
@@ -141,10 +145,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
         DrawAttendees();
     }
     
-    private void DrawMuseumBackground()
-    {
-        UpdateTileColors();
-    }
+    private void DrawMuseumBackground() => UpdateTileColors();
 
     private void UpdateTileColors()
     {
@@ -178,11 +179,12 @@ public partial class SimulationWindow : Window, ISimulationObserver
         foreach (IAttendee artist in _simulation.GetMuseumAttendees())
         {
             double posX = artist.Movement.GridPosX * _tileWidth, posY = artist.Movement.GridPosY * _tileHeight;
-            var item = _attendeeObjectPool.GetObject(ColorName.Black);
+            var color = artist.Movement.IsColliding ? ColorName.Red : ColorName.Black;
+            var item = _attendeeObjectPool.GetObject(color);
             if (item == null) return;
             
             DrawCanvasItem(item, posX, posY, _simulationCanvas);
-            _attendeeObjectPool.MarkForRelease(ColorName.Black, item);
+            _attendeeObjectPool.MarkForRelease(color, item);
         }
         
         _attendeeObjectPool.ReleaseMarked();

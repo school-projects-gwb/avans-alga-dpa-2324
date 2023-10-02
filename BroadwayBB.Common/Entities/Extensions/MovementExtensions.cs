@@ -1,4 +1,4 @@
-using BroadwayBB.Common.Entities.Interfaces;
+using BroadwayBB.Common.Entities.Attendees;
 
 namespace BroadwayBB.Common.Entities.Extensions;
 

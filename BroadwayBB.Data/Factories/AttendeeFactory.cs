@@ -1,6 +1,5 @@
 using BroadwayBB.Common.Entities;
 using BroadwayBB.Common.Entities.Attendees;
-using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Data.Factories.Interfaces;
 
 namespace BroadwayBB.Data.Factories;

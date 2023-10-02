@@ -1,7 +1,6 @@
 using BroadwayBB.Common.Behaviors;
 using BroadwayBB.Common.Entities;
 using BroadwayBB.Common.Entities.Attendees;
-using BroadwayBB.Common.Entities.Interfaces;
 
 namespace BroadwayBB.Test.CommonTests.MuseumTests;
 

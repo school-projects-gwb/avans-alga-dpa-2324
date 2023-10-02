@@ -1,6 +1,5 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
 using BroadwayBB.Common.Entities.Attendees;
-using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Common.Entities.Tiles;

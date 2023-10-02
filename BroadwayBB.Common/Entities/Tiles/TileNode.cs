@@ -1,5 +1,3 @@
-using BroadwayBB.Common.Entities.Interfaces;
-
 namespace BroadwayBB.Common.Entities.Tiles;
 
 public class TileNode

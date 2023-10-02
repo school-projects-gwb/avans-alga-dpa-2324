@@ -1,6 +1,5 @@
 using System.Drawing;
 using BroadwayBB.Common.Entities.Extensions;
-using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Common.Entities.Quadtree;
 using BroadwayBB.Common.Entities.Structures;
 
