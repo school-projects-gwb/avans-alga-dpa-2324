@@ -2,6 +2,7 @@ using System.Drawing;
 using BroadwayBB.Common.Entities.Attendees;
 using BroadwayBB.Common.Entities.Extensions;
 using BroadwayBB.Common.Entities.Memento;
+using BroadwayBB.Common.Entities.Quadtree;
 using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Tiles;
 
@@ -20,7 +21,7 @@ public class Museum
         set
         {
             _tileManager.Tiles = value;
-            _attendeeManager.InitQuadtree(value.Max(tile => tile.PosX), value.Max(tile => tile.PosY));
+            _attendeeManager.InitQuadtree(value.Max(tile => tile.PosX) + 1, value.Max(tile => tile.PosY) + 1);
             SetAttendeeLimit();
         }
     }

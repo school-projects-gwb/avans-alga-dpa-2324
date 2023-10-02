@@ -5,9 +5,9 @@ namespace BroadwayBB.Common.Entities.Quadtree;
 
 public class Quadtree<T>
 {
-    private readonly int _maxObjectsBeforeSplit = 5;
+    private readonly int _maxObjectsBeforeSplit = 10;
     private readonly int _objectSize = 0;
-    private readonly int _maxTreeDepth = 3;
+    private readonly int _maxTreeDepth = 10;
 
     private readonly int _currentTreeDepth;
     private readonly List<TreeObject<T>> _objects = new();
@@ -93,7 +93,7 @@ public class Quadtree<T>
         
         _objects.Add(obj);
 
-        if (_objects.Count <= _maxObjectsBeforeSplit || _currentTreeDepth >= _maxTreeDepth) return;
+        if (_objects.Count < _maxObjectsBeforeSplit || _currentTreeDepth >= _maxTreeDepth) return;
         
         if (_nodes[0] == null) SplitNode();
 
@@ -110,9 +110,18 @@ public class Quadtree<T>
             
             i++;
         }
-        
     }
 
+    public void GetObjectsInQuadrant(List<T> result, TreeObject<T> targetObject)
+    {
+        var index = GetIndex(targetObject);
+        if (index != -1 && _nodes[0] != null) _nodes[index].GetObjectsInQuadrant(result, targetObject);
+    
+        result.AddRange(_objects
+            .Where(obj => GetIndex(obj) == index && !obj.Object.Equals(targetObject.Object))
+            .Select(obj => obj.Object));
+    }
+    
     public List<Rectangle> GetNodeCoordinates()
     {
         List<Rectangle> coordinates = new List<Rectangle>();

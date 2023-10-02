@@ -19,7 +19,22 @@ public class AttendeeManager
     
     public void HandleCollision(IAttendee attendee)
     {
-        // todo implement
+        var targetTreeObject = new TreeObject<IAttendee>(attendee, attendee.Movement.GetRoundedGridPosX(),
+            attendee.Movement.GetRoundedGridPosY());
+
+        List<IAttendee> result = new();
+
+        AttendeeQuadtree.GetObjectsInQuadrant(result, targetTreeObject);
+        
+        foreach (var obj in result)
+        {
+            double dx = obj.Movement.GridPosX - attendee.Movement.GridPosX;
+            double dy = obj.Movement.GridPosY - attendee.Movement.GridPosY;
+            var dist = Math.Sqrt(dx * dx + dy * dy);
+            
+            attendee.Movement.IsColliding = dist <= 0.5;
+            obj.Movement.IsColliding = dist <= 0.5;
+        }
     }
 
     public void InitQuadtree(int width, int height)
