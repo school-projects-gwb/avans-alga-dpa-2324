@@ -18,8 +18,7 @@ public class HotkeyManager
             new Hotkey
             {
                 Key = Key.Space, 
-                Command = new ToggleArtistMovement(),
-                Description = "Bewegen van artiesten aan- en uitzetten."
+                Command = new ToggleArtistMovement(), Description = "Toggle artist movement"
             }
         );
         
@@ -27,8 +26,7 @@ public class HotkeyManager
             new Hotkey
             {
                 Key = Key.Enter, 
-                Command = new UpdateTile(),
-                Description = "Herschik vakje waar muispointer zich bevindt"
+                Command = new UpdateTile(), Description = "Update tile at mouse pointer"
             }
         );
         
@@ -36,8 +34,7 @@ public class HotkeyManager
             new Hotkey
             {
                 Key = Key.O, 
-                Command = new OpenFileMenu(),
-                Description = "Open nieuw simulatiebestand"
+                Command = new OpenFileMenu(), Description = "Open new sim file"
             }
         );
         
@@ -45,8 +42,7 @@ public class HotkeyManager
             new Hotkey
             {
                 Key = Key.A, 
-                Command = new ToggleArtistRendering(),
-                Description = "Renderen van artiesten aan- en uitzetten"
+                Command = new ToggleArtistRendering(), Description = "Toggle artist rendering"
             }
         );
         
@@ -54,26 +50,71 @@ public class HotkeyManager
             new Hotkey
             {
                 Key = Key.Left, 
-                Command = new RewindSimulation(),
-                Description = "Simulatie terugspoelen"
+                Command = new RewindSimulation(), Description = "Rewind simulation"
             }
         );
         
         Hotkeys.Add(
             new Hotkey
             {
-                Key = Key.Right,
-                Command = new FastForwardSimulation(),
-                Description = "Simulatie vooruitspoelen"
+                Key = Key.Right, 
+                Command = new FastForwardSimulation(), Description = "Fast-forward simulation"
             }
         );
         
         Hotkeys.Add(
             new Hotkey
             {
-                Key = Key.M,
-                Command = new OpenShortcutMenu(),
-                Description = "Sneltoetsmenu openen"
+                Key = Key.M, 
+                Command = new OpenShortcutMenu(), Description = "Open shortcut menu"
+            }
+        );
+        
+        Hotkeys.Add(
+            new Hotkey
+            {
+                Key = Key.C, 
+                Command = new TogglePathCollisionAlgorithm(), Description = "Change collision method (qtree/naive)"
+            }
+        );
+        
+        Hotkeys.Add(
+            new Hotkey
+            {
+                Key = Key.Q,
+                Command = new ToggleQuadtreeRendering(), Description = "Toggle quadtree rendering"
+            }
+        );
+        
+        Hotkeys.Add(
+            new Hotkey
+            {
+                Key = Key.W,
+                Command = new TogglePathCollision(), Description = "Toggle path collision"
+            }
+        );
+        
+        Hotkeys.Add(
+            new Hotkey
+            {
+                Key = Key.D,
+                Command = new ChangePathfindingAlgorithm(), Description = "Change pathfinding method (bfs/dijkstra)"
+            }
+        );
+        
+        Hotkeys.Add(
+            new Hotkey
+            {
+                Key = Key.P,
+                Command = new TogglePathRendering(), Description = "Toggle path rendering"
+            }
+        );
+        
+        Hotkeys.Add(
+            new Hotkey
+            {
+                Key = Key.V,
+                Command = new TogglePathVisitedRendering(), Description = "Toggle path visited rendering"
             }
         );
     }

@@ -1,8 +1,8 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
-using BroadwayBB.Common.Entities.Interfaces;
+using BroadwayBB.Common.Entities.Attendees;
 using BroadwayBB.Common.Entities.Structures;
 
-namespace BroadwayBB.Common.Entities;
+namespace BroadwayBB.Common.Entities.Tiles;
 
 public class TileManager
 {
@@ -63,6 +63,8 @@ public class TileManager
 
     public TileCollisionResult HandleCollision(int tilePosX, int tilePosY)
     {
+        // TileCollisionResult uitbreiden met IsTileInPath
+        // Logica uitbreiden met check of attendee op path tile staat
         var collisionResult = new TileCollisionResult();
         var targetNode = FindNode(tilePosX, tilePosY);
         if (targetNode == null) return collisionResult;

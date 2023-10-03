@@ -1,11 +1,11 @@
 using BroadwayBB.Common.Entities.Extensions;
-using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Common.Entities.Structures;
 
-namespace BroadwayBB.Common.Entities;
+namespace BroadwayBB.Common.Entities.Attendees;
 
 public class Movement : IMovement
 {
+    public bool IsColliding { get; set; }
     public double GridPosX { get; private set; }
     public double GridPosY { get; private set; }
     private double SpeedVertical { get; }

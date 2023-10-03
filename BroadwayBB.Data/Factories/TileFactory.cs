@@ -1,6 +1,6 @@
 using BroadwayBB.Common.Behaviors;
 using BroadwayBB.Common.Entities;
-using BroadwayBB.Common.Entities.Interfaces;
+using BroadwayBB.Common.Entities.Tiles;
 using BroadwayBB.Data.Factories.Interfaces;
 
 namespace BroadwayBB.Data.Factories;

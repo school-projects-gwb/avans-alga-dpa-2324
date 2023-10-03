@@ -8,8 +8,8 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Threading;
 using BroadwayBB.Common.Behaviors;
+using BroadwayBB.Common.Entities.Attendees;
 using BroadwayBB.Common.Helpers;
-using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Presentation.Hotkeys;
 using BroadwayBB.Presentation.ObjectPools;
 using BroadwayBB.Simulation;
@@ -22,14 +22,16 @@ public partial class SimulationWindow : Window, ISimulationObserver
     private readonly MainWindow _mainWindow;
     private readonly HotkeyManager _hotkeyManager;
     
+    private Canvas _backgroundCanvas;
+    private Canvas _debugCanvas;
     private Canvas _simulationCanvas;
+    
     private IObjectPool<Rectangle> _tileObjectPool;
     private IObjectPool<Rectangle> _attendeeObjectPool;
 
     private int _numRows, _numCols;
     private double _tileWidth, _tileHeight;
     private readonly double _artistSizeModifier = 0.5;
-    private Canvas _backgroundCanvas;
     
     private readonly Dictionary<(double X, double Y), Rectangle> _tileRectangles = new();
     private readonly Dictionary<ColorName, SolidColorBrush> _colorMap = new();
@@ -39,6 +41,13 @@ public partial class SimulationWindow : Window, ISimulationObserver
         InitializeComponent();
         _mainWindow = mainWindow;
         _hotkeyManager = hotkeyManager;
+
+        var x = this.FindControl<Grid>("simulationGrid") ?? throw new InvalidOperationException();
+        x.Focusable = true;
+        x.Focus();
+        x.KeyDown += (sender, e) => _hotkeyManager.HandleCommand(e.Key, _simulation);
+        x.PointerMoved += HandlePointerMoved;
+        
         InitiateColorMap();
         InitiateSimulationCanvas();
         InitiateTileCanvas();
@@ -48,6 +57,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
     private void InitiateSimulationCanvas()
     {
         _simulationCanvas = this.FindControl<Canvas>("simulationCanvas") ?? throw new InvalidOperationException();
+        _debugCanvas = this.FindControl<Canvas>("debugInfoCanvas") ?? throw new InvalidOperationException(); 
     }
 
     private void InitiateColorMap()
@@ -62,10 +72,6 @@ public partial class SimulationWindow : Window, ISimulationObserver
     private void InitiateTileCanvas()
     {
         _backgroundCanvas = this.FindControl<Canvas>("backgroundCanvas") ?? throw new InvalidOperationException();
-        _backgroundCanvas.KeyDown += (sender, e) => _hotkeyManager.HandleCommand(e.Key, _simulation);
-        _backgroundCanvas.PointerMoved += HandlePointerMoved;
-        _backgroundCanvas.Focusable = true;
-        _backgroundCanvas.Focus();
     }
 
     private void HandlePointerMoved(object? sender, PointerEventArgs e)
@@ -121,7 +127,11 @@ public partial class SimulationWindow : Window, ISimulationObserver
         var config = new ObjectPoolConfiguration
         {
             MaxPoolAmount = _simulation.GetMaxMuseumAttendees(),
-            SupportedColors = new Dictionary<ColorName, RgbColor> { { ColorName.Black, ColorRegistryHelper.GetInstance.GetColor(ColorName.Black) } },
+            SupportedColors = new Dictionary<ColorName, RgbColor>
+            {
+                { ColorName.Black, ColorRegistryHelper.GetInstance.GetColor(ColorName.Black) },
+                { ColorName.Red, ColorRegistryHelper.GetInstance.GetColor(ColorName.Red) }
+            },
             ObjectWidth = _tileWidth * _artistSizeModifier,
             ObjectHeight = _tileHeight * _artistSizeModifier
         };
@@ -135,10 +145,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
         DrawAttendees();
     }
     
-    private void DrawMuseumBackground()
-    {
-        UpdateTileColors();
-    }
+    private void DrawMuseumBackground() => UpdateTileColors();
 
     private void UpdateTileColors()
     {
@@ -172,11 +179,12 @@ public partial class SimulationWindow : Window, ISimulationObserver
         foreach (IAttendee artist in _simulation.GetMuseumAttendees())
         {
             double posX = artist.Movement.GridPosX * _tileWidth, posY = artist.Movement.GridPosY * _tileHeight;
-            var item = _attendeeObjectPool.GetObject(ColorName.Black);
+            var color = artist.Movement.IsColliding ? ColorName.Red : ColorName.Black;
+            var item = _attendeeObjectPool.GetObject(color);
             if (item == null) return;
             
             DrawCanvasItem(item, posX, posY, _simulationCanvas);
-            _attendeeObjectPool.MarkForRelease(ColorName.Black, item);
+            _attendeeObjectPool.MarkForRelease(color, item);
         }
         
         _attendeeObjectPool.ReleaseMarked();
@@ -190,9 +198,29 @@ public partial class SimulationWindow : Window, ISimulationObserver
         canvas.Children.Add(item);
     }
 
+    private void DrawDebugInfo()
+    {
+        _debugCanvas.Children.Clear();
+        
+        foreach (var rect in _simulation.GetDebugInfo())
+        {
+            var item = new Rectangle
+            {
+                Width = rect.Width * _tileWidth,
+                Height = rect.Height * _tileHeight,
+                Stroke = Brushes.Red,
+                StrokeThickness = 1.5
+            };
+            
+            DrawCanvasItem(item, rect.X * _tileWidth, rect.Y * _tileHeight, _debugCanvas);
+        }
+    }
+    
     public void UpdateSimulation() => Dispatcher.UIThread.Post(DrawMuseumAttendees);
 
     public void UpdateBackground() => Dispatcher.UIThread.Post(DrawMuseumBackground);
+
+    public void UpdateDebugInfo() => Dispatcher.UIThread.Post(DrawDebugInfo);
 
     public void OpenShortcutMenu() => _mainWindow.ShowShortcutWindow();
     

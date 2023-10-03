@@ -1,3 +1,5 @@
+using BroadwayBB.Common.Entities.Attendees;
+
 namespace BroadwayBB.Common.Entities.Extensions;
 
 public static class MovementDirectionExtensions

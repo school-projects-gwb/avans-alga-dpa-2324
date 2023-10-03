@@ -1,6 +1,8 @@
 ﻿using BroadwayBB.Common.Behaviors;
 using BroadwayBB.Common.Entities;
-using BroadwayBB.Common.Entities.Interfaces;
+using BroadwayBB.Common.Entities.Attendees;
+using BroadwayBB.Common.Entities.Museum;
+using BroadwayBB.Common.Entities.Tiles;
 using BroadwayBB.Data.DTOs;
 using BroadwayBB.Data.Factories;
 using BroadwayBB.Data.Factories.Interfaces;
@@ -84,9 +86,8 @@ public class DataProcessor
         {
             artists.Add(_attendeeFactory.Create(artist.Coords.X, artist.Coords.Y, artist.VelocityY, artist.VelocityX));
         }
-        
-        museum.Attendees = artists;
-        museum.Tiles = tiles;
+
+        museum.SetData(tiles, artists);
         
         return museum;
     }

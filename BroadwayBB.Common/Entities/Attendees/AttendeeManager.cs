@@ -1,24 +1,42 @@
+using System.Drawing;
 using BroadwayBB.Common.Entities.Extensions;
-using BroadwayBB.Common.Entities.Interfaces;
 using BroadwayBB.Common.Entities.Structures;
+using BroadwayBB.Common.Entities.Attendees.Collider;
+using BroadwayBB.Common.Entities.Tiles;
 
-namespace BroadwayBB.Common.Entities;
+namespace BroadwayBB.Common.Entities.Attendees;
 
 public class AttendeeManager
 {
-    public List<IAttendee> Attendees { get; set; } = new();
+    private List<IAttendee> _attendees = new();
+    
+    public List<IAttendee> Attendees
+    {
+        get => _attendees;
+        set
+        {
+            _attendees = value;
+            AttendeeCollider?.SetAttendees(value);
+        }
+    }
+
+    public AttendeeCollider AttendeeCollider { get; private set; }
     
     private readonly List<IAttendee> _markedForRemoval = new();
     private readonly List<IAttendee> _markedForCreation = new();
-    private readonly int _markedLimit = 5, _attendeeHardLimit = 250;
+    private readonly int _markedLimit = 5, _attendeeHardLimit = 100;
     private readonly double _minSpeed = 1.0, _maxSpeed = 3.0;
     private readonly Random _random = new();
     public int AttendeeLimit { get; private set; } = 50;
+    
+    public void HandleCollision() => AttendeeCollider.HandleCollision();
 
-    public void HandleCollision(double gridPosX, double gridPosY)
+    public void InitCollider(int width, int height)
     {
-        // todo implement
+       AttendeeCollider = new AttendeeCollider(new Rectangle(0, 0, width, height));
     }
+
+    public List<Rectangle> GetColliderDebugInfo() => AttendeeCollider.GetDebugInfo();
     
     public void HandleTileCollisionResult(TileCollisionResult tileCollisionResult, IAttendee targetAttendee)
     {

@@ -1,7 +1,6 @@
-using System.Runtime.InteropServices.ComTypes;
 using BroadwayBB.Common.Behaviors.Interfaces;
 
-namespace BroadwayBB.Common.Entities.Interfaces;
+namespace BroadwayBB.Common.Entities.Tiles;
 
 public interface ITile
 {

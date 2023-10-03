@@ -6,4 +6,5 @@ public interface ISimulationObserver
     public void UpdateBackground();
     public void StopSimulation();
     public void OpenShortcutMenu();
+    void UpdateDebugInfo();
 }

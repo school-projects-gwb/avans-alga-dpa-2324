@@ -10,6 +10,7 @@ using MsBox.Avalonia;
 using System;
 using System.Reactive.Joins;
 using System.Threading.Tasks;
+using BroadwayBB.Common.Entities.Museum;
 using Tmds.DBus.Protocol;
 
 namespace BroadwayBB.Presentation;
