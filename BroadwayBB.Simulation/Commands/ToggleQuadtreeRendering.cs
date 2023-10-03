@@ -6,6 +6,6 @@ public class ToggleQuadtreeRendering : ICommand
 {
     public void HandleCommand(IMuseumSimulation museumSimulation, MouseGridPosition mouseGridGridPosition)
     {
-        museumSimulation.ToggleQuadtreeRendering();
+        museumSimulation.ToggleConfigValue(ConfigType.ShouldRenderQuadtree);
     }
 }

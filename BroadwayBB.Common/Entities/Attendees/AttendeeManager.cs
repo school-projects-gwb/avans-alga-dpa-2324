@@ -15,11 +15,11 @@ public class AttendeeManager
         set
         {
             _attendees = value;
-            _attendeeCollider?.SetAttendees(value);
+            AttendeeCollider?.SetAttendees(value);
         }
     }
 
-    private AttendeeCollider _attendeeCollider;
+    public AttendeeCollider AttendeeCollider { get; private set; }
     
     private readonly List<IAttendee> _markedForRemoval = new();
     private readonly List<IAttendee> _markedForCreation = new();
@@ -28,14 +28,14 @@ public class AttendeeManager
     private readonly Random _random = new();
     public int AttendeeLimit { get; private set; } = 50;
     
-    public void HandleCollision() => _attendeeCollider.HandleCollision();
+    public void HandleCollision() => AttendeeCollider.HandleCollision();
 
     public void InitCollider(int width, int height)
     {
-       _attendeeCollider = new AttendeeCollider(new Rectangle(0, 0, width, height));
+       AttendeeCollider = new AttendeeCollider(new Rectangle(0, 0, width, height));
     }
 
-    public List<Rectangle> GetColliderDebugInfo() => _attendeeCollider.GetDebugInfo();
+    public List<Rectangle> GetColliderDebugInfo() => AttendeeCollider.GetDebugInfo();
     
     public void HandleTileCollisionResult(TileCollisionResult tileCollisionResult, IAttendee targetAttendee)
     {

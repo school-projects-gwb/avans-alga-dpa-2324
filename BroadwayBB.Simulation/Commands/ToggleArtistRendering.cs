@@ -6,6 +6,6 @@ public class ToggleArtistRendering : ICommand
 {
     public void HandleCommand(IMuseumSimulation museumSimulation, MouseGridPosition mouseGridGridPosition)
     {
-        museumSimulation.ToggleAttendeeRendering();
+        museumSimulation.ToggleConfigValue(ConfigType.ShouldRenderAttendees);
     }
 }

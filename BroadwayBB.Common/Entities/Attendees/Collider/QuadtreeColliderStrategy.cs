@@ -28,7 +28,7 @@ public class QuadtreeColliderStrategy : ColliderStrategyBase
         
         attendees.ForEach(attendee => HandleAttendeeCollision(attendee));
     }
-    
+
     private void HandleAttendeeCollision(IAttendee attendee)
     {
         var targetTreeObject = new TreeObject<IAttendee>(attendee, attendee.Movement.GetRoundedGridPosX(),
@@ -37,16 +37,7 @@ public class QuadtreeColliderStrategy : ColliderStrategyBase
         List<IAttendee> result = new();
 
         _attendeeQuadtree.GetObjectsInQuadrant(result, targetTreeObject);
-        
-        foreach (var obj in result)
-        {
-            double dx = obj.Movement.GridPosX - attendee.Movement.GridPosX;
-            double dy = obj.Movement.GridPosY - attendee.Movement.GridPosY;
-            var dist = Math.Sqrt(dx * dx + dy * dy);
-            
-            attendee.Movement.IsColliding = dist <= 0.5;
-            obj.Movement.IsColliding = dist <= 0.5;
-        }
+        foreach (var obj in result) HandleIsColliding(obj, attendee);
     }
 
     public override List<Rectangle> GetDebugInfo() => _attendeeQuadtree.GetNodeCoordinates();

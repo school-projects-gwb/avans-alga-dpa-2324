@@ -2,7 +2,6 @@ using System.Drawing;
 using BroadwayBB.Common.Entities.Attendees;
 using BroadwayBB.Common.Entities.Extensions;
 using BroadwayBB.Common.Entities.Memento;
-using BroadwayBB.Common.Entities.Quadtree;
 using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Tiles;
 
@@ -10,7 +9,7 @@ namespace BroadwayBB.Common.Entities;
 
 public class Museum
 {
-    public readonly MuseumConfiguration MuseumConfiguration = new();
+    public readonly MuseumConfiguration Config = new();
     private readonly TileManager _tileManager = new();
     private readonly AttendeeManager _attendeeManager = new();
     private readonly MementoCaretaker _mementoCaretaker = new();
@@ -40,7 +39,7 @@ public class Museum
 
     public void MoveAttendees()
     {
-        if (!MuseumConfiguration.ShouldMoveAttendees) return;
+        if (!Config.Get(ConfigType.ShouldMoveAttendees)) return;
         
         foreach (var attendee in Attendees)
         {
@@ -65,7 +64,7 @@ public class Museum
     private void HandleTileCollision(IAttendee attendee, MovementResult movementResult)
     {
         var tileCollisionResult = _tileManager.HandleCollision(movementResult.GridPosX, movementResult.GridPosY);
-        if (!MuseumConfiguration.ShouldRenderAttendees) tileCollisionResult.ShouldCreateArtist = false;
+        if (!Config.Get(ConfigType.ShouldRenderAttendees)) tileCollisionResult.ShouldCreateArtist = false;
         _attendeeManager.HandleTileCollisionResult(tileCollisionResult, attendee);
     }
 
@@ -84,7 +83,7 @@ public class Museum
     public List<Rectangle> GetDebugInfo()
     {
         var debugInfo = new List<Rectangle>();
-        if (MuseumConfiguration.ShouldRenderQuadtree) debugInfo = _attendeeManager.GetColliderDebugInfo();
+        if (Config.Get(ConfigType.ShouldRenderQuadtree)) debugInfo = _attendeeManager.GetColliderDebugInfo();
         
         return debugInfo;
     } 
@@ -118,6 +117,9 @@ public class Museum
     {
         _tileManager.Tiles = tiles;
         _attendeeManager.InitCollider(tiles.Max(tile => tile.PosX) + 1, tiles.Max(tile => tile.PosY) + 1);
+        
+        Config.AddObserver(_attendeeManager.AttendeeCollider);
+        
         SetAttendeeLimit();
 
         _attendeeManager.Attendees = artists;

@@ -13,9 +13,7 @@ public interface IMuseumSimulation
     public List<IAttendee> GetMuseumAttendees();
     public List<Rectangle> GetDebugInfo();
     public int GetMaxMuseumAttendees();
-    public void ToggleAttendeeMovement();
-    public void ToggleQuadtreeRendering();
-    public void ToggleAttendeeRendering();
+    public void ToggleConfigValue(ConfigType type);
     public void UpdateTile(MouseGridPosition mouseGridPosition);
     public void OpenFileMenu();
     public void FastForward();

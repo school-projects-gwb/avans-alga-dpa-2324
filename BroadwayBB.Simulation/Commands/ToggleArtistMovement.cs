@@ -6,6 +6,6 @@ public class ToggleArtistMovement : ICommand
 {
     public void HandleCommand(IMuseumSimulation museumSimulation, MouseGridPosition mouseGridPosition)
     {
-        museumSimulation.ToggleAttendeeMovement();
+        museumSimulation.ToggleConfigValue(ConfigType.ShouldMoveAttendees);
     }
 }

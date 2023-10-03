@@ -1,10 +1,9 @@
 using System.Drawing;
-using BroadwayBB.Common.Entities.Extensions;
-using BroadwayBB.Common.Entities.Quadtree;
+using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Common.Entities.Attendees.Collider;
 
-public class AttendeeCollider
+public class AttendeeCollider : IConfigObserver
 {
     private List<IAttendee> _attendees = new();
     private Dictionary<StrategyType, IColliderStrategy> _strategies;
@@ -14,7 +13,8 @@ public class AttendeeCollider
     {
         _strategies = new Dictionary<StrategyType, IColliderStrategy>
         {
-            { StrategyType.QuadTree, new QuadtreeColliderStrategy(simulationSize) }
+            { StrategyType.QuadTree, new QuadtreeColliderStrategy(simulationSize) },
+            { StrategyType.Naive, new NaiveColliderStrategy(simulationSize)}
         };
 
         _activeStrategy = _strategies.First().Value;
@@ -22,20 +22,19 @@ public class AttendeeCollider
 
     public void SetAttendees(List<IAttendee> attendees) => _attendees = attendees;
     
-    public void HandleCollision()
-    {
-        _activeStrategy.HandleCollision(_attendees);
-    }
+    public void HandleCollision() => _activeStrategy.HandleCollision(_attendees);
 
     public List<Rectangle> GetDebugInfo() => _activeStrategy.GetDebugInfo();
     
-    public void SetStrategy()
+    public void SetStrategy(StrategyType strategyType) => _activeStrategy = _strategies[strategyType];
+    
+    public void OnUpdate(ConfigType type, bool value)
     {
-        
+        Console.WriteLine(type);
     }
 }
 
-internal enum StrategyType
+public enum StrategyType
 {
     QuadTree, Naive
 }

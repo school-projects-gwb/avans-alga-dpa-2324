@@ -74,7 +74,7 @@ public class HotkeyManager
             new Hotkey
             {
                 Key = Key.C, 
-                Command = new ChangePathCollisionAlgorithm(), Description = "Change collision method (qtree/naive)"
+                Command = new TogglePathCollisionAlgorithm(), Description = "Change collision method (qtree/naive)"
             }
         );
         

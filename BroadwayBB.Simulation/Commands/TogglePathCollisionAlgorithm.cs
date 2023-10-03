@@ -2,10 +2,10 @@ using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Simulation.Commands;
 
-public class ChangePathCollisionAlgorithm : ICommand
+public class TogglePathCollisionAlgorithm : ICommand
 {
     public void HandleCommand(IMuseumSimulation museumSimulation, MouseGridPosition mouseGridGridPosition)
     {
-        throw new NotImplementedException();
+        museumSimulation.ToggleConfigValue(ConfigType.IsQuadtreeCollision);
     }
 }
