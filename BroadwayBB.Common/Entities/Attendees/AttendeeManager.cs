@@ -1,6 +1,7 @@
 using System.Drawing;
 using BroadwayBB.Common.Entities.Extensions;
 using BroadwayBB.Common.Entities.Structures;
+using BroadwayBB.Common.Entities.Attendees.Collider;
 
 namespace BroadwayBB.Common.Entities.Attendees;
 
@@ -27,14 +28,11 @@ public class AttendeeManager
     private readonly Random _random = new();
     public int AttendeeLimit { get; private set; } = 50;
     
-    public void HandleCollision()
-    {
-        _attendeeCollider.HandleCollision();
-    }
+    public void HandleCollision() => _attendeeCollider.HandleCollision();
 
     public void InitCollider(int width, int height)
     {
-       if (_attendeeCollider == null) _attendeeCollider = new AttendeeCollider(new Rectangle(0, 0, width, height));
+       _attendeeCollider = new AttendeeCollider(new Rectangle(0, 0, width, height));
     }
 
     public List<Rectangle> GetColliderDebugInfo() => _attendeeCollider.GetDebugInfo();

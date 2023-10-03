@@ -1,28 +1,23 @@
 using System.Drawing;
 using BroadwayBB.Common.Entities.Extensions;
-
-namespace BroadwayBB.Common.Entities.Attendees;
 using BroadwayBB.Common.Entities.Quadtree;
 
-public class AttendeeCollider
+namespace BroadwayBB.Common.Entities.Attendees.Collider;
+
+public class QuadtreeColliderStrategy : ColliderStrategyBase
 {
-    private List<IAttendee> _attendees = new();
-    private Quadtree<IAttendee> _attendeeQuadtree;
+    private readonly Quadtree<IAttendee> _attendeeQuadtree;
 
-    public AttendeeCollider(Rectangle simulationSize) => _attendeeQuadtree = new Quadtree<IAttendee>(0, simulationSize);
-
-    public void SetAttendees(List<IAttendee> attendees) => _attendees = attendees;
-    
-    public void ResetCollider()
+    public QuadtreeColliderStrategy(Rectangle size) : base(size)
     {
-        
+        _attendeeQuadtree = new Quadtree<IAttendee>(0, size);
     }
-    
-    public void HandleCollision()
+
+    public override void HandleCollision(List<IAttendee> attendees)
     {
         _attendeeQuadtree.Clear();
         
-        foreach (var attendee in _attendees)
+        foreach (var attendee in attendees)
         {
             _attendeeQuadtree.Insert(
                 attendee, 
@@ -31,9 +26,9 @@ public class AttendeeCollider
             );
         }
         
-        _attendees.ForEach(attendee => HandleAttendeeCollision(attendee));
+        attendees.ForEach(attendee => HandleAttendeeCollision(attendee));
     }
-
+    
     private void HandleAttendeeCollision(IAttendee attendee)
     {
         var targetTreeObject = new TreeObject<IAttendee>(attendee, attendee.Movement.GetRoundedGridPosX(),
@@ -54,13 +49,5 @@ public class AttendeeCollider
         }
     }
 
-    public List<Rectangle> GetDebugInfo()
-    {
-        return _attendeeQuadtree.GetNodeCoordinates();
-    }
-    
-    public void SetStrategy()
-    {
-        
-    }
+    public override List<Rectangle> GetDebugInfo() => _attendeeQuadtree.GetNodeCoordinates();
 }
