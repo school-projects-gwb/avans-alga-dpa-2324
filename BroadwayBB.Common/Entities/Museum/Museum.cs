@@ -47,7 +47,8 @@ public class Museum
                 attendee.Movement.GetRoundedGridPosX(), 
                 attendee.Movement.GetRoundedGridPosY()
                 );
-            
+
+            attendee.Movement.IsColliding = false;
             HandleAttendeeMovement(attendee, possibleDirections);
         }
         
