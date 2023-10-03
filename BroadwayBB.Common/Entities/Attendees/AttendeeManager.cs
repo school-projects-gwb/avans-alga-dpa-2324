@@ -1,14 +1,24 @@
 using System.Drawing;
 using BroadwayBB.Common.Entities.Extensions;
-using BroadwayBB.Common.Entities.Quadtree;
 using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Common.Entities.Attendees;
 
 public class AttendeeManager
 {
-    public List<IAttendee> Attendees { get; set; } = new();
-    public Quadtree<IAttendee> AttendeeQuadtree;
+    private List<IAttendee> _attendees = new();
+    
+    public List<IAttendee> Attendees
+    {
+        get => _attendees;
+        set
+        {
+            _attendees = value;
+            _attendeeCollider?.SetAttendees(value);
+        }
+    }
+
+    private AttendeeCollider _attendeeCollider;
     
     private readonly List<IAttendee> _markedForRemoval = new();
     private readonly List<IAttendee> _markedForCreation = new();
@@ -17,30 +27,17 @@ public class AttendeeManager
     private readonly Random _random = new();
     public int AttendeeLimit { get; private set; } = 50;
     
-    public void HandleCollision(IAttendee attendee)
+    public void HandleCollision()
     {
-        var targetTreeObject = new TreeObject<IAttendee>(attendee, attendee.Movement.GetRoundedGridPosX(),
-            attendee.Movement.GetRoundedGridPosY());
-
-        List<IAttendee> result = new();
-
-        AttendeeQuadtree.GetObjectsInQuadrant(result, targetTreeObject);
-        
-        foreach (var obj in result)
-        {
-            double dx = obj.Movement.GridPosX - attendee.Movement.GridPosX;
-            double dy = obj.Movement.GridPosY - attendee.Movement.GridPosY;
-            var dist = Math.Sqrt(dx * dx + dy * dy);
-            
-            attendee.Movement.IsColliding = dist <= 0.5;
-            obj.Movement.IsColliding = dist <= 0.5;
-        }
+        _attendeeCollider.HandleCollision();
     }
 
-    public void InitQuadtree(int width, int height)
+    public void InitCollider(int width, int height)
     {
-        AttendeeQuadtree = new Quadtree<IAttendee>(0, new Rectangle(0, 0, width, height));
+       if (_attendeeCollider == null) _attendeeCollider = new AttendeeCollider(new Rectangle(0, 0, width, height));
     }
+
+    public List<Rectangle> GetColliderDebugInfo() => _attendeeCollider.GetDebugInfo();
     
     public void HandleTileCollisionResult(TileCollisionResult tileCollisionResult, IAttendee targetAttendee)
     {

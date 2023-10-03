@@ -21,7 +21,6 @@ public class Museum
         set
         {
             _tileManager.Tiles = value;
-            _attendeeManager.InitQuadtree(value.Max(tile => tile.PosX) + 1, value.Max(tile => tile.PosY) + 1);
             SetAttendeeLimit();
         }
     }
@@ -43,8 +42,6 @@ public class Museum
     {
         if (!MuseumConfiguration.ShouldMoveAttendees) return;
         
-        _attendeeManager.AttendeeQuadtree.Clear();
-        
         foreach (var attendee in Attendees)
         {
             var possibleDirections = _tileManager.GetAllowedRelativeTilePositions(
@@ -53,16 +50,9 @@ public class Museum
                 );
             
             HandleAttendeeMovement(attendee, possibleDirections);
-            
-            _attendeeManager.AttendeeQuadtree.Insert(
-                attendee, 
-                attendee.Movement.GetRoundedGridPosX(), 
-                attendee.Movement.GetRoundedGridPosY()
-            );
         }
         
-        Attendees.ForEach(attendee => _attendeeManager.HandleCollision(attendee));
-        
+        _attendeeManager.HandleCollision();
         _attendeeManager.HandleAttendeeQueue();
     }
 
@@ -94,7 +84,7 @@ public class Museum
     public List<Rectangle> GetDebugInfo()
     {
         var debugInfo = new List<Rectangle>();
-        if (MuseumConfiguration.ShouldRenderQuadtree) debugInfo = _attendeeManager.AttendeeQuadtree.GetNodeCoordinates();
+        if (MuseumConfiguration.ShouldRenderQuadtree) debugInfo = _attendeeManager.GetColliderDebugInfo();
         
         return debugInfo;
     } 
@@ -122,5 +112,14 @@ public class Museum
             Attendees.Clear();
             Attendees = lastMemento.Attendees;
         }
+    }
+
+    public void SetData(List<ITile> tiles, List<IAttendee> artists)
+    {
+        _tileManager.Tiles = tiles;
+        _attendeeManager.InitCollider(tiles.Max(tile => tile.PosX) + 1, tiles.Max(tile => tile.PosY) + 1);
+        SetAttendeeLimit();
+
+        _attendeeManager.Attendees = artists;
     }
 }

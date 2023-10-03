@@ -90,9 +90,8 @@ public class DataProcessor
             artists.Add(_attendeeFactory.Create(1, 3, 0, 2));
             artists.Add(_attendeeFactory.Create(2.5, 3, 0, 1));
         }
-        
-        museum.Attendees = artists;
-        museum.Tiles = tiles;
+
+        museum.SetData(tiles, artists);
         
         return museum;
     }
