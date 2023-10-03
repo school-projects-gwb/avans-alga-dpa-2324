@@ -7,7 +7,7 @@ public class AttendeeCollider : IConfigObserver
 {
     private List<IAttendee> _attendees = new();
     private Dictionary<StrategyType, IColliderStrategy> _strategies;
-    private IColliderStrategy _activeStrategy;
+    private StrategyType _activeStrategyType;
 
     public AttendeeCollider(Rectangle simulationSize)
     {
@@ -17,20 +17,31 @@ public class AttendeeCollider : IConfigObserver
             { StrategyType.Naive, new NaiveColliderStrategy(simulationSize)}
         };
 
-        _activeStrategy = _strategies.First().Value;
+        _activeStrategyType = StrategyType.QuadTree;
     } 
 
     public void SetAttendees(List<IAttendee> attendees) => _attendees = attendees;
     
-    public void HandleCollision() => _activeStrategy.HandleCollision(_attendees);
+    public void HandleCollision() => _strategies[_activeStrategyType].HandleCollision(_attendees);
 
-    public List<Rectangle> GetDebugInfo() => _activeStrategy.GetDebugInfo();
-    
-    public void SetStrategy(StrategyType strategyType) => _activeStrategy = _strategies[strategyType];
+    public List<Rectangle> GetDebugInfo() => _strategies[_activeStrategyType].GetDebugInfo();
     
     public void OnUpdate(ConfigType type, bool value)
     {
-        Console.WriteLine(type);
+        if (type == ConfigType.IsQuadtreeCollision) SetNextStrategy();
+    }
+    
+    private void SetNextStrategy()
+    {
+        if (!_strategies.ContainsKey(_activeStrategyType))
+        {
+            _activeStrategyType = _strategies.Keys.First();
+            return;
+        }
+    
+        var currentIndex = Array.IndexOf(_strategies.Keys.ToArray(), _activeStrategyType);
+        var nextIndex = (currentIndex + 1) % _strategies.Count;
+        _activeStrategyType = _strategies.Keys.ToArray()[nextIndex];
     }
 }
 
