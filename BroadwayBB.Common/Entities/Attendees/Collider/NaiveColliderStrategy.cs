@@ -18,6 +18,7 @@ public class NaiveColliderStrategy : ColliderStrategyBase
                 IAttendee attendee2 = attendees[j];
 
                 HandleIsColliding(attendee1, attendee2);
+                if (attendee1.Movement.IsColliding) break;
             }
         }
     }
