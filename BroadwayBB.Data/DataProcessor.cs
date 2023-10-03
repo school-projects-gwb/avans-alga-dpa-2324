@@ -55,17 +55,21 @@ public class DataProcessor
             throw new InvalidCastException("ARTISTSFILE: File does not contain artistsdata.");
         }
 
+        if (gridDTO.Rows < 1 || gridDTO.Columns < 1)
+        {
+            throw new ArgumentOutOfRangeException("Unable to create grid with given values.");
+        }
 
-        char[] colors = { 'R', 'B', '_', 'Y', 'G' };
         NodeDTO nullNode = new NodeDTO(null, new Structs.Coords(0,0));
 
         for (int y = 0; y < gridDTO.Rows; y++)
         {
             for (int x = 0; x < gridDTO.Columns; x++)
             {
-                NodeDTO tile = gridDTO.Nodes.Find(n => n.Coords.X == x && n.Coords.Y == y); 
+                NodeDTO tile = gridDTO.Nodes.FirstOrDefault(n => n.Coords.X == x && n.Coords.Y == y); 
 
-                if (tile.Edges == null && tile.Type.Tag == '\0')
+
+                if (tile.Equals(default(NodeDTO)))
                 {
                     nullNode.Coords = new Structs.Coords(x, y);
 
@@ -76,18 +80,9 @@ public class DataProcessor
             }
         }
 
-        if (artistsDTO.Artists.Count > 0) {
-            foreach (var artist in artistsDTO.Artists)
-            {
-                artists.Add(_attendeeFactory.Create(artist.Coords.X, artist.Coords.Y, artist.VelocityY, artist.VelocityX));
-            }
-        }
-        else
+        foreach (var artist in artistsDTO.Artists)
         {
-            artists.Add(_attendeeFactory.Create(2.5, 3, 0, 2.5));
-            artists.Add(_attendeeFactory.Create(2, 2, 2, 0));
-            artists.Add(_attendeeFactory.Create(1, 3, 0, 2));
-            artists.Add(_attendeeFactory.Create(2.5, 3, 0, 1));
+            artists.Add(_attendeeFactory.Create(artist.Coords.X, artist.Coords.Y, artist.VelocityY, artist.VelocityX));
         }
         
         museum.Attendees = artists;

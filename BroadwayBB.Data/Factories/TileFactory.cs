@@ -15,7 +15,6 @@ public class TileFactory : ITileFactory
             'Y' => new Tile(posX, posY, new YellowColorBehaviorStrategy()),
             'R' => new Tile(posX, posY, new RedColorBehaviorStrategy()),
             'G' => new Tile(posX, posY, new GreyColorBehaviorStrategy()),
-            '_' => new Tile(posX, posY, new WhiteColorBehaviorStrategy()),
             _ => new Tile(posX, posY, new WhiteColorBehaviorStrategy())
         };
     }
