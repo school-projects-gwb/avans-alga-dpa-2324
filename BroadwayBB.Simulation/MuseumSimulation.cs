@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using BroadwayBB.Common.Entities;
 using BroadwayBB.Common.Entities.Attendees;
+using BroadwayBB.Common.Entities.Museum;
 using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Tiles;
 

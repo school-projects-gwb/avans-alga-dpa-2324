@@ -2,6 +2,7 @@ using System.Drawing;
 using BroadwayBB.Common.Entities.Extensions;
 using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Attendees.Collider;
+using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Common.Entities.Attendees;
 

@@ -1,6 +1,6 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
 
-namespace BroadwayBB.Common.Entities.Structures;
+namespace BroadwayBB.Common.Behaviors;
 
 public class ColorBehaviorResult
 {

@@ -1,6 +1,7 @@
 using BroadwayBB.Common.Entities;
 using BroadwayBB.Common.Entities.Attendees;
 using BroadwayBB.Common.Entities.Structures;
+using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Test.CommonTests.AttendeeManagerTests;
 

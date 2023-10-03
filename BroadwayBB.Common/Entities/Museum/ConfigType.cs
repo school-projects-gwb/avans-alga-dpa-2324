@@ -1,4 +1,4 @@
-namespace BroadwayBB.Common.Entities.Structures;
+namespace BroadwayBB.Common.Entities.Museum;
 
 public enum ConfigType
 {

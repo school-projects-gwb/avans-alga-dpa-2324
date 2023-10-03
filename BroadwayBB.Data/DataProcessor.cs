@@ -1,6 +1,7 @@
 ﻿using BroadwayBB.Common.Behaviors;
 using BroadwayBB.Common.Entities;
 using BroadwayBB.Common.Entities.Attendees;
+using BroadwayBB.Common.Entities.Museum;
 using BroadwayBB.Common.Entities.Tiles;
 using BroadwayBB.Data.DTOs;
 using BroadwayBB.Data.Factories;

@@ -1,6 +1,4 @@
-using System.Runtime.CompilerServices;
-
-namespace BroadwayBB.Common.Entities.Structures;
+namespace BroadwayBB.Common.Entities.Museum;
 
 public interface IConfigObserver
 {

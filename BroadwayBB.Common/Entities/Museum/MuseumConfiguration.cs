@@ -1,12 +1,10 @@
-using System.Dynamic;
-
-namespace BroadwayBB.Common.Entities.Structures;
+namespace BroadwayBB.Common.Entities.Museum;
 
 public class MuseumConfiguration
 {
     private readonly List<IConfigObserver> _observers = new();
     
-    public Dictionary<ConfigType, bool> Config = new()
+    private readonly Dictionary<ConfigType, bool> _config = new()
     {
         { ConfigType.ShouldRenderAttendees, true },
         { ConfigType.ShouldMoveAttendees, false },
@@ -16,11 +14,11 @@ public class MuseumConfiguration
 
     public void Toggle(ConfigType type)
     {
-        Config[type] = !Config[type];
+        _config[type] = !_config[type];
         NotifyUpdated(type);
     } 
     
-    public bool Get(ConfigType type) => Config[type];
+    public bool Get(ConfigType type) => _config[type];
 
     public void AddObserver(IConfigObserver observer) => _observers.Add(observer);
 

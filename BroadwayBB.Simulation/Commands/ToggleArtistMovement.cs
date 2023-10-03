@@ -1,3 +1,4 @@
+using BroadwayBB.Common.Entities.Museum;
 using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Simulation.Commands;

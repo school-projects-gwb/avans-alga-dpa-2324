@@ -5,7 +5,7 @@ using BroadwayBB.Common.Entities.Memento;
 using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Tiles;
 
-namespace BroadwayBB.Common.Entities;
+namespace BroadwayBB.Common.Entities.Museum;
 
 public class Museum
 {

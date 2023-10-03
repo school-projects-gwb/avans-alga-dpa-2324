@@ -1,23 +1,23 @@
 using System.Drawing;
-using BroadwayBB.Common.Entities.Structures;
+using BroadwayBB.Common.Entities.Museum;
 
 namespace BroadwayBB.Common.Entities.Attendees.Collider;
 
 public class AttendeeCollider : IConfigObserver
 {
     private List<IAttendee> _attendees = new();
-    private Dictionary<StrategyType, IColliderStrategy> _strategies;
-    private StrategyType _activeStrategyType;
+    private Dictionary<ColliderStrategyType, IColliderStrategy> _strategies;
+    private ColliderStrategyType _activeStrategyType;
 
     public AttendeeCollider(Rectangle simulationSize)
     {
-        _strategies = new Dictionary<StrategyType, IColliderStrategy>
+        _strategies = new Dictionary<ColliderStrategyType, IColliderStrategy>
         {
-            { StrategyType.QuadTree, new QuadtreeColliderStrategy(simulationSize) },
-            { StrategyType.Naive, new NaiveColliderStrategy(simulationSize)}
+            { ColliderStrategyType.QuadTree, new QuadtreeColliderStrategy(simulationSize) },
+            { ColliderStrategyType.Naive, new NaiveColliderStrategy(simulationSize)}
         };
 
-        _activeStrategyType = StrategyType.QuadTree;
+        _activeStrategyType = ColliderStrategyType.QuadTree;
     } 
 
     public void SetAttendees(List<IAttendee> attendees) => _attendees = attendees;
@@ -43,9 +43,4 @@ public class AttendeeCollider : IConfigObserver
         var nextIndex = (currentIndex + 1) % _strategies.Count;
         _activeStrategyType = _strategies.Keys.ToArray()[nextIndex];
     }
-}
-
-public enum StrategyType
-{
-    QuadTree, Naive
 }
