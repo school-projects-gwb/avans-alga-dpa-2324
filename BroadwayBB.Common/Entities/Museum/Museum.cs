@@ -2,7 +2,6 @@ using System.Drawing;
 using BroadwayBB.Common.Entities.Attendees;
 using BroadwayBB.Common.Entities.Extensions;
 using BroadwayBB.Common.Entities.Memento;
-using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Common.Entities.Museum;
@@ -81,6 +80,8 @@ public class Museum
 
     public int GetMaxAttendees() => _attendeeManager.AttendeeLimit;
 
+    public void GenerateTilePath(ITile start, ITile target) => _tileManager.TilePathfinder.GeneratePath(start, target);
+    
     public List<Rectangle> GetDebugInfo()
     {
         var debugInfo = new List<Rectangle>();
@@ -120,9 +121,9 @@ public class Museum
         _attendeeManager.InitCollider(tiles.Max(tile => tile.PosX) + 1, tiles.Max(tile => tile.PosY) + 1);
         
         Config.AddObserver(_attendeeManager.AttendeeCollider);
+        Config.AddObserver(_tileManager.TilePathfinder);
         
         SetAttendeeLimit();
-
         _attendeeManager.Attendees = artists;
     }
 }

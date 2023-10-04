@@ -1,5 +1,6 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
 using BroadwayBB.Common.Entities.Attendees;
+using BroadwayBB.Common.Entities.Attendees.PathFinder;
 using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Common.Entities.Tiles;
@@ -12,6 +13,8 @@ public class TileManager
         get => _tiles;
         set => ProcessTiles(value);
     }
+
+    public TilePathfinder TilePathfinder { get; } = new();
 
     private List<TileNode> _tileGraph = new();
 
@@ -33,6 +36,7 @@ public class TileManager
         }
 
         _tileGraph = nodes;
+        TilePathfinder?.SetTiles(_tileGraph);
     }
     
     public List<MovementDirection> GetAllowedRelativeTilePositions(int currentTilePosX, int currentTilePosY)
@@ -115,5 +119,10 @@ public class TileManager
             currentNode.Neighbors.Add(neighborNode);
             neighborNode.Neighbors.Add(currentNode);
         }
+    }
+
+    public void GeneratePath(ITile start, ITile target)
+    {
+        
     }
 }
