@@ -18,22 +18,21 @@ public class BfsPathfinderStrategy : PathfinderStrategyBase
         {
             ITile currentTile = queue.Dequeue();
 
-            if (currentTile == target)
+            foreach (ITile neighbor in GetNeighbors(tileGraph, currentTile))
             {
+                if (visitedNodes.Contains(neighbor)) continue;
+                
+                queue.Enqueue(neighbor);
+                visitedNodes.Add(neighbor);
+                parentMap[neighbor] = currentTile;
+
+                if (neighbor != target) continue;
                 List<ITile> shortestPath = ReconstructPath(parentMap, target);
                 CurrentPath = (shortestPath, visitedNodes);
                 return;
             }
-
-            foreach (ITile neighbor in GetNeighbors(tileGraph, currentTile))
-            {
-                if (visitedNodes.Contains(neighbor)) continue;
-                queue.Enqueue(neighbor);
-                visitedNodes.Add(neighbor);
-                parentMap[neighbor] = currentTile;
-            }
         }
-        
+
         CurrentPath = (null, visitedNodes);
     }
 

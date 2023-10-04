@@ -15,8 +15,11 @@ public abstract class PathfinderStrategyBase : IPathfinderStrategy
         var result = new List<DebugTile>();
         
         if (CurrentPath.shortestPath == null || CurrentPath.visitedNodes == null) return new();
+
+        var firstTile = CurrentPath.shortestPath.First();
+        result.Add(new DebugTile() { ColorName = ColorName.White, IsFill = true, PositionInfo = new Rectangle(firstTile.PosX, firstTile.PosY, 1, 1)});
         
-        foreach (var tile in CurrentPath.shortestPath)
+        foreach (var tile in CurrentPath.shortestPath.Skip(1))
             result.Add(new DebugTile() { ColorName = ColorName.Black, IsFill = true, PositionInfo = new Rectangle(tile.PosX, tile.PosY, 1, 1)});
         
         foreach (var tile in CurrentPath.visitedNodes)

@@ -96,8 +96,10 @@ public partial class SimulationWindow : Window, ISimulationObserver
         _simulation = simulation;
         _simulation.Subscribe(this);
         HandleTileConfiguration();
+        
         CreateTileObjectPool();
         CreateAttendeeObjectPool();
+        
         InitiateTileObjects();
     }
 
@@ -155,7 +157,8 @@ public partial class SimulationWindow : Window, ISimulationObserver
         {
             double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
             if (!_tileRectangles.TryGetValue((posX, posY), out Rectangle rectangle)) continue;
-            
+
+            rectangle.Stroke = null;
             rectangle.Fill = _colorMap[tile.ColorBehaviorStrategy.ColorName];
         }
     }
@@ -206,15 +209,22 @@ public partial class SimulationWindow : Window, ISimulationObserver
         
         foreach (var rect in _simulation.GetDebugInfo())
         {
+            var width = rect.IsFill ? rect.PositionInfo.Width * 0.6 : rect.PositionInfo.Width;
+            var height = rect.IsFill ? rect.PositionInfo.Height * 0.6 : rect.PositionInfo.Height;
+            var x = rect.PositionInfo.X + (rect.PositionInfo.Width - width) / 2;
+            var y = rect.PositionInfo.Y + (rect.PositionInfo.Height - height) / 2;
+            
             var item = new Rectangle
             {
-                Width = rect.PositionInfo.Width * _tileWidth,
-                Height = rect.PositionInfo.Height * _tileHeight,
+                Width = width * _tileWidth,
+                Height = height * _tileHeight,
                 Stroke = rect.ColorName == ColorName.Red ? Brushes.Red : Brushes.Black,
-                StrokeThickness = 1.5
+                StrokeThickness = 1
             };
+
+            if (rect.IsFill) item.Fill = Brushes.Black;
             
-            DrawCanvasItem(item, rect.PositionInfo.X * _tileWidth, rect.PositionInfo.Y * _tileHeight, _debugCanvas);
+            DrawCanvasItem(item, x * _tileWidth, y * _tileHeight, _debugCanvas);
         }
     }
     
