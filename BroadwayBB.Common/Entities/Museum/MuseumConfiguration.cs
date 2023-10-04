@@ -8,8 +8,9 @@ public class MuseumConfiguration
     {
         { ConfigType.ShouldRenderAttendees, true },
         { ConfigType.ShouldMoveAttendees, false },
+        { ConfigType.ShouldHaveTileBehavior, true },
         { ConfigType.ShouldRenderQuadtree, false },
-        { ConfigType.IsQuadtreeCollision, true }
+        { ConfigType.IsQuadtreeCollision, true },
     };
 
     public void Toggle(ConfigType type)

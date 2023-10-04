@@ -38,6 +38,7 @@ public class QuadtreeColliderStrategy : ColliderStrategyBase
         List<IAttendee> result = new();
 
         _attendeeQuadtree.GetObjectsInQuadrant(result, targetTreeObject);
+        Console.WriteLine(result.Count);
         foreach (var obj in result) HandleIsColliding(obj, attendee);
     }
 

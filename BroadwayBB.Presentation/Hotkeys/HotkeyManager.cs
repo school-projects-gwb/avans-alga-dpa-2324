@@ -117,6 +117,14 @@ public class HotkeyManager
                 Command = new TogglePathVisitedRendering(), Description = "Toggle path visited rendering"
             }
         );
+        
+        Hotkeys.Add(
+            new Hotkey
+            {
+                Key = Key.X,
+                Command = new ToggleTileBehavior(), Description = "Toggle tile behavior"
+            }
+        );
     }
 
     public void UpdateMousePosition(int mousePositionX, int mousePositionY)

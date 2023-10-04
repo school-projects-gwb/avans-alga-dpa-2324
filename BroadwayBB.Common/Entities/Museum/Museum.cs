@@ -46,7 +46,7 @@ public class Museum
                 attendee.Movement.GetRoundedGridPosX(), 
                 attendee.Movement.GetRoundedGridPosY()
                 );
-
+            
             attendee.Movement.IsColliding = false;
             HandleAttendeeMovement(attendee, possibleDirections);
         }
@@ -58,7 +58,7 @@ public class Museum
     private void HandleAttendeeMovement(IAttendee attendee, List<MovementDirection> possibleDirections)
     {
         var movementResult = attendee.Movement.HandleMovement(possibleDirections);
-        if (movementResult.HasEnteredNewGridTile) HandleTileCollision(attendee, movementResult);
+        if (movementResult.HasEnteredNewGridTile && Config.Get(ConfigType.ShouldHaveTileBehavior)) HandleTileCollision(attendee, movementResult);
     }
 
     private void HandleTileCollision(IAttendee attendee, MovementResult movementResult)
