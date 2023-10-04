@@ -18,6 +18,7 @@ public class MuseumSimulation : IMuseumSimulation
     private readonly int _debugInfoUpdateIntervalMilliseconds = 500;
     private readonly int _mementoCreationIntervalMilliseconds = 500;
     private readonly Museum _museum;
+    private readonly PointerRegistration _pointerRegistration = new();
 
     public MuseumSimulation(Museum museum)
     {
@@ -54,7 +55,13 @@ public class MuseumSimulation : IMuseumSimulation
     
     public void HandlePointerClick(bool isLeftMouse, MouseGridPosition mouseGridPosition)
     {
+        if (isLeftMouse) _pointerRegistration.LeftClickPosition = mouseGridPosition;
+        if (!isLeftMouse) _pointerRegistration.RightClickPosition = mouseGridPosition;
+
+        if (!_pointerRegistration.IsValid()) return;
         
+        _museum.HandleTilePath(_pointerRegistration.LeftClickPosition, _pointerRegistration.RightClickPosition);
+        _pointerRegistration.Reset();
     }
 
     public void UpdateTile(MouseGridPosition mouseGridPosition) => _museum.HandleMouseTileUpdate(mouseGridPosition.PosX, mouseGridPosition.PosY);
