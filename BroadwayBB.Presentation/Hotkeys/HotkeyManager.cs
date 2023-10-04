@@ -10,7 +10,7 @@ namespace BroadwayBB.Presentation.Hotkeys;
 public class HotkeyManager
 {
     public readonly List<Hotkey> Hotkeys = new();
-    private readonly MouseGridPosition _mouseGridPosition = new () { PosX = 0, PosY = 0 };
+    private Coords _mouseGridPosition = new (0, 0);
     
     public HotkeyManager()
     {
@@ -119,10 +119,9 @@ public class HotkeyManager
         );
     }
 
-    public void UpdateMousePosition(int mousePositionX, int mousePositionY)
+    public void UpdateMousePosition(Coords newMousePosition)
     {
-        _mouseGridPosition.PosX = mousePositionX;
-        _mouseGridPosition.PosY = mousePositionY;
+        _mouseGridPosition = newMousePosition;
     }
 
     public void HandleCommand(Key pressedKey, IMuseumSimulation museumSimulation)

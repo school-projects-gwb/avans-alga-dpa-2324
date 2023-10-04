@@ -10,7 +10,7 @@ namespace BroadwayBB.Simulation;
 public class MuseumSimulation : IMuseumSimulation
 {
     private readonly List<ISimulationObserver> _observers = new();
-    private Timer _simulationTickTimer, _simulationBackgroundRefreshTimer, _simulationDebugInfoTimer, _mementoCreationTimer;
+    private Timer? _simulationTickTimer, _simulationBackgroundRefreshTimer, _simulationDebugInfoTimer, _mementoCreationTimer;
     private readonly int _simulationIntervalMilliseconds = 150;
     private int _currentTick;
     private readonly int _timeSkipTickAmount = 10;
@@ -58,7 +58,7 @@ public class MuseumSimulation : IMuseumSimulation
 
     public void ToggleQuadtreeRendering() => _museum.Config.Toggle(ConfigType.ShouldRenderQuadtree);
 
-    public void UpdateTile(MouseGridPosition mouseGridPosition) => _museum.HandleMouseTileUpdate(mouseGridPosition.PosX, mouseGridPosition.PosY);
+    public void UpdateTile(Coords mouseGridPosition) => _museum.HandleMouseTileUpdate(mouseGridPosition);
 
     public List<ITile> GetMuseumTiles() => _museum.Tiles;
 

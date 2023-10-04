@@ -1,5 +1,6 @@
 using BroadwayBB.Common.Behaviors;
 using BroadwayBB.Common.Entities;
+using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Tiles;
 using BroadwayBB.Data.Factories.Interfaces;
 
@@ -7,15 +8,15 @@ namespace BroadwayBB.Data.Factories;
 
 public class TileFactory : ITileFactory
 {
-    public ITile Create(int posX, int posY, char color)
+    public ITile Create(Coords coords, char tag)
     {
-        return color switch
+        return tag switch
         {
-            'B' => new Tile(posX, posY, new BlueColorBehaviorStrategy()),
-            'Y' => new Tile(posX, posY, new YellowColorBehaviorStrategy()),
-            'R' => new Tile(posX, posY, new RedColorBehaviorStrategy()),
-            'G' => new Tile(posX, posY, new GreyColorBehaviorStrategy()),
-            _ => new Tile(posX, posY, new WhiteColorBehaviorStrategy())
+            'B' => new Tile(coords, new BlueColorBehaviorStrategy()),
+            'Y' => new Tile(coords, new YellowColorBehaviorStrategy()),
+            'R' => new Tile(coords, new RedColorBehaviorStrategy()),
+            'G' => new Tile(coords, new GreyColorBehaviorStrategy()),
+            _ => new Tile(coords, new NullColorBehaviorStrategy())
         };
     }
 }

@@ -13,8 +13,8 @@ public abstract class ColliderStrategyBase : IColliderStrategy
 
     protected void HandleIsColliding(IAttendee one, IAttendee two)
     {
-        double dx = Math.Abs(one.Movement.GridPosX - two.Movement.GridPosX);
-        double dy = Math.Abs(one.Movement.GridPosY - two.Movement.GridPosY);
+        double dx = Math.Abs(one.Movement.GridPos.Xd - two.Movement.GridPos.Xd);
+        double dy = Math.Abs(one.Movement.GridPos.Yd - two.Movement.GridPos.Yd);
         
         bool isColliding = dx <= _minimumCollisionDistance && dy <= _minimumCollisionDistance;
         

@@ -15,7 +15,7 @@ public interface IMuseumSimulation
     public List<Rectangle> GetDebugInfo();
     public int GetMaxMuseumAttendees();
     public void ToggleConfigValue(ConfigType type);
-    public void UpdateTile(MouseGridPosition mouseGridPosition);
+    public void UpdateTile(Coords mouseGridPosition);
     public void OpenFileMenu();
     public void FastForward();
     public void Rewind();

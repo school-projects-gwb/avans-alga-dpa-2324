@@ -6,18 +6,17 @@ namespace BroadwayBB.Common.Entities.Attendees;
 public class Movement : IMovement
 {
     public bool IsColliding { get; set; }
-    public double GridPosX { get; private set; }
-    public double GridPosY { get; private set; }
+    public Coords GridPos { get; private set; }
+
     private double SpeedVertical { get; }
     private double SpeedHorizontal { get; }
     private MovementDirection MovementDirection { get; set; }
     
     private readonly double _decimalSpeedMultiplier = 0.1, _minimumSpeedMultiplierValue = 1;
 
-    public Movement(double posX, double posY, double speedVertical, double speedHorizontal, MovementDirection movementDirection)
+    public Movement(Coords coords, double speedVertical, double speedHorizontal, MovementDirection movementDirection)
     {
-        GridPosX = posX;
-        GridPosY = posY;
+        GridPos = coords;
         SpeedVertical = SpeedToDecimal(speedVertical);
         SpeedHorizontal = SpeedToDecimal(speedHorizontal);
         MovementDirection = movementDirection;
@@ -51,23 +50,22 @@ public class Movement : IMovement
 
     private MovementResult UpdatePositionOnGrid()
     {
-        int previousPosX = this.GetRoundedGridPosX(), previousPosY = this.GetRoundedGridPosY(); 
-        double movementVertical = SpeedVertical, movementHorizontal = SpeedHorizontal;
+        int previousPosX = this.GridPos.Xi, previousPosY = this.GridPos.Yi;
+        Coords verticalMovement = new Coords(0, SpeedVertical), horizontalMovement = new Coords(SpeedHorizontal, 0);
 
-        if (MovementDirection == MovementDirection.North) GridPosY -= movementVertical;
-        if (MovementDirection == MovementDirection.South) GridPosY += movementVertical;
-        if (MovementDirection == MovementDirection.West) GridPosX -= movementHorizontal;
-        if (MovementDirection == MovementDirection.East) GridPosX += movementHorizontal;
+             if (MovementDirection == MovementDirection.North) GridPos -= verticalMovement;
+        else if (MovementDirection == MovementDirection.South) GridPos += verticalMovement;
+        else if (MovementDirection == MovementDirection.West ) GridPos -= horizontalMovement;
+        else if (MovementDirection == MovementDirection.East ) GridPos += horizontalMovement;
 
         return new MovementResult
         {
-            HasEnteredNewGridTile = previousPosX != this.GetRoundedGridPosX() || previousPosY != this.GetRoundedGridPosY(),
-            GridPosX = this.GetRoundedGridPosX(),
-            GridPosY = this.GetRoundedGridPosY()
+            HasEnteredNewGridTile = previousPosX != this.GridPos.Xi || previousPosY != this.GridPos.Yi,
+            GridPos = this.GridPos
         };
     }
 
     private double SpeedToDecimal(double target) => target >= _minimumSpeedMultiplierValue ? target *_decimalSpeedMultiplier : target;
 
-    public IMovement DeepCopy() => new Movement(GridPosX, GridPosY, SpeedVertical, SpeedHorizontal, MovementDirection);
+    public IMovement DeepCopy() => new Movement(GridPos, SpeedVertical, SpeedHorizontal, MovementDirection);
 }

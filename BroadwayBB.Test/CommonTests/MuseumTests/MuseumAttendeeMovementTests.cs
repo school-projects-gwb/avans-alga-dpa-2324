@@ -2,6 +2,7 @@ using BroadwayBB.Common.Behaviors;
 using BroadwayBB.Common.Entities;
 using BroadwayBB.Common.Entities.Attendees;
 using BroadwayBB.Common.Entities.Museum;
+using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Test.CommonTests.MuseumTests;
 
@@ -11,45 +12,50 @@ public class MuseumAttendeeMovementTests : TileTestBase
     public void Museum_MoveAttendees_AttendeeMoves()
     {
         var museum = new Museum();
-        var attendee = new Artist(0, 0, 0, 2);
-        double previousAttendeePosX = attendee.Movement.GridPosX;
+        var attendee = new Artist(new Coords(0, 0), 0, 2);
+        double previousAttendeePosX = attendee.Movement.GridPos.Xd;
         
-        museum.Tiles = CreateWhiteColorTestGrid();
-        museum.Attendees = new List<IAttendee> { attendee };
-        
+        var tiles = CreateWhiteColorTestGrid();
+        var attendees = new List<IAttendee> { attendee };
+
+        museum.SetData(tiles, attendees);
+        museum.Config.Toggle(ConfigType.ShouldMoveAttendees);
         museum.MoveAttendees();
         
-        Assert.NotEqual(previousAttendeePosX, attendee.Movement.GridPosX);
+        Assert.NotEqual(previousAttendeePosX, attendee.Movement.GridPos.Xd);
     }
     
     [Fact]
     public void Museum_MoveAttendees_AttendeeCollides_TileChangesColor()
     {
-        int collisionTilePosX = 1, collisionTilePosY = 0;
+        var collisionTilePos = new Coords(1, 0);
         
         var museum = new Museum();
-        var attendee = new Artist(0, 0, 0, 15);
+        var attendee = new Artist(new Coords(0, 0), 0, 15);
         
-        museum.Tiles = CreateWhiteColorGridWithGivenColor(collisionTilePosX,collisionTilePosY, new RedColorBehaviorStrategy());
-        museum.Attendees = new List<IAttendee> { attendee };
+        var tiles = CreateWhiteColorGridWithGivenColor(collisionTilePos, new RedColorBehaviorStrategy());
+        var attendees = new List<IAttendee> { attendee };
         
+        museum.SetData(tiles, attendees);
+        museum.Config.Toggle(ConfigType.ShouldMoveAttendees);
         museum.MoveAttendees();
         
-        Assert.IsType<BlueColorBehaviorStrategy>(museum.Tiles.Find(tile =>
-            tile.PosX == collisionTilePosX && tile.PosY == collisionTilePosY)?.ColorBehaviorStrategy);
+        Assert.IsType<BlueColorBehaviorStrategy>(museum.Tiles.Find(tile => Coords.IntEqual(tile.Pos, collisionTilePos))?.ColorBehaviorStrategy);
     }
     
     [Fact]
     public void Museum_MoveAttendees_AttendeeCollides_ArtistGetsRemoved()
     {
-        int collisionTilePosX = 1, collisionTilePosY = 0;
+        var collisionTilePos = new Coords(1, 0);
         
         var museum = new Museum();
-        var attendee = new Artist(0, 0, 0, 15);
+        var attendee = new Artist(new Coords(0, 0), 0, 15);
         
-        museum.Tiles = CreateWhiteColorGridWithGivenColor(collisionTilePosX,collisionTilePosY, new RedColorBehaviorStrategy());
-        museum.Attendees = new List<IAttendee> { attendee };
+        var tiles = CreateWhiteColorGridWithGivenColor(collisionTilePos, new RedColorBehaviorStrategy());
+        var attendees = new List<IAttendee> { attendee };
         
+        museum.SetData(tiles, attendees);
+        museum.Config.Toggle(ConfigType.ShouldMoveAttendees);
         museum.MoveAttendees();
         
         Assert.Empty(museum.Attendees);

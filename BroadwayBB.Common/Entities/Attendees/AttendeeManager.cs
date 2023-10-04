@@ -9,7 +9,7 @@ namespace BroadwayBB.Common.Entities.Attendees;
 public class AttendeeManager
 {
     private List<IAttendee> _attendees = new();
-    
+
     public List<IAttendee> Attendees
     {
         get => _attendees;
@@ -21,39 +21,39 @@ public class AttendeeManager
     }
 
     public AttendeeCollider AttendeeCollider { get; private set; }
-    
+
     private readonly List<IAttendee> _markedForRemoval = new();
     private readonly List<IAttendee> _markedForCreation = new();
     private readonly int _markedLimit = 5, _attendeeHardLimit = 100;
     private readonly double _minSpeed = 1.0, _maxSpeed = 3.0;
     private readonly Random _random = new();
     public int AttendeeLimit { get; private set; } = 50;
-    
+
     public void HandleCollision() => AttendeeCollider.HandleCollision();
 
     public void InitCollider(int width, int height)
     {
-       AttendeeCollider = new AttendeeCollider(new Rectangle(0, 0, width, height));
+        AttendeeCollider = new AttendeeCollider(new Rectangle(0, 0, width, height));
     }
 
     public List<Rectangle> GetColliderDebugInfo() => AttendeeCollider.GetDebugInfo();
-    
+
     public void HandleTileCollisionResult(TileCollisionResult tileCollisionResult, IAttendee targetAttendee)
     {
-        if (tileCollisionResult.ShouldCreateArtist) 
-            CreateArtist(targetAttendee.Movement.GetRoundedGridPosX(), targetAttendee.Movement.GetRoundedGridPosY());
-        
+        if (tileCollisionResult.ShouldCreateArtist)
+            CreateArtist(targetAttendee.Movement.GridPos);
+
         if (tileCollisionResult.ShouldRemoveArtist)
             RemoveArtist(targetAttendee);
     }
-    
-    private void CreateArtist(int targetPosX, int targetPosY)
+
+    private void CreateArtist(Coords targetPos)
     {
         if (Attendees.Count >= AttendeeLimit) return;
         var hasVerticalSpeed = _random.Next(2) == 1; // 50% chance
         var speed = Math.Clamp(_random.NextDouble() * (_maxSpeed - _minSpeed) + _minSpeed, _minSpeed, _maxSpeed);
 
-        var newArtist = new Artist(targetPosX, targetPosY, hasVerticalSpeed ? speed : 0, hasVerticalSpeed ? 0 : speed);
+        var newArtist = new Artist(targetPos, hasVerticalSpeed ? speed : 0, hasVerticalSpeed ? 0 : speed);
         _markedForCreation.Add(newArtist);
     }
 
@@ -61,14 +61,14 @@ public class AttendeeManager
     {
         if (_markedForRemoval.Count > _markedLimit) return;
         _markedForRemoval.Add(removalTarget);
-    } 
+    }
 
     public void HandleAttendeeQueue()
     {
         RemoveMarkedAttendees();
         AddMarkedAttendees();
     }
-    
+
     private void RemoveMarkedAttendees()
     {
         _markedForRemoval.ForEach(attendee => Attendees.Remove(attendee));
@@ -82,11 +82,13 @@ public class AttendeeManager
             if (Attendees.Count >= AttendeeLimit) return;
             Attendees.Add(attendee);
         });
-        
+
         _markedForCreation.Clear();
     }
-    
+
     public void SetAttendeeLimit(int limit) => AttendeeLimit = limit <= _attendeeHardLimit ? limit : _attendeeHardLimit;
 
-    public List<IAttendee> CreateMemento() => Attendees.Select(attendee => attendee.DeepCopy()).ToList();
+    public List<IAttendee> CreateMemento() { 
+        lock(Attendees) return Attendees.Select(attendee => attendee.DeepCopy()).ToList();  
+    }
 }

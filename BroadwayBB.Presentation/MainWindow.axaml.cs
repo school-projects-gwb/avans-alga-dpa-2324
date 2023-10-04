@@ -49,10 +49,8 @@ public partial class MainWindow : Window
 
     private async void SelectGrid_Click(object sender, RoutedEventArgs e)
     {
-        // Get top level from the current control. Alternatively, you can use Window reference instead.
         var topLevel = TopLevel.GetTopLevel(this);
 
-        // Start async operation to open the dialog.
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Grid File",
@@ -75,10 +73,8 @@ public partial class MainWindow : Window
 
     private async void SelectArtists_Click(object sender, RoutedEventArgs e)
     {
-        // Get top level from the current control. Alternatively, you can use Window reference instead.
         var topLevel = TopLevel.GetTopLevel(this);
 
-        // Start async operation to open the dialog.
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Artists File",

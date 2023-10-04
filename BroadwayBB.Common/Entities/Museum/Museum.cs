@@ -44,8 +44,7 @@ public class Museum
         foreach (var attendee in Attendees)
         {
             var possibleDirections = _tileManager.GetAllowedRelativeTilePositions(
-                attendee.Movement.GetRoundedGridPosX(), 
-                attendee.Movement.GetRoundedGridPosY()
+                attendee.Movement.GridPos
                 );
 
             attendee.Movement.IsColliding = false;
@@ -64,19 +63,19 @@ public class Museum
 
     private void HandleTileCollision(IAttendee attendee, MovementResult movementResult)
     {
-        var tileCollisionResult = _tileManager.HandleCollision(movementResult.GridPosX, movementResult.GridPosY);
+        var tileCollisionResult = _tileManager.HandleCollision(movementResult.GridPos);
         if (!Config.Get(ConfigType.ShouldRenderAttendees)) tileCollisionResult.ShouldCreateArtist = false;
         _attendeeManager.HandleTileCollisionResult(tileCollisionResult, attendee);
     }
 
-    public void HandleMouseTileUpdate(int mouseGridPosX, int mouseGridPosY)
+    public void HandleMouseTileUpdate(Coords mouseGridPos)
     {
-        var tileCollisionResult = _tileManager.HandleCollision(mouseGridPosX, mouseGridPosY);
+        var tileCollisionResult = _tileManager.HandleCollision(mouseGridPos);
         tileCollisionResult.ShouldRemoveArtist = false;
         // We can pass a new "non-existing" attendee here since removing artists is always disabled.
         _attendeeManager.HandleTileCollisionResult(
             tileCollisionResult, 
-            new Artist(0,0,0,0));
+            new Artist(new Coords(0,0),0,0));
     }
 
     public int GetMaxAttendees() => _attendeeManager.AttendeeLimit;
@@ -117,7 +116,7 @@ public class Museum
     public void SetData(List<ITile> tiles, List<IAttendee> artists)
     {
         _tileManager.Tiles = tiles;
-        _attendeeManager.InitCollider(tiles.Max(tile => tile.PosX) + 1, tiles.Max(tile => tile.PosY) + 1);
+        _attendeeManager.InitCollider(tiles.Max(tile => tile.Pos.Xi) + 1, tiles.Max(tile => tile.Pos.Yi) + 1);
         
         Config.AddObserver(_attendeeManager.AttendeeCollider);
         

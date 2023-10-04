@@ -5,7 +5,7 @@ namespace BroadwayBB.Simulation.Commands;
 
 public class ToggleArtistMovement : ICommand
 {
-    public void HandleCommand(IMuseumSimulation museumSimulation, MouseGridPosition mouseGridPosition)
+    public void HandleCommand(IMuseumSimulation museumSimulation, Coords mouseGridPosition)
     {
         museumSimulation.ToggleConfigValue(ConfigType.ShouldMoveAttendees);
     }

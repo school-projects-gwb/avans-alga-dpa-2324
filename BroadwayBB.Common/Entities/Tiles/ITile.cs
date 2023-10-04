@@ -1,12 +1,12 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
+using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Common.Entities.Tiles;
 
 public interface ITile
 {
-    public int PosX { get; }
-    public int PosY { get; }
-    
+    public Coords Pos { get; }
+
     public IColorBehaviorStrategy ColorBehaviorStrategy { get; }
 
     public void UpdateColorBehavior(IColorBehaviorStrategy newBehaviorStrategy);

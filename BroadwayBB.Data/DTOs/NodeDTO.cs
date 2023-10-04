@@ -1,11 +1,5 @@
-﻿using BroadwayBB.Data.Structs;
-using System;
-using System.Collections.Generic;
+﻿using BroadwayBB.Common.Entities.Structures;
 using System.Drawing;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BroadwayBB.Data.DTOs
 {

@@ -7,6 +7,7 @@ using BroadwayBB.Data.DTOs;
 using BroadwayBB.Data.Factories;
 using BroadwayBB.Data.Factories.Interfaces;
 using BroadwayBB.Data.Strategies;
+using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Data;
 
@@ -62,29 +63,30 @@ public class DataProcessor
             throw new ArgumentOutOfRangeException("Unable to create grid with given values.");
         }
 
-        NodeDTO nullNode = new NodeDTO(null, new Structs.Coords(0,0));
-
         for (int y = 0; y < gridDTO.Rows; y++)
         {
             for (int x = 0; x < gridDTO.Columns; x++)
             {
-                NodeDTO tile = gridDTO.Nodes.FirstOrDefault(n => n.Coords.X == x && n.Coords.Y == y); 
-
+                NodeDTO tile = gridDTO.Nodes.FirstOrDefault(n => n.Coords.Xi == x && n.Coords.Yi == y); 
 
                 if (tile.Equals(default(NodeDTO)))
                 {
-                    nullNode.Coords = new Structs.Coords(x, y);
-
-                    tile = nullNode;
+                    tile.Coords.Xd = x;
+                    tile.Coords.Yd = y;
                 }
 
-                tiles.Add(_tileFactory.Create((int)tile.Coords.Y, (int)tile.Coords.X, tile.Type.Tag));
+                tiles.Add(_tileFactory.Create(tile.Coords, tile.Type.Tag));
             }
         }
 
         foreach (var artist in artistsDTO.Artists)
         {
-            artists.Add(_attendeeFactory.Create(artist.Coords.X, artist.Coords.Y, artist.VelocityY, artist.VelocityX));
+            var coords = artist.Coords;
+
+            if (coords.Xd > gridDTO.Columns || coords.Xd < 0) coords.Xd = 0;
+            if (coords.Yd > gridDTO.Rows    || coords.Yd < 0) coords.Yd = 0;
+
+            artists.Add(_attendeeFactory.Create(coords, artist.VelocityY, artist.VelocityX));
         }
 
         museum.SetData(tiles, artists);
