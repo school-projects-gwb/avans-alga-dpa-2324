@@ -36,7 +36,7 @@ public class AttendeeManager
        AttendeeCollider = new AttendeeCollider(new Rectangle(0, 0, width, height));
     }
 
-    public List<Rectangle> GetColliderDebugInfo() => AttendeeCollider.GetDebugInfo();
+    public List<DebugTile> GetColliderDebugInfo() => AttendeeCollider.GetDebugInfo();
     
     public void HandleTileCollisionResult(TileCollisionResult tileCollisionResult, IAttendee targetAttendee)
     {

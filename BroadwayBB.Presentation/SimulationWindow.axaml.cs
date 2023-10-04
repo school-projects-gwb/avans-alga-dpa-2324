@@ -206,13 +206,13 @@ public partial class SimulationWindow : Window, ISimulationObserver
         {
             var item = new Rectangle
             {
-                Width = rect.Width * _tileWidth,
-                Height = rect.Height * _tileHeight,
-                Stroke = Brushes.Red,
+                Width = rect.PositionInfo.Width * _tileWidth,
+                Height = rect.PositionInfo.Height * _tileHeight,
+                Stroke = rect.ColorName == ColorName.Red ? Brushes.Red : Brushes.Black,
                 StrokeThickness = 1.5
             };
             
-            DrawCanvasItem(item, rect.X * _tileWidth, rect.Y * _tileHeight, _debugCanvas);
+            DrawCanvasItem(item, rect.PositionInfo.X * _tileWidth, rect.PositionInfo.Y * _tileHeight, _debugCanvas);
         }
     }
     

@@ -1,4 +1,5 @@
 using System.Drawing;
+using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Common.Entities.Attendees.Collider;
 
@@ -22,5 +23,5 @@ public abstract class ColliderStrategyBase : IColliderStrategy
         two.Movement.IsColliding = isColliding;
     }
     
-    public abstract List<Rectangle> GetDebugInfo();
+    public abstract List<DebugTile> GetDebugInfo();
 }

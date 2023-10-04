@@ -1,4 +1,5 @@
 using System.Drawing;
+using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Common.Entities.Attendees.Collider;
 
@@ -20,5 +21,5 @@ public class NaiveColliderStrategy : ColliderStrategyBase
         }
     }
 
-    public override List<Rectangle> GetDebugInfo() => new();
+    public override List<DebugTile> GetDebugInfo() => new();
 }

@@ -1,5 +1,6 @@
 using System.Drawing;
 using BroadwayBB.Common.Entities.Museum;
+using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Common.Entities.Attendees.Collider;
 
@@ -24,7 +25,7 @@ public class AttendeeCollider : IConfigObserver
     
     public void HandleCollision() => _strategies[_activeStrategyType].HandleCollision(_attendees);
 
-    public List<Rectangle> GetDebugInfo() => _strategies[_activeStrategyType].GetDebugInfo();
+    public List<DebugTile> GetDebugInfo() => _strategies[_activeStrategyType].GetDebugInfo();
     
     public void OnUpdate(ConfigType type, bool value)
     {

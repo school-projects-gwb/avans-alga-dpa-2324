@@ -1,5 +1,7 @@
 using System.Drawing;
+using BroadwayBB.Common.Behaviors;
 using BroadwayBB.Common.Entities.Extensions;
+using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Common.Entities.Quadtree;
 
@@ -122,17 +124,17 @@ public class Quadtree<T>
             .Select(obj => obj.Object));
     }
     
-    public List<Rectangle> GetNodeCoordinates()
+    public List<DebugTile> GetNodeCoordinates()
     {
-        List<Rectangle> coordinates = new List<Rectangle>();
+        List<DebugTile> coordinates = new();
         CollectNodeCoordinates(this, coordinates);
         return coordinates;
     }
 
-    private void CollectNodeCoordinates(Quadtree<T> node, List<Rectangle> coordinates)
+    private void CollectNodeCoordinates(Quadtree<T> node, List<DebugTile> coordinates)
     {
         if (node._nodes[0] == null)
-            coordinates.Add(node._bounds);
+            coordinates.Add(new DebugTile { PositionInfo = node._bounds, ColorName = ColorName.Red });
         else
             foreach (var obj in node._nodes)
                 if (obj != null) CollectNodeCoordinates(obj, coordinates);

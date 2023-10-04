@@ -51,18 +51,12 @@ public class MuseumSimulation : IMuseumSimulation
     }
 
     public void ToggleConfigValue(ConfigType type) => _museum.Config.Toggle(type);
-    
-    public void ToggleAttendeeMovement() => _museum.Config.Toggle(ConfigType.ShouldMoveAttendees);
-
-    public void ToggleAttendeeRendering() => _museum.Config.Toggle(ConfigType.ShouldRenderAttendees);
-
-    public void ToggleQuadtreeRendering() => _museum.Config.Toggle(ConfigType.ShouldRenderQuadtree);
 
     public void UpdateTile(MouseGridPosition mouseGridPosition) => _museum.HandleMouseTileUpdate(mouseGridPosition.PosX, mouseGridPosition.PosY);
 
     public List<ITile> GetMuseumTiles() => _museum.Tiles;
 
-    public List<Rectangle> GetDebugInfo() => _museum.GetDebugInfo();
+    public List<DebugTile> GetDebugInfo() => _museum.GetDebugInfo();
     
     public List<IAttendee> GetMuseumAttendees() => _museum.Attendees;
 

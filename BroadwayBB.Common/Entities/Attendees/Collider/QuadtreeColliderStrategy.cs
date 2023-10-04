@@ -1,6 +1,7 @@
 using System.Drawing;
 using BroadwayBB.Common.Entities.Extensions;
 using BroadwayBB.Common.Entities.Quadtree;
+using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Common.Entities.Attendees.Collider;
 
@@ -40,5 +41,5 @@ public class QuadtreeColliderStrategy : ColliderStrategyBase
         foreach (var obj in result) HandleIsColliding(obj, attendee);
     }
 
-    public override List<Rectangle> GetDebugInfo() => _attendeeQuadtree.GetNodeCoordinates();
+    public override List<DebugTile> GetDebugInfo() => _attendeeQuadtree.GetNodeCoordinates();
 }

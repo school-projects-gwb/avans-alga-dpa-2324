@@ -82,9 +82,9 @@ public class Museum
 
     public void GenerateTilePath(ITile start, ITile target) => _tileManager.TilePathfinder.GeneratePath(start, target);
     
-    public List<Rectangle> GetDebugInfo()
+    public List<DebugTile> GetDebugInfo()
     {
-        var debugInfo = new List<Rectangle>();
+        var debugInfo = new List<DebugTile>();
         if (Config.Get(ConfigType.ShouldRenderQuadtree)) debugInfo = _attendeeManager.GetColliderDebugInfo();
         
         return debugInfo;
