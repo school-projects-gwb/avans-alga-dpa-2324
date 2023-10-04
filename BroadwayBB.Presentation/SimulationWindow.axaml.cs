@@ -42,11 +42,13 @@ public partial class SimulationWindow : Window, ISimulationObserver
         _mainWindow = mainWindow;
         _hotkeyManager = hotkeyManager;
 
-        var x = this.FindControl<Grid>("simulationGrid") ?? throw new InvalidOperationException();
-        x.Focusable = true;
-        x.Focus();
-        x.KeyDown += (sender, e) => _hotkeyManager.HandleCommand(e.Key, _simulation);
-        x.PointerMoved += HandlePointerMoved;
+        var grid = this.FindControl<Grid>("simulationGrid") ?? throw new InvalidOperationException();
+        grid.Focusable = true;
+        grid.Focus();
+        grid.KeyDown += (sender, e) => _hotkeyManager.HandleCommand(e.Key, _simulation);
+        grid.PointerPressed += (sender, args) =>
+            _hotkeyManager.HandleCommand(args.GetCurrentPoint(sender as Control).Properties, _simulation);
+        grid.PointerMoved += HandlePointerMoved;
         
         InitiateColorMap();
         InitiateSimulationCanvas();

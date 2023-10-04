@@ -14,6 +14,7 @@ public interface IMuseumSimulation
     public List<DebugTile> GetDebugInfo();
     public int GetMaxMuseumAttendees();
     public void ToggleConfigValue(ConfigType type);
+    public void HandlePointerClick(bool isLeftMouse, MouseGridPosition mouseGridPosition);
     public void UpdateTile(MouseGridPosition mouseGridPosition);
     public void OpenFileMenu();
     public void FastForward();

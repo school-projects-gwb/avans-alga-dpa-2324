@@ -51,6 +51,11 @@ public class MuseumSimulation : IMuseumSimulation
     }
 
     public void ToggleConfigValue(ConfigType type) => _museum.Config.Toggle(type);
+    
+    public void HandlePointerClick(bool isLeftMouse, MouseGridPosition mouseGridPosition)
+    {
+        
+    }
 
     public void UpdateTile(MouseGridPosition mouseGridPosition) => _museum.HandleMouseTileUpdate(mouseGridPosition.PosX, mouseGridPosition.PosY);
 

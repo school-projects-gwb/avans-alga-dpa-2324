@@ -70,6 +70,8 @@ public class Museum
 
     public void HandleMouseTileUpdate(int mouseGridPosX, int mouseGridPosY)
     {
+        if (!Config.Get(ConfigType.ShouldHaveTileBehavior)) return;
+        
         var tileCollisionResult = _tileManager.HandleCollision(mouseGridPosX, mouseGridPosY);
         tileCollisionResult.ShouldRemoveArtist = false;
         // We can pass a new "non-existing" attendee here since removing artists is always disabled.
