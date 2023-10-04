@@ -1,3 +1,4 @@
+using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Data.DTOs;
 using BroadwayBB.Data.Strategies.Interfaces;
 using BroadwayBB.Data.Structs;
@@ -10,7 +11,6 @@ public class XmlFileReaderStrategy : IFileReaderStrategy
 {
     public DTO ReadFile(FileData file)
     {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
         var grid = new GridDTO();
 
         var fileData = XElement.Parse(file.Data);

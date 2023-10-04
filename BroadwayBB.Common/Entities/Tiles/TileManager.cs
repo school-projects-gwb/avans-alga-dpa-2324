@@ -39,38 +39,38 @@ public class TileManager
         TilePathfinder?.SetTiles(_tileGraph);
     }
     
-    public List<MovementDirection> GetAllowedRelativeTilePositions(int currentTilePosX, int currentTilePosY)
+    public List<MovementDirection> GetAllowedRelativeTilePositions(Coords currentTilePos)
     {
         var possibleDirections = new List<MovementDirection>();
 
-        var currentNode = FindNode(currentTilePosX, currentTilePosY);
+        var currentNode = FindNode(currentTilePos);
         
         if (currentNode == null) return possibleDirections;
 
         foreach (var neighborNode in currentNode.Neighbors)
         {
-            if (neighborNode.Tile.PosX == currentNode.Tile.PosX && neighborNode.Tile.PosY == currentNode.Tile.PosY - 1)
+            if (neighborNode.Tile.Pos.Xi == currentNode.Tile.Pos.Xi && neighborNode.Tile.Pos.Yi == currentNode.Tile.Pos.Yi - 1)
                 possibleDirections.Add(MovementDirection.North);
 
-            if (neighborNode.Tile.PosX == currentNode.Tile.PosX + 1 && neighborNode.Tile.PosY == currentNode.Tile.PosY)
+            if (neighborNode.Tile.Pos.Xi == currentNode.Tile.Pos.Xi + 1 && neighborNode.Tile.Pos.Yi == currentNode.Tile.Pos.Yi)
                 possibleDirections.Add(MovementDirection.East);
 
-            if (neighborNode.Tile.PosX == currentNode.Tile.PosX && neighborNode.Tile.PosY == currentNode.Tile.PosY + 1)
+            if (neighborNode.Tile.Pos.Xi == currentNode.Tile.Pos.Xi && neighborNode.Tile.Pos.Yi == currentNode.Tile.Pos.Yi + 1)
                 possibleDirections.Add(MovementDirection.South);
 
-            if (neighborNode.Tile.PosX == currentNode.Tile.PosX - 1 && neighborNode.Tile.PosY == currentNode.Tile.PosY)
+            if (neighborNode.Tile.Pos.Xi == currentNode.Tile.Pos.Xi - 1 && neighborNode.Tile.Pos.Yi == currentNode.Tile.Pos.Yi)
                 possibleDirections.Add(MovementDirection.West);
         }
 
         return possibleDirections;
     }
 
-    public TileCollisionResult HandleCollision(int tilePosX, int tilePosY)
+    public TileCollisionResult HandleCollision(Coords tilePos)
     {
         // TileCollisionResult uitbreiden met IsTileInPath
         // Logica uitbreiden met check of attendee op path tile staat
         var collisionResult = new TileCollisionResult();
-        var targetNode = FindNode(tilePosX, tilePosY);
+        var targetNode = FindNode(tilePos);
         if (targetNode == null) return collisionResult;
 
         var colorBehaviorResult = targetNode.Tile.ColorBehaviorStrategy.HandleCollision();
@@ -95,24 +95,21 @@ public class TileManager
             updatedAdjacentTileColors.RemoveAt(0);
         }
     }
-    
-    private TileNode? FindNode(int posX, int posY) => _tileGraph.FirstOrDefault(node => node.Tile.PosX == posX && node.Tile.PosY == posY);
-    
+
+    private TileNode? FindNode(Coords tilePos) => _tileGraph.FirstOrDefault(node => Coords.IntEqual(node.Tile.Pos, tilePos));
+
+
     public List<ITile> CreateMemento() => Tiles.Select(tile => tile.DeepCopy()).ToList();
     
     void ConnectOrthogonalNeighbors(TileNode currentNode, List<TileNode> allNodes)
     {
-        var neighborOffsets = new List<(int posX, int posY)> { (-1, 0), (1, 0), (0, -1), (0, 1) };
-        var posX = currentNode.Tile.PosX;
-        var posY = currentNode.Tile.PosY;
+        var neighborOffsets = new List<Coords> { new (-1, 0), new (1, 0), new (0, -1), new (0, 1) };
 
         foreach (var offset in neighborOffsets)
         {
-            var neighborX = posX + offset.posX;
-            var neighborY = posY + offset.posY;
+            var neighbor = currentNode.Tile.Pos + offset;
             
-            var neighborNode = allNodes.FirstOrDefault(node =>
-                node.Tile.PosX == neighborX && node.Tile.PosY == neighborY);
+            var neighborNode = allNodes.FirstOrDefault(node => Coords.IntEqual(node.Tile.Pos, neighbor));
 
             if (neighborNode == null) continue;
             
@@ -121,10 +118,10 @@ public class TileManager
         }
     }
 
-    public void GeneratePath(MouseGridPosition startTilePosition, MouseGridPosition targetTilePosition)
+    public void GeneratePath(Coords startTilePosition, Coords targetTilePosition)
     {
-        var start = FindNode(startTilePosition.PosX, startTilePosition.PosY);
-        var target = FindNode(targetTilePosition.PosX, targetTilePosition.PosY);
+        var target = FindNode(startTilePosition);
+        var start = FindNode(targetTilePosition);
 
         if (start == null || target == null) return;
         TilePathfinder.GeneratePath(start.Tile, target.Tile);

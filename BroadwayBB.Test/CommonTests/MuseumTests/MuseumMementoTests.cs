@@ -2,6 +2,7 @@ using BroadwayBB.Common.Behaviors;
 using BroadwayBB.Common.Entities;
 using BroadwayBB.Common.Entities.Attendees;
 using BroadwayBB.Common.Entities.Museum;
+using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Test.CommonTests.MuseumTests;
@@ -12,16 +13,16 @@ public class MuseumMementoTests
     public void Museum_CreateMemento_Correct()
     {
         var museum = new Museum();
-        museum.Attendees = new List<IAttendee> { new Artist(0, 0, 0, 0) };
-        museum.Tiles = new List<ITile> { new Tile(0, 0, new WhiteColorBehaviorStrategy()) };
+        museum.Attendees = new List<IAttendee> { new Artist(new Coords(0, 0), 0, 0) };
+        museum.Tiles = new List<ITile> { new Tile(new Coords(0, 0), new NullColorBehaviorStrategy()) };
     }
     
     [Fact]
     public void Museum_RewindWithNoPreviousMemento_NoChanges()
     {
         var museum = new Museum();
-        museum.Attendees = new List<IAttendee> { new Artist(0, 0, 0, 0) };
-        museum.Tiles = new List<ITile> { new Tile(0, 0, new WhiteColorBehaviorStrategy()) };
+        museum.Attendees = new List<IAttendee> { new Artist(new Coords(0, 0), 0, 0) };
+        museum.Tiles = new List<ITile> { new Tile(new Coords(0, 0), new NullColorBehaviorStrategy()) };
         
         var previousAttendees = museum.Attendees;
         var previousTiles = museum.Tiles;
@@ -35,8 +36,8 @@ public class MuseumMementoTests
     public void Museum_RewindWithValidPreviousMemento_RewindCorrect()
     {
         var museum = new Museum();
-        museum.Attendees = new List<IAttendee> { new Artist(0, 0, 0, 0) };
-        museum.Tiles = new List<ITile> { new Tile(0, 0, new WhiteColorBehaviorStrategy()) };
+        museum.Attendees = new List<IAttendee> { new Artist(new Coords(0, 0), 0, 0) };
+        museum.Tiles = new List<ITile> { new Tile(new Coords(0, 0), new NullColorBehaviorStrategy()) };
         
         var previousAttendees = museum.Attendees;
         var previousTiles = museum.Tiles;

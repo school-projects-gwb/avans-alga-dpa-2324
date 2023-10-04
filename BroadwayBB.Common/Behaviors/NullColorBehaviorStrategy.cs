@@ -3,7 +3,7 @@ using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Common.Behaviors;
 
-public class WhiteColorBehaviorStrategy : IColorBehaviorStrategy
+public class NullColorBehaviorStrategy : IColorBehaviorStrategy
 {
     public ColorName ColorName => ColorName.White;
 
@@ -12,5 +12,5 @@ public class WhiteColorBehaviorStrategy : IColorBehaviorStrategy
         return new ColorBehaviorResult { UpdatedCollisionTargetColor = this };
     }
     
-    public IColorBehaviorStrategy DeepCopy() => new WhiteColorBehaviorStrategy();
+    public IColorBehaviorStrategy DeepCopy() => new NullColorBehaviorStrategy();
 }

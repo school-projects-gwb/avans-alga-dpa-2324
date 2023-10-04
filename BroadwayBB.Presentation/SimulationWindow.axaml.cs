@@ -9,6 +9,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using BroadwayBB.Common.Behaviors;
 using BroadwayBB.Common.Entities.Attendees;
+using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Helpers;
 using BroadwayBB.Presentation.Hotkeys;
 using BroadwayBB.Presentation.ObjectPools;
@@ -30,10 +31,11 @@ public partial class SimulationWindow : Window, ISimulationObserver
     private IObjectPool<Rectangle> _attendeeObjectPool;
 
     private int _numRows, _numCols;
-    private double _tileWidth, _tileHeight;
+    // private double _tileWidth, _tileHeight;
+    private Coords _tileSize;
     private readonly double _artistSizeModifier = 0.5;
     
-    private readonly Dictionary<(double X, double Y), Rectangle> _tileRectangles = new();
+    private readonly Dictionary<Coords, Rectangle> _tileRectangles = new();
     private readonly Dictionary<ColorName, SolidColorBrush> _colorMap = new();
 
     public SimulationWindow(MainWindow mainWindow, HotkeyManager hotkeyManager)
@@ -80,13 +82,13 @@ public partial class SimulationWindow : Window, ISimulationObserver
     {
         var pointerPosition = e.GetPosition(_simulationCanvas);
         
-        int mouseGridPosX = (int)(pointerPosition.X / _tileWidth);
-        int mouseGridPosY = (int)(pointerPosition.Y / _tileHeight);
+        int mouseGridPosX = (int)pointerPosition.X / _tileSize.Xi;
+        int mouseGridPosY = (int)pointerPosition.Y / _tileSize.Yi;
         
         mouseGridPosX = Math.Max(0, Math.Min(mouseGridPosX, _numCols - 1));
         mouseGridPosY = Math.Max(0, Math.Min(mouseGridPosY, _numRows - 1));
         
-        _hotkeyManager.UpdateMousePosition(mouseGridPosX, mouseGridPosY);
+        _hotkeyManager.UpdateMousePosition(new Coords(mouseGridPosX, mouseGridPosY));
     }
     
     private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
@@ -105,10 +107,10 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void HandleTileConfiguration()
     {
-        _numRows = _simulation.GetMuseumTiles().Max(tile => tile.PosY) + 1;
-        _numCols = _simulation.GetMuseumTiles().Max(tile => tile.PosX) + 1;
-        _tileWidth = _simulationCanvas.Width / _numCols;
-        _tileHeight = _simulationCanvas.Height / _numRows;
+        _numRows = _simulation.GetMuseumTiles().Max(tile => tile.Pos.Yi) + 1;
+        _numCols = _simulation.GetMuseumTiles().Max(tile => tile.Pos.Xi) + 1;
+
+        _tileSize = new Coords((_simulationCanvas.Width / _numCols), (_simulationCanvas.Height / _numRows));
     }
 
     private void CreateTileObjectPool()
@@ -119,8 +121,8 @@ public partial class SimulationWindow : Window, ISimulationObserver
         {
             MaxPoolAmount = maxPercentageOfTilesPerColor, 
             SupportedColors = ColorRegistryHelper.GetInstance.GetAllColors(),
-            ObjectWidth = _tileWidth,
-            ObjectHeight = _tileHeight
+            ObjectWidth = _tileSize.Xd,
+            ObjectHeight = _tileSize.Yd
         };
         
         _tileObjectPool = new CanvasItemPool(config);
@@ -136,8 +138,8 @@ public partial class SimulationWindow : Window, ISimulationObserver
                 { ColorName.Black, ColorRegistryHelper.GetInstance.GetColor(ColorName.Black) },
                 { ColorName.Red, ColorRegistryHelper.GetInstance.GetColor(ColorName.Red) }
             },
-            ObjectWidth = _tileWidth * _artistSizeModifier,
-            ObjectHeight = _tileHeight * _artistSizeModifier
+            ObjectWidth = _tileSize.Xd * _artistSizeModifier,
+            ObjectHeight = _tileSize.Yd * _artistSizeModifier
         };
         
         _attendeeObjectPool = new CanvasItemPool(config);
@@ -155,9 +157,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
     {
         foreach (var tile in _simulation.GetMuseumTiles())
         {
-            double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
-            if (!_tileRectangles.TryGetValue((posX, posY), out Rectangle rectangle)) continue;
-
+            if (!_tileRectangles.TryGetValue((tile.Pos * _tileSize), out Rectangle? rectangle)) continue;
             rectangle.Stroke = null;
             rectangle.Fill = _colorMap[tile.ColorBehaviorStrategy.ColorName];
         }
@@ -167,13 +167,13 @@ public partial class SimulationWindow : Window, ISimulationObserver
     {
         foreach (var tile in _simulation.GetMuseumTiles())
         {
-            double posX = tile.PosX * _tileWidth, posY = tile.PosY * _tileHeight;
             var item = _tileObjectPool.GetObject(tile.ColorBehaviorStrategy.ColorName);
             if (item == null) return;
-        
-            DrawCanvasItem(item, posX, posY, _backgroundCanvas);
+
+            var pos = tile.Pos * _tileSize;
+            DrawCanvasItem(item, pos, _backgroundCanvas);
             _tileObjectPool.MarkForRelease(tile.ColorBehaviorStrategy.ColorName, item);
-            _tileRectangles[(posX, posY)] = item;
+            _tileRectangles[pos] = item;
         }
             
         _tileObjectPool.ReleaseMarked();
@@ -181,25 +181,24 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void DrawAttendees()
     {
-        foreach (IAttendee artist in _simulation.GetMuseumAttendees())
-        {
-            double posX = artist.Movement.GridPosX * _tileWidth, posY = artist.Movement.GridPosY * _tileHeight;
-            var color = artist.Movement.IsColliding ? ColorName.Red : ColorName.Black;
-            var item = _attendeeObjectPool.GetObject(color);
-            if (item == null) return;
+            foreach (IAttendee artist in _simulation.GetMuseumAttendees())
+            {
+                var color = artist.Movement.IsColliding ? ColorName.Red : ColorName.Black;
+                var item = _attendeeObjectPool.GetObject(color);
+                if (item == null) return;
+
+                DrawCanvasItem(item, (artist.Movement.GridPos * _tileSize), _simulationCanvas);
+                _attendeeObjectPool.MarkForRelease(color, item);
+            }
             
-            DrawCanvasItem(item, posX, posY, _simulationCanvas);
-            _attendeeObjectPool.MarkForRelease(color, item);
-        }
-        
-        _attendeeObjectPool.ReleaseMarked();
+            _attendeeObjectPool.ReleaseMarked();
     }
 
-    private void DrawCanvasItem(Rectangle item, double posX, double posY, Canvas canvas)
+    private void DrawCanvasItem(Rectangle item, Coords pos, Canvas canvas)
     {
-        Canvas.SetLeft(item, posX);
-        Canvas.SetTop(item, posY);
-        
+        Canvas.SetLeft(item, pos.Xd);
+        Canvas.SetTop(item, pos.Yd);
+
         canvas.Children.Add(item);
     }
 
@@ -216,15 +215,15 @@ public partial class SimulationWindow : Window, ISimulationObserver
             
             var item = new Rectangle
             {
-                Width = width * _tileWidth,
-                Height = height * _tileHeight,
+                Width = width * _tileSize.Xd,
+                Height = height * _tileSize.Yd,
                 Stroke = rect.ColorName == ColorName.Red ? Brushes.Red : Brushes.Black,
                 StrokeThickness = 1
             };
 
             if (rect.IsFill) item.Fill = Brushes.Black;
             
-            DrawCanvasItem(item, x * _tileWidth, y * _tileHeight, _debugCanvas);
+            DrawCanvasItem(item, new (x * _tileSize.Xd, y * _tileSize.Yd), _debugCanvas);
         }
     }
     

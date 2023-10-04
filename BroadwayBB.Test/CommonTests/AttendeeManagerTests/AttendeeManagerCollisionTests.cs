@@ -11,7 +11,7 @@ public class AttendeeManagerCollisionTests
     public void AttendeeManager_CreateAttendeeFromCollisionResult_Correct()
     {
         var attendeeManager = new AttendeeManager();
-        var randomAttendee = new Artist(1, 1, 0, 0);
+        var randomAttendee = new Artist(new Coords(1, 1), 0, 0);
         var tileCollisionResult = new TileCollisionResult
         {
             ShouldCreateArtist = true,
@@ -29,7 +29,7 @@ public class AttendeeManagerCollisionTests
     public void AttendeeManager_RemoveAttendeeFromCollisionResult_Correct()
     {
         var attendeeManager = new AttendeeManager();
-        var randomAttendee = new Artist(1, 1, 0, 0);
+        var randomAttendee = new Artist(new Coords(1, 1), 0, 0);
         attendeeManager.Attendees = new List<IAttendee> { randomAttendee };
         
         var tileCollisionResult = new TileCollisionResult

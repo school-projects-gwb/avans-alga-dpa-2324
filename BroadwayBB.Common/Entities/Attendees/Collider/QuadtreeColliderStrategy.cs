@@ -22,8 +22,8 @@ public class QuadtreeColliderStrategy : ColliderStrategyBase
         {
             _attendeeQuadtree.Insert(
                 attendee, 
-                attendee.Movement.GetRoundedGridPosX(), 
-                attendee.Movement.GetRoundedGridPosY()
+                attendee.Movement.GridPos.Xi, 
+                attendee.Movement.GridPos.Yi
             );
         }
         
@@ -32,8 +32,8 @@ public class QuadtreeColliderStrategy : ColliderStrategyBase
 
     private void HandleAttendeeCollision(IAttendee attendee)
     {
-        var targetTreeObject = new TreeObject<IAttendee>(attendee, attendee.Movement.GetRoundedGridPosX(),
-            attendee.Movement.GetRoundedGridPosY());
+        var targetTreeObject = new TreeObject<IAttendee>(attendee, attendee.Movement.GridPos.Xi,
+            attendee.Movement.GridPos.Yi);
 
         List<IAttendee> result = new();
         _attendeeQuadtree.GetObjectsInQuadrant(result, targetTreeObject);

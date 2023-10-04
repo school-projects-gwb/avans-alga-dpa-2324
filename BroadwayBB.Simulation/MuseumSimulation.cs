@@ -10,7 +10,7 @@ namespace BroadwayBB.Simulation;
 public class MuseumSimulation : IMuseumSimulation
 {
     private readonly List<ISimulationObserver> _observers = new();
-    private Timer _simulationTickTimer, _simulationBackgroundRefreshTimer, _simulationDebugInfoTimer, _mementoCreationTimer;
+    private Timer? _simulationTickTimer, _simulationBackgroundRefreshTimer, _simulationDebugInfoTimer, _mementoCreationTimer;
     private readonly int _simulationIntervalMilliseconds = 150;
     private int _currentTick;
     private readonly int _timeSkipTickAmount = 10;
@@ -53,18 +53,21 @@ public class MuseumSimulation : IMuseumSimulation
 
     public void ToggleConfigValue(ConfigType type) => _museum.Config.Toggle(type);
     
-    public void HandlePointerClick(bool isLeftMouse, MouseGridPosition mouseGridPosition)
+    public void HandlePointerClick(bool isLeftMouse, Coords mouseGridPosition)
     {
-        if (isLeftMouse) _pointerRegistration.LeftClickPosition = new MouseGridPosition { PosX = mouseGridPosition.PosX, PosY =  mouseGridPosition.PosY};
-        if (!isLeftMouse) _pointerRegistration.RightClickPosition = new MouseGridPosition {PosX = mouseGridPosition.PosX, PosY = mouseGridPosition.PosY };
+        if (isLeftMouse) _pointerRegistration.LeftClickPosition = new Coords { Xi = mouseGridPosition.Xi, Yi =  mouseGridPosition.Yi};
+        if (!isLeftMouse) _pointerRegistration.RightClickPosition = new Coords {Xi = mouseGridPosition.Xi, Yi = mouseGridPosition.Yi };
 
         if (!_pointerRegistration.IsValid()) return;
+
+        Coords left = _pointerRegistration.LeftClickPosition ?? new();
+        Coords right = _pointerRegistration.RightClickPosition ?? new();
         
-        _museum.GenerateTilePath(_pointerRegistration.LeftClickPosition, _pointerRegistration.RightClickPosition);
+        _museum.GenerateTilePath(left, right);
         _pointerRegistration.Reset();
     }
 
-    public void UpdateTile(MouseGridPosition mouseGridPosition) => _museum.HandleMouseTileUpdate(mouseGridPosition.PosX, mouseGridPosition.PosY);
+    public void UpdateTile(Coords mouseGridPosition) => _museum.HandleMouseTileUpdate(mouseGridPosition);
 
     public List<ITile> GetMuseumTiles() => _museum.Tiles;
 

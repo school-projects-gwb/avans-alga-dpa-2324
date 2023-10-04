@@ -4,7 +4,7 @@ namespace BroadwayBB.Simulation.Commands;
 
 public class OpenFileMenu : ICommand
 {
-    public void HandleCommand(IMuseumSimulation museumSimulation, MouseGridPosition mouseGridGridPosition)
+    public void HandleCommand(IMuseumSimulation museumSimulation, Coords mouseGridPosition)
     {
         museumSimulation.OpenFileMenu();
     }

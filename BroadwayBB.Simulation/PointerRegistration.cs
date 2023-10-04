@@ -4,8 +4,8 @@ namespace BroadwayBB.Simulation;
 
 public class PointerRegistration
 {
-    public MouseGridPosition? LeftClickPosition;
-    public MouseGridPosition? RightClickPosition;
+    public Coords? LeftClickPosition;
+    public Coords? RightClickPosition;
 
     public bool IsValid() => LeftClickPosition != null && RightClickPosition != null;
 

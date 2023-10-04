@@ -4,7 +4,7 @@ namespace BroadwayBB.Simulation.Commands;
 
 public class ChangePathfindingAlgorithm : ICommand
 {
-    public void HandleCommand(IMuseumSimulation museumSimulation, MouseGridPosition mouseGridGridPosition)
+    public void HandleCommand(IMuseumSimulation museumSimulation, Coords mouseGridPosition)
     {
         throw new NotImplementedException();
     }

@@ -16,14 +16,14 @@ public abstract class ColliderStrategyBase : IColliderStrategy
     protected void HandleIsColliding(IAttendee one, IAttendee two)
     {
         double tolerance = 0;
-        if (Math.Abs(one.Movement.GridPosX - two.Movement.GridPosX) <= tolerance && Math.Abs(one.Movement.GridPosY - two.Movement.GridPosY) <= tolerance) return;
-        double dx = Math.Abs(one.Movement.GridPosX - two.Movement.GridPosX);
-        double dy = Math.Abs(one.Movement.GridPosY - two.Movement.GridPosY);
+        if (Math.Abs(one.Movement.GridPos.Xd - two.Movement.GridPos.Xd) <= tolerance && Math.Abs(one.Movement.GridPos.Yd - two.Movement.GridPos.Yd) <= tolerance) return;
+        double dx = Math.Abs(one.Movement.GridPos.Xd - two.Movement.GridPos.Xd);
+        double dy = Math.Abs(one.Movement.GridPos.Yd - two.Movement.GridPos.Yd);
     
         double epsilon = 0.001;
     
         bool isColliding = dx <= _minimumCollisionDistance + epsilon && dy <= _minimumCollisionDistance + epsilon;
-    
+        
         one.Movement.IsColliding = isColliding;
         two.Movement.IsColliding = isColliding;
     }

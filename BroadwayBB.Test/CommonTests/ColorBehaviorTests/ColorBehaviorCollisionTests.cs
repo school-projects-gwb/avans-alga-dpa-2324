@@ -53,10 +53,10 @@ public class ColorBehaviorCollisionTests
     [Fact]
     public void WhiteColor_OnCollision_ResultCorrect()
     {
-        var tileColor = new WhiteColorBehaviorStrategy();
+        var tileColor = new NullColorBehaviorStrategy();
         var result = tileColor.HandleCollision();
         
-        Assert.IsType<WhiteColorBehaviorStrategy>(result.UpdatedCollisionTargetColor);
+        Assert.IsType<NullColorBehaviorStrategy>(result.UpdatedCollisionTargetColor);
         Assert.Empty(result.UpdatedAdjacentTileColors);
         Assert.False(result.ShouldCreateArtist);
         Assert.False(result.ShouldRemoveArtist);

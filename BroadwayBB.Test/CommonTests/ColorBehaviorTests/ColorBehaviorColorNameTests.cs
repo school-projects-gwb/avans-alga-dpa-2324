@@ -21,7 +21,7 @@ public class ColorBehaviorColorNameTests
     [Fact]
     public void WhiteColor_ColorName_Correct()
     {
-        var tileColor = new WhiteColorBehaviorStrategy();
+        var tileColor = new NullColorBehaviorStrategy();
         Assert.Equal(ColorName.White, tileColor.ColorName);
     }
     
