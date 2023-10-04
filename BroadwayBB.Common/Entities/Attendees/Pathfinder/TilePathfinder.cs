@@ -17,10 +17,9 @@ public class TilePathfinder : IConfigObserver
 
     public void SetTiles(List<TileNode> tileGraph) => _tileGraph = tileGraph;
 
-    public void GeneratePath(ITile start, ITile target)
-    {
-        _currentPath = _strategies[_activeStrategyType].CalculatePath(_tileGraph, start, target); 
-    }
+    public void GeneratePath(ITile start, ITile target) => _strategies[_activeStrategyType].CalculatePath(_tileGraph, start, target);
+
+    public List<DebugTile> GetDebugInfo() => _strategies[_activeStrategyType].GetDebugInfo();
     
     public void OnUpdate(ConfigType type, bool value)
     {

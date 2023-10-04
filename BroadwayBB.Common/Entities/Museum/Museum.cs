@@ -82,13 +82,12 @@ public class Museum
     }
 
     public int GetMaxAttendees() => _attendeeManager.AttendeeLimit;
-
-    public void GenerateTilePath(ITile start, ITile target) => _tileManager.TilePathfinder.GeneratePath(start, target);
     
     public List<DebugTile> GetDebugInfo()
     {
         var debugInfo = new List<DebugTile>();
-        if (Config.Get(ConfigType.ShouldRenderQuadtree)) debugInfo = _attendeeManager.GetColliderDebugInfo();
+        if (Config.Get(ConfigType.ShouldRenderQuadtree)) debugInfo.AddRange(_attendeeManager.GetColliderDebugInfo());
+        if (Config.Get(ConfigType.ShouldRenderPath)) debugInfo.AddRange(_tileManager.GetPathfinderDebugInfo());
         
         return debugInfo;
     } 
@@ -130,8 +129,8 @@ public class Museum
         _attendeeManager.Attendees = artists;
     }
 
-    public void HandleTilePath(MouseGridPosition pointerRegistrationLeftClickPosition, MouseGridPosition pointerRegistrationRightClickPosition)
+    public void GenerateTilePath(MouseGridPosition leftClickPosition, MouseGridPosition rightClickPosition)
     {
-        Console.WriteLine("Valid");
+        _tileManager.GeneratePath(leftClickPosition, rightClickPosition);
     }
 }

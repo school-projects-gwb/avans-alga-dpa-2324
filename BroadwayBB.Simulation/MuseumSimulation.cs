@@ -55,12 +55,12 @@ public class MuseumSimulation : IMuseumSimulation
     
     public void HandlePointerClick(bool isLeftMouse, MouseGridPosition mouseGridPosition)
     {
-        if (isLeftMouse) _pointerRegistration.LeftClickPosition = mouseGridPosition;
-        if (!isLeftMouse) _pointerRegistration.RightClickPosition = mouseGridPosition;
+        if (isLeftMouse) _pointerRegistration.LeftClickPosition = new MouseGridPosition { PosX = mouseGridPosition.PosX, PosY =  mouseGridPosition.PosY};
+        if (!isLeftMouse) _pointerRegistration.RightClickPosition = new MouseGridPosition {PosX = mouseGridPosition.PosX, PosY = mouseGridPosition.PosY };
 
         if (!_pointerRegistration.IsValid()) return;
         
-        _museum.HandleTilePath(_pointerRegistration.LeftClickPosition, _pointerRegistration.RightClickPosition);
+        _museum.GenerateTilePath(_pointerRegistration.LeftClickPosition, _pointerRegistration.RightClickPosition);
         _pointerRegistration.Reset();
     }
 

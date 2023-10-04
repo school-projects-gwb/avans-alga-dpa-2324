@@ -3,9 +3,9 @@ using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Common.Entities.Attendees.PathFinder;
 
-public class BfsPathfinderStrategy : IPathfinderStrategy
+public class BfsPathfinderStrategy : PathfinderStrategyBase
 {
-    public (List<ITile> shortestPath, List<ITile> visitedNodes) CalculatePath(List<TileNode> tileGraph, ITile start, ITile target)
+    public override void CalculatePath(List<TileNode> tileGraph, ITile start, ITile target)
     {
         Queue<ITile> queue = new Queue<ITile>();
         Dictionary<ITile, ITile> parentMap = new Dictionary<ITile, ITile>();
@@ -21,7 +21,8 @@ public class BfsPathfinderStrategy : IPathfinderStrategy
             if (currentTile == target)
             {
                 List<ITile> shortestPath = ReconstructPath(parentMap, target);
-                return (shortestPath, visitedNodes);
+                CurrentPath = (shortestPath, visitedNodes);
+                return;
             }
 
             foreach (ITile neighbor in GetNeighbors(tileGraph, currentTile))
@@ -33,7 +34,7 @@ public class BfsPathfinderStrategy : IPathfinderStrategy
             }
         }
         
-        return (null, visitedNodes);
+        CurrentPath = (null, visitedNodes);
     }
 
     private List<ITile> ReconstructPath(Dictionary<ITile, ITile> parentMap, ITile target)
@@ -57,10 +58,5 @@ public class BfsPathfinderStrategy : IPathfinderStrategy
             .First(node => node.Tile == tile)
             .Neighbors
             .Select(node => node.Tile);
-    }
-
-    public List<Rectangle> GetDebugInfo()
-    {
-        throw new NotImplementedException();
     }
 }

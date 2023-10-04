@@ -121,8 +121,14 @@ public class TileManager
         }
     }
 
-    public void GeneratePath(ITile start, ITile target)
+    public void GeneratePath(MouseGridPosition startTilePosition, MouseGridPosition targetTilePosition)
     {
-        
+        var start = FindNode(startTilePosition.PosX, startTilePosition.PosY);
+        var target = FindNode(targetTilePosition.PosX, targetTilePosition.PosY);
+
+        if (start == null || target == null) return;
+        TilePathfinder.GeneratePath(start.Tile, target.Tile);
     }
+
+    public IEnumerable<DebugTile> GetPathfinderDebugInfo() => TilePathfinder.GetDebugInfo();
 }
