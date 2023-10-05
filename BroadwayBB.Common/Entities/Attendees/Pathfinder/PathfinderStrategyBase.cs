@@ -16,10 +16,10 @@ public abstract class PathfinderStrategyBase : IPathfinderStrategy
         
         if (CurrentPath.shortestPath == null || CurrentPath.visitedNodes == null) return new();
 
-        var firstTile = CurrentPath.shortestPath.First();
+        var firstTile = CurrentPath.shortestPath.Last();
         result.Add(new DebugTile() { ColorName = ColorName.White, IsFill = true, PositionInfo = new Rectangle(firstTile.Pos.Xi, firstTile.Pos.Yi, 1, 1)});
         
-        foreach (var tile in CurrentPath.shortestPath.Skip(1))
+        foreach (var tile in CurrentPath.shortestPath.Take(CurrentPath.shortestPath.Count - 1))
             result.Add(new DebugTile() { ColorName = ColorName.Black, IsFill = true, PositionInfo = new Rectangle(tile.Pos.Xi, tile.Pos.Yi, 1, 1)});
         
         foreach (var tile in CurrentPath.visitedNodes)

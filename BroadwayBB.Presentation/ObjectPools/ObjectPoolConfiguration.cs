@@ -9,5 +9,6 @@ public class ObjectPoolConfiguration
     public double ObjectWidth;
     public double ObjectHeight;
     public int MaxPoolAmount;
+    public bool BorderOnly = false;
     public Dictionary<ColorName, RgbColor> SupportedColors;
 }

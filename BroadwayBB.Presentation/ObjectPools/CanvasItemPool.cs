@@ -28,12 +28,26 @@ public class CanvasItemPool : IObjectPool<Rectangle>
 
             for (int i = 0; i < _configuration.MaxPoolAmount; i++)
             {
-                values.Add(new Rectangle
+                var rect = new Rectangle
                 {
                     Width = _configuration.ObjectWidth,
                     Height = _configuration.ObjectHeight,
-                    Fill = new SolidColorBrush(Color.FromRgb(colorMapRecord.Value.Red, colorMapRecord.Value.Green, colorMapRecord.Value.Blue)),
-                });
+                };
+
+                var color =  new SolidColorBrush(Color.FromRgb(colorMapRecord.Value.Red, colorMapRecord.Value.Green,
+                    colorMapRecord.Value.Blue));
+
+                if (_configuration.BorderOnly)
+                {
+                    rect.Stroke = color;
+                    rect.StrokeThickness = 1;
+                }
+                else
+                {
+                    rect.Fill = color;   
+                }
+                
+                values.Add(rect);
             }
             
             lock (_poolLock) _rectangleObjectPool[key] = values;

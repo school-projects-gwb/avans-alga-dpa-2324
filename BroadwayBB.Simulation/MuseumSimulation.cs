@@ -14,7 +14,7 @@ public class MuseumSimulation : IMuseumSimulation
     private readonly int _simulationIntervalMilliseconds = 150;
     private int _currentTick;
     private readonly int _timeSkipTickAmount = 10;
-    private readonly int _backgroundUpdateIntervalMilliseconds = 400;
+    private readonly int _backgroundUpdateIntervalMilliseconds = 500;
     private readonly int _debugInfoUpdateIntervalMilliseconds = 500;
     private readonly int _mementoCreationIntervalMilliseconds = 500;
     private readonly Museum _museum;

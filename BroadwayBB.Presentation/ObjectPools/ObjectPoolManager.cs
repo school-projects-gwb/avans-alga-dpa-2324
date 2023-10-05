@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Avalonia.Controls.Shapes;
 using BroadwayBB.Common.Behaviors;
+using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Helpers;
 
 namespace BroadwayBB.Presentation.ObjectPools;
@@ -9,8 +10,9 @@ public class ObjectPoolManager
 {
     public IObjectPool<Rectangle> AttendeeObjectPool { get; private set; }
     public IObjectPool<Rectangle> TileObjectPool { get; private set; }
+    public IObjectPool<Rectangle> DebugObjectPool { get; private set; }
 
-    public void CreateAttendeeObjectPool(int poolAmount, double width, double height)
+    public void CreateAttendeeObjectPool(int poolAmount, Coords tileSize)
     {
         var config = new ObjectPoolConfiguration
         {
@@ -20,23 +22,40 @@ public class ObjectPoolManager
                 { ColorName.Black, ColorRegistryHelper.GetInstance.GetColor(ColorName.Black) },
                 { ColorName.Red, ColorRegistryHelper.GetInstance.GetColor(ColorName.Red) }
             },
-            ObjectWidth = width,
-            ObjectHeight = height
+            ObjectWidth = tileSize.Xd,
+            ObjectHeight = tileSize.Yd
         };
         
         AttendeeObjectPool = new CanvasItemPool(config);
     }
     
-    public void CreateTileObjectPool(int poolAmount, double width, double height)
+    public void CreateTileObjectPool(int poolAmount, Coords tileSize)
     {
         var config = new ObjectPoolConfiguration
         {
             MaxPoolAmount = poolAmount, 
             SupportedColors = ColorRegistryHelper.GetInstance.GetAllColors(),
-            ObjectWidth = width,
-            ObjectHeight = height
+            ObjectWidth = tileSize.Xd,
+            ObjectHeight = tileSize.Yd
         };
         
         TileObjectPool = new CanvasItemPool(config);
+    }
+    
+    public void CreateDebugObjectPool(int poolAmount, Coords tileSize)
+    {
+        var config = new ObjectPoolConfiguration
+        {
+            MaxPoolAmount = poolAmount, 
+            SupportedColors = new Dictionary<ColorName, RgbColor>
+            {
+                { ColorName.Black, ColorRegistryHelper.GetInstance.GetColor(ColorName.Black) },
+            },
+            ObjectWidth = tileSize.Xd,
+            ObjectHeight = tileSize.Yd,
+            BorderOnly = true
+        };
+        
+        DebugObjectPool = new CanvasItemPool(config);
     }
 }
