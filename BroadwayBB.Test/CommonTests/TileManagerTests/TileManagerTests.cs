@@ -67,7 +67,7 @@ public class TileManagerTests : TileTestBase
     void TileManager_BlueTileCollision_ResultCorrect()
     {
         _tileManager.Tiles = CreateWhiteColorGridWithGivenColor(collisionTilePos, new BlueColorBehaviorStrategy());
-        var collisionResult = _tileManager.HandleCollision(collisionTilePos);
+        var collisionResult = _tileManager.HandleCollision(collisionTilePos, true);
 
         var targetCollisionTile =
             _tileManager.Tiles.Find(tile => Coords.IntEqual(tile.Pos, collisionTilePos));
@@ -112,15 +112,15 @@ public class TileManagerTests : TileTestBase
             _tileManager.Tiles.Find(tile => Coords.IntEqual(tile.Pos, collisionTilePos));
         
         // First collision
-        var collisionResult = _tileManager.HandleCollision(collisionTilePos);
+        var collisionResult = _tileManager.HandleCollision(collisionTilePos, true);
         Assert.IsType<GreyColorBehaviorStrategy>(targetCollisionTile?.ColorBehaviorStrategy);
         
         // Second collision
-        collisionResult = _tileManager.HandleCollision(collisionTilePos);
+        collisionResult = _tileManager.HandleCollision(collisionTilePos, true);
         Assert.IsType<GreyColorBehaviorStrategy>(targetCollisionTile.ColorBehaviorStrategy);
         
         // Third collision
-        collisionResult = _tileManager.HandleCollision(collisionTilePos);
+        collisionResult = _tileManager.HandleCollision(collisionTilePos, true);
         
         var adjacentTileChangeCount =
             GetAdjacentTileColorChangedAmount(_tileManager.Tiles, collisionTilePos);  
@@ -135,7 +135,7 @@ public class TileManagerTests : TileTestBase
     void TileManager_RedTileCollision_ResultCorrect()
     {
         _tileManager.Tiles = CreateWhiteColorGridWithGivenColor(collisionTilePos, new RedColorBehaviorStrategy());
-        var collisionResult = _tileManager.HandleCollision(collisionTilePos);
+        var collisionResult = _tileManager.HandleCollision(collisionTilePos, true);
 
         var targetCollisionTile =
             _tileManager.Tiles.Find(tile => Coords.IntEqual(tile.Pos, collisionTilePos));
@@ -153,7 +153,7 @@ public class TileManagerTests : TileTestBase
     void TileManager_WhiteTileCollision_ResultCorrect()
     {
         _tileManager.Tiles = CreateWhiteColorGridWithGivenColor(collisionTilePos, new NullColorBehaviorStrategy());
-        var collisionResult = _tileManager.HandleCollision(collisionTilePos);
+        var collisionResult = _tileManager.HandleCollision(collisionTilePos, true);
 
         var targetCollisionTile =
             _tileManager.Tiles.Find(tile => Coords.IntEqual(tile.Pos, collisionTilePos));
@@ -176,12 +176,12 @@ public class TileManagerTests : TileTestBase
             _tileManager.Tiles.Find(tile => Coords.IntEqual(tile.Pos, collisionTilePos));
         
         // First collision
-        var collisionResult = _tileManager.HandleCollision(collisionTilePos);
+        var collisionResult = _tileManager.HandleCollision(collisionTilePos, true);
         Assert.IsType<YellowColorBehaviorStrategy>(targetCollisionTile?.ColorBehaviorStrategy);
         Assert.True(collisionResult.ShouldCreateArtist);
         
         // Second collision
-        collisionResult = _tileManager.HandleCollision(collisionTilePos);
+        collisionResult = _tileManager.HandleCollision(collisionTilePos, true);
         
         var adjacentTileChangeCount =
             GetAdjacentTileColorChangedAmount(_tileManager.Tiles, collisionTilePos);  

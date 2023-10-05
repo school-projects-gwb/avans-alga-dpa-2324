@@ -58,13 +58,14 @@ public class Museum
     private void HandleAttendeeMovement(IAttendee attendee, List<MovementDirection> possibleDirections)
     {
         var movementResult = attendee.Movement.HandleMovement(possibleDirections);
-        if (movementResult.HasEnteredNewGridTile && Config.Get(ConfigType.ShouldHaveTileBehavior)) HandleTileCollision(attendee, movementResult);
+        if (movementResult.HasEnteredNewGridTile) HandleTileCollision(attendee, movementResult);
     }
 
     private void HandleTileCollision(IAttendee attendee, MovementResult movementResult)
     {
-        var tileCollisionResult = _tileManager.HandleCollision(movementResult.GridPos);
+        var tileCollisionResult = _tileManager.HandleCollision(movementResult.GridPos, Config.Get(ConfigType.ShouldHaveTileBehavior));
         if (!Config.Get(ConfigType.ShouldRenderAttendees)) tileCollisionResult.ShouldCreateArtist = false;
+        if (!Config.Get(ConfigType.ShouldCollideWithPath)) tileCollisionResult.IsInPath = false;
         _attendeeManager.HandleTileCollisionResult(tileCollisionResult, attendee);
     }
 
@@ -72,7 +73,7 @@ public class Museum
     {
         if (!Config.Get(ConfigType.ShouldHaveTileBehavior)) return;
 
-        var tileCollisionResult = _tileManager.HandleCollision(mouseGridPos);
+        var tileCollisionResult = _tileManager.HandleCollision(mouseGridPos, Config.Get(ConfigType.ShouldHaveTileBehavior));
 
         tileCollisionResult.ShouldRemoveArtist = false;
         // We can pass a new "non-existing" attendee here since removing artists is always disabled.
@@ -87,7 +88,8 @@ public class Museum
     {
         var debugInfo = new List<DebugTile>();
         if (Config.Get(ConfigType.ShouldRenderQuadtree)) debugInfo.AddRange(_attendeeManager.GetColliderDebugInfo());
-        if (Config.Get(ConfigType.ShouldRenderPath)) debugInfo.AddRange(_tileManager.GetPathfinderDebugInfo());
+        if (Config.Get(ConfigType.ShouldRenderPath)) 
+            debugInfo.AddRange(_tileManager.GetPathfinderDebugInfo(Config.Get(ConfigType.ShouldRenderVisited)));
         
         return debugInfo;
     } 

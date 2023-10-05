@@ -11,7 +11,10 @@ public class MuseumConfiguration
         { ConfigType.ShouldHaveTileBehavior, true },
         { ConfigType.ShouldRenderQuadtree, false },
         { ConfigType.IsQuadtreeCollision, true },
-        { ConfigType.ShouldRenderPath, true }
+        { ConfigType.ShouldRenderPath, true },
+        { ConfigType.IsBfsPathfinding, true },
+        { ConfigType.ShouldRenderVisited, true },
+        { ConfigType.ShouldCollideWithPath, true }
     };
 
     public void Toggle(ConfigType type)

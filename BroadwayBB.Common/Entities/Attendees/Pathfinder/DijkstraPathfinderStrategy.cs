@@ -7,6 +7,6 @@ public class DijkstraPathfinderStrategy : PathfinderStrategyBase
 {
     public override void CalculatePath(List<TileNode> tileGraph, ITile start, ITile end)
     {
-        throw new NotImplementedException();
+        
     }
 }

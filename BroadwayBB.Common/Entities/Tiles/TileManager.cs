@@ -65,7 +65,7 @@ public class TileManager
         return possibleDirections;
     }
 
-    public TileCollisionResult HandleCollision(Coords tilePos)
+    public TileCollisionResult HandleCollision(Coords tilePos, bool isTileBehavior)
     {
         // TileCollisionResult uitbreiden met IsTileInPath
         // Logica uitbreiden met check of attendee op path tile staat
@@ -74,11 +74,15 @@ public class TileManager
         if (targetNode == null) return collisionResult;
 
         var colorBehaviorResult = targetNode.Tile.ColorBehaviorStrategy.HandleCollision();
-        targetNode.Tile.UpdateColorBehavior(colorBehaviorResult.UpdatedCollisionTargetColor);
-        UpdateAdjacentTiles(targetNode, colorBehaviorResult.UpdatedAdjacentTileColors);
+        if (isTileBehavior)
+        {
+            targetNode.Tile.UpdateColorBehavior(colorBehaviorResult.UpdatedCollisionTargetColor);
+            UpdateAdjacentTiles(targetNode, colorBehaviorResult.UpdatedAdjacentTileColors);
+            collisionResult.ShouldCreateArtist = colorBehaviorResult.ShouldCreateArtist;
+            collisionResult.ShouldRemoveArtist = colorBehaviorResult.ShouldRemoveArtist;
+        }
 
-        collisionResult.ShouldCreateArtist = colorBehaviorResult.ShouldCreateArtist;
-        collisionResult.ShouldRemoveArtist = colorBehaviorResult.ShouldRemoveArtist;
+        collisionResult.IsInPath = TilePathfinder.IsTileInPath(targetNode);
 
         return collisionResult;
     }
@@ -127,5 +131,5 @@ public class TileManager
         TilePathfinder.GeneratePath(start.Tile, target.Tile);
     }
 
-    public IEnumerable<DebugTile> GetPathfinderDebugInfo() => TilePathfinder.GetDebugInfo();
+    public IEnumerable<DebugTile> GetPathfinderDebugInfo(bool withVisited) => TilePathfinder.GetDebugInfo(withVisited);
 }

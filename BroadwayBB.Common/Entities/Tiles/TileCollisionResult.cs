@@ -4,4 +4,5 @@ public class TileCollisionResult
 {
     public bool ShouldCreateArtist = false;
     public bool ShouldRemoveArtist = false;
+    public bool IsInPath = false;
 }

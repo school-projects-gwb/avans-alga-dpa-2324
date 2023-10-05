@@ -40,11 +40,9 @@ public class AttendeeManager
 
     public void HandleTileCollisionResult(TileCollisionResult tileCollisionResult, IAttendee targetAttendee)
     {
-        if (tileCollisionResult.ShouldCreateArtist)
-            CreateArtist(targetAttendee.Movement.GridPos);
-
-        if (tileCollisionResult.ShouldRemoveArtist)
-            RemoveArtist(targetAttendee);
+        if (tileCollisionResult.ShouldCreateArtist) CreateArtist(targetAttendee.Movement.GridPos);
+        if (tileCollisionResult.ShouldRemoveArtist) RemoveArtist(targetAttendee);
+        if (tileCollisionResult.IsInPath) targetAttendee.Movement.IsColliding = true;
     }
 
     private void CreateArtist(Coords targetPos)
