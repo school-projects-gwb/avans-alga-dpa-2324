@@ -44,7 +44,6 @@ public partial class SimulationWindow : Window, ISimulationObserver
         _hotkeyManager = hotkeyManager;
 
         InitGrid();
-        InitColorMap();
         InitCanvases();
         
         Closed += (sender, e) => _mainWindow.Show();
@@ -104,7 +103,8 @@ public partial class SimulationWindow : Window, ISimulationObserver
             new Coords(_tileSize.Xd,  _tileSize.Yd));
         _objectPoolManager.CreateDebugObjectPool(_numCols * _numRows, 
             new Coords(_tileSize.Xd,  _tileSize.Yd));
-        
+
+        InitColorMap();
         InitiateTileObjects();
     }
 
