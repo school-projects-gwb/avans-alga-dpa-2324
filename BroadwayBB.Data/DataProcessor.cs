@@ -8,6 +8,7 @@ using BroadwayBB.Data.Factories;
 using BroadwayBB.Data.Factories.Interfaces;
 using BroadwayBB.Data.Strategies;
 using BroadwayBB.Common.Entities.Structures;
+using BroadwayBB.Common.Helpers;
 
 namespace BroadwayBB.Data;
 
@@ -61,6 +62,15 @@ public class DataProcessor
         if (gridDTO.Rows < 1 || gridDTO.Columns < 1)
         {
             throw new ArgumentOutOfRangeException("Unable to create grid with given values.");
+        }
+
+
+        foreach (var nodeType in gridDTO.NodeTypes)
+        {
+            var colorName = ColorRegistryHelper.GetInstance.GetColorName(nodeType.Tag);
+
+            ColorRegistryHelper.GetInstance.RegisterColor(colorName, new RgbColor(nodeType.Color));
+            WeightRegistryHelper.GetInstance.RegisterWeight(colorName, nodeType.Weight);
         }
 
         for (int y = 0; y < gridDTO.Rows; y++)

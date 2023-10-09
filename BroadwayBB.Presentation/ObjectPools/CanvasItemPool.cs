@@ -58,7 +58,7 @@ public class CanvasItemPool : IObjectPool<Rectangle>
     {
         lock (_poolLock)
         {
-            if (!_rectangleObjectPool.TryGetValue(colorName, out List<Rectangle> pool)) return null;
+            if (!_rectangleObjectPool.TryGetValue(colorName, out List<Rectangle>? pool)) return null;
             if (pool.Count <= 0) return null;
             var obj = pool[0];
             pool.RemoveAt(0);

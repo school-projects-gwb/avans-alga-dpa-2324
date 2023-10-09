@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace BroadwayBB.Common.Helpers;
 
 public class RgbColor
@@ -11,5 +13,12 @@ public class RgbColor
         Red = red;
         Green = green;
         Blue = blue;
+    }
+
+    public RgbColor(Color color)
+    {
+        Red   = color.R;
+        Green = color.G;
+        Blue  = color.B;
     }
 }
