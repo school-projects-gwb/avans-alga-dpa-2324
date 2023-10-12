@@ -1,4 +1,5 @@
 ﻿using BroadwayBB.Common.Behaviors;
+using BroadwayBB.Common.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -13,6 +14,7 @@ namespace BroadwayBB.Data.DTOs
     {
         public int Weight;
         public Color Color;
+        public ColorName ColorName;
         public char Tag;
 
         public NodeTypeDTO(int weight, Color color, char tag)
@@ -20,6 +22,7 @@ namespace BroadwayBB.Data.DTOs
             Weight = weight;
             Color = color;
             Tag = tag;
+            ColorName = ColorRegistryHelper.GetInstance.GetColorName(tag);
         }
     }
 }

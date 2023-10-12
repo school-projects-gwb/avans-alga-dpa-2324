@@ -67,10 +67,8 @@ public class DataProcessor
 
         foreach (var nodeType in gridDTO.NodeTypes)
         {
-            var colorName = ColorRegistryHelper.GetInstance.GetColorName(nodeType.Tag);
-
-            ColorRegistryHelper.GetInstance.RegisterColor(colorName, new RgbColor(nodeType.Color));
-            WeightRegistryHelper.GetInstance.RegisterWeight(colorName, nodeType.Weight);
+            ColorRegistryHelper.GetInstance.RegisterColor(nodeType.ColorName, new RgbColor(nodeType.Color));
+            WeightRegistryHelper.GetInstance.RegisterWeight(nodeType.ColorName, nodeType.Weight);
         }
 
         for (int y = 0; y < gridDTO.Rows; y++)
@@ -85,7 +83,7 @@ public class DataProcessor
                     tile.Coords.Yd = y;
                 }
 
-                tiles.Add(_tileFactory.Create(tile.Coords, tile.Type.Tag));
+                tiles.Add(_tileFactory.Create(tile.Type.ColorName, tile.Coords));
             }
         }
 

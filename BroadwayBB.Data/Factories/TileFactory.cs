@@ -1,22 +1,44 @@
 using BroadwayBB.Common.Behaviors;
+using BroadwayBB.Common.Behaviors.Interfaces;
 using BroadwayBB.Common.Entities;
 using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Tiles;
 using BroadwayBB.Data.Factories.Interfaces;
+using BroadwayBB.Data.Strategies.Interfaces;
 
 namespace BroadwayBB.Data.Factories;
 
 public class TileFactory : ITileFactory
 {
-    public ITile Create(Coords coords, char tag)
+    private const string ColorBehaviorStrategyClassName = "ColorBehaviorStrategy";
+    private readonly Dictionary<string, Type> ColorBehaviorStrategies = new Dictionary<string, Type>();
+
+    public TileFactory()
     {
-        return tag switch
+        var interfaceType = typeof(IColorBehaviorStrategy);
+        var implementingTypes = AppDomain.CurrentDomain.GetAssemblies()
+                                .SelectMany(a => a.GetTypes())
+                                .Where(type => interfaceType.IsAssignableFrom(type) &&
+                                                !type.IsAbstract &&
+                                                !type.IsInterface);
+
+        foreach (var type in implementingTypes)
         {
-            'B' => new Tile(coords, new BlueColorBehaviorStrategy()),
-            'Y' => new Tile(coords, new YellowColorBehaviorStrategy()),
-            'R' => new Tile(coords, new RedColorBehaviorStrategy()),
-            'G' => new Tile(coords, new GreyColorBehaviorStrategy()),
-            _ => new Tile(coords, new NullColorBehaviorStrategy())
-        };
+            string name = type.Name.Replace(ColorBehaviorStrategyClassName, "").ToLower();
+            ColorBehaviorStrategies[name] = type;
+        }
+    }
+
+    public ITile Create(ColorName name, Coords coords)
+    {
+        if (!ColorBehaviorStrategies.TryGetValue(name.ToString().ToLower(), out Type? colorBehaviour))
+        {
+            colorBehaviour = typeof(NullColorBehaviorStrategy);
+        }
+
+        var strategy = (IColorBehaviorStrategy?)Activator.CreateInstance(colorBehaviour);
+        strategy ??= new NullColorBehaviorStrategy();
+
+        return new Tile(coords, strategy);
     }
 }

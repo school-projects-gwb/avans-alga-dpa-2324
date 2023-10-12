@@ -8,6 +8,15 @@ namespace BroadwayBB.Common.Entities.Attendees;
 
 public class AttendeeManager
 {
+    private readonly List<IAttendee> _markedForRemoval = new();
+    private readonly List<IAttendee> _markedForCreation = new();
+    private readonly int _markedLimit = 5, _attendeeHardLimit = 100;
+    private readonly double _minSpeed = 1.0, _maxSpeed = 3.0;
+    private readonly Random _random = new();
+
+    public AttendeeCollider AttendeeCollider { get; private set; }
+    public int AttendeeLimit { get; private set; } = 50;
+
     private List<IAttendee> _attendees = new();
 
     public List<IAttendee> Attendees
@@ -19,15 +28,6 @@ public class AttendeeManager
             AttendeeCollider?.SetAttendees(value);
         }
     }
-
-    public AttendeeCollider AttendeeCollider { get; private set; }
-
-    private readonly List<IAttendee> _markedForRemoval = new();
-    private readonly List<IAttendee> _markedForCreation = new();
-    private readonly int _markedLimit = 5, _attendeeHardLimit = 100;
-    private readonly double _minSpeed = 1.0, _maxSpeed = 3.0;
-    private readonly Random _random = new();
-    public int AttendeeLimit { get; private set; } = 50;
 
     public void HandleCollision() => AttendeeCollider.HandleCollision();
 

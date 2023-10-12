@@ -9,19 +9,19 @@
         x:CompileBindings="True"
         Title="Broadway Boogie Woogie - Museum laden">
   
-  <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
+  <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="450">
+    <StackPanel Margin="10,0,10,10" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
       <Button HorizontalAlignment="Center" Content="Select Grid file (.xml)" Click="SelectGrid_Click"/>
-      <TextBlock HorizontalAlignment="Center"  Height="25"> Path to grid:</TextBlock>
+      <TextBlock Margin="0,5,0,0" HorizontalAlignment="Center"  Height="25"> Path to grid:</TextBlock>
       <TextBox Name="GridLink" HorizontalAlignment="Center" Height="25" Watermark="URL to Grid file"  Text="{Binding GridPath, Mode=TwoWay}"/>
     </StackPanel>
-    
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
+
+    <StackPanel Margin="10,10,10,10" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
       <Button HorizontalAlignment="Center" Content="Select Artists file (.csv)" Click="SelectArtists_Click"/>
-      <TextBlock HorizontalAlignment="Center" Height="25"> Path to artists:</TextBlock>
+      <TextBlock Margin="0,5,0,0" HorizontalAlignment="Center" Height="25"> Path to artists:</TextBlock>
       <TextBox Name="ArtistsLink" HorizontalAlignment="Center" Height="25" Watermark="URL to Artists file"  Text="{Binding ArtistsPath, Mode=TwoWay}"/>
     </StackPanel>
-    
-    <Button HorizontalAlignment="Center" Name="StartSimulation" Content="Show Simulation" Click="ShowSimulation_Click" IsEnabled="{Binding Enable}"/>
+
+    <Button Margin="0,10,0,0" HorizontalAlignment="Center" Name="StartSimulation" Content="Show Simulation" Click="ShowSimulation_Click" IsEnabled="{Binding Enable}"/>
   </StackPanel>
 </Window>
