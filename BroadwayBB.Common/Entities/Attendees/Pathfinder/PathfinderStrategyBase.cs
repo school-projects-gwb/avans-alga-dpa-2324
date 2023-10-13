@@ -45,6 +45,12 @@ public abstract class PathfinderStrategyBase : IPathfinderStrategy
         return result;
     }
 
+    protected void ShowPathLength()
+    {
+        foreach (var shortestPath in CurrentPath.shortestPaths)
+            Console.WriteLine("Padlengte: " + shortestPath.Count);
+    } 
+
     public bool IsTileInPath(ITile targetNodeTile)
     {
         if (CurrentPath.shortestPaths == null) return false;

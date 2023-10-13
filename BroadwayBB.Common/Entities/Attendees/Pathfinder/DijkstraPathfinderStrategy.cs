@@ -40,6 +40,7 @@ public class DijkstraPathfinderStrategy : PathfinderStrategyBase
 
         var transformedPaths = TransformPaths(shortestPaths);
         CurrentPath = (transformedPaths, visitedNodes.ToList());
+        ShowPathLength();
     }
 
     private List<TileNodeWeightedDecorator> GetShortestPath(TileNodeWeightedDecorator node)

@@ -31,6 +31,7 @@ public class BfsPathfinderStrategy : PathfinderStrategyBase
 
                 List<ITile> shortestPath = ReconstructPath(parentMap, target);
                 CurrentPath = (new List<List<ITile>> {shortestPath}, visitedNodes);
+                ShowPathLength();
                 return;
             }
         }
