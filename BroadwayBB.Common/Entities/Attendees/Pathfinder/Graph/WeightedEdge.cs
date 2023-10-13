@@ -2,8 +2,8 @@ namespace BroadwayBB.Common.Entities.Attendees.PathFinder.Graph;
 
 public class WeightedEdge
 {
-    public TileNodeWeightedDecorator Decorator { get; set; }
-    public int Weight { get; set; }
+    public TileNodeWeightedDecorator Decorator { get; }
+    public int Weight { get; }
 
     public WeightedEdge(TileNodeWeightedDecorator decorator, int weight)
     {

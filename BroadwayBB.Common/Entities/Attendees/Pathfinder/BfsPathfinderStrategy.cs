@@ -30,7 +30,7 @@ public class BfsPathfinderStrategy : PathfinderStrategyBase
                 if (neighbor != target) continue;
 
                 List<ITile> shortestPath = ReconstructPath(parentMap, target);
-                CurrentPath = (shortestPath, visitedNodes);
+                CurrentPath = (new List<List<ITile>> {shortestPath}, visitedNodes);
                 return;
             }
         }
