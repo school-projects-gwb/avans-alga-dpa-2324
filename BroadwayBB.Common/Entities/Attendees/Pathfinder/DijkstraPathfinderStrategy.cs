@@ -25,7 +25,11 @@ public class DijkstraPathfinderStrategy : PathfinderStrategyBase
             var node = queue.Dequeue();
             visitedNodes.Add(node.Tile.Tile);
 
-            if (node.Tile.Tile == end) AddToShortestPaths(shortestPaths, GetShortestPath(node));
+            if (node.Tile.Tile == end)
+            {
+                AddToShortestPaths(shortestPaths, GetShortestPath(node));
+                break;
+            }
 
             foreach (var neighbour in node.Neighbors)
             {
@@ -40,6 +44,7 @@ public class DijkstraPathfinderStrategy : PathfinderStrategyBase
 
         var transformedPaths = TransformPaths(shortestPaths);
         CurrentPath = (transformedPaths, visitedNodes.ToList());
+        Console.WriteLine("Dijkstra");
         ShowPathLength();
     }
 
