@@ -1,4 +1,5 @@
 using System.Drawing;
+using BroadwayBB.Common.Behaviors;
 using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Common.Entities.Attendees.PathFinder;
@@ -18,15 +19,16 @@ public class BfsPathfinderStrategy : PathfinderStrategyBase
         {
             ITile currentTile = queue.Dequeue();
 
-            foreach (ITile neighbor in GetNeighbors(tileGraph, currentTile))
+            foreach (ITile neighbor in GetFilteredNeighbors(tileGraph, currentTile))
             {
                 if (visitedNodes.Contains(neighbor)) continue;
-                
+
                 queue.Enqueue(neighbor);
                 visitedNodes.Add(neighbor);
                 parentMap[neighbor] = currentTile;
 
                 if (neighbor != target) continue;
+
                 List<ITile> shortestPath = ReconstructPath(parentMap, target);
                 CurrentPath = (shortestPath, visitedNodes);
                 return;
@@ -34,6 +36,15 @@ public class BfsPathfinderStrategy : PathfinderStrategyBase
         }
 
         CurrentPath = (null, visitedNodes);
+    }
+    
+    private IEnumerable<ITile> GetFilteredNeighbors(List<TileNode> tileGraph, ITile tile)
+    {
+        return tileGraph
+            .First(node => node.Tile == tile)
+            .Neighbors
+            .Select(node => node.Tile)
+            .Where(neighbor => neighbor.ColorBehaviorStrategy.ColorName != ColorName.White);
     }
 
     private List<ITile> ReconstructPath(Dictionary<ITile, ITile> parentMap, ITile target)
