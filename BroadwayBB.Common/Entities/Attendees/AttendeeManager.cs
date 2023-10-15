@@ -51,7 +51,7 @@ public class AttendeeManager
         var hasVerticalSpeed = _random.Next(2) == 1; // 50% chance
         var speed = Math.Clamp(_random.NextDouble() * (_maxSpeed - _minSpeed) + _minSpeed, _minSpeed, _maxSpeed);
 
-        var newArtist = new Artist(targetPos, hasVerticalSpeed ? speed : 0, hasVerticalSpeed ? 0 : speed);
+        var newArtist = new Artist(targetPos, hasVerticalSpeed ? speed : 0, hasVerticalSpeed ? 0 : speed, MovementDirectionExtensions.GetRandomDirection());
         _markedForCreation.Add(newArtist);
     }
 

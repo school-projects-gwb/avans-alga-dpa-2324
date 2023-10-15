@@ -11,4 +11,10 @@ public static class MovementDirectionExtensions
         Array values = Enum.GetValues(typeof(MovementDirection));
         return (MovementDirection)(values.GetValue(Random.Next(values.Length)) ?? MovementDirection.North);
     }
+
+    public static MovementDirection GetDirectionBasedOnSpeed(double speedX, double speedY)
+    {
+        if (speedX != 0) return MovementDirection.East;
+        else return MovementDirection.North;
+    }
 }
