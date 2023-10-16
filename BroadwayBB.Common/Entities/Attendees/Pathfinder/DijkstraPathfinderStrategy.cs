@@ -27,7 +27,7 @@ public class DijkstraPathfinderStrategy : PathfinderStrategyBase
 
             if (node.Tile.Tile == end)
             {
-                AddToShortestPaths(shortestPaths, GetShortestPath(node));
+                shortestPaths = GetShortestPaths(node);
                 break;
             }
 
@@ -44,28 +44,42 @@ public class DijkstraPathfinderStrategy : PathfinderStrategyBase
 
         var transformedPaths = TransformPaths(shortestPaths);
         CurrentPath = (transformedPaths, visitedNodes.ToList());
-        Console.WriteLine("Dijkstra");
+        Console.WriteLine("---Dijkstra---");
         ShowPathLength();
     }
 
-    private List<TileNodeWeightedDecorator> GetShortestPath(TileNodeWeightedDecorator node)
+    private List<List<TileNodeWeightedDecorator>> GetShortestPaths(TileNodeWeightedDecorator node)
     {
-        var path = new List<TileNodeWeightedDecorator> { node };
-        while (node.Weight.Key != null)
-        {
-            node = node.Neighbors.OrderBy(edge => edge.Decorator.Weight.Value).FirstOrDefault()?.Decorator;
-            if (node == null) break;
-            path.Add(node);
-        }
-        
-        path.Reverse();
-        return path;
-    }
+        var paths = new List<List<TileNodeWeightedDecorator>>();
+        var initialPath = new List<TileNodeWeightedDecorator> { node };
+        var queue = new Queue<List<TileNodeWeightedDecorator>>();
+        queue.Enqueue(initialPath);
 
-    private void AddToShortestPaths(List<List<TileNodeWeightedDecorator>> shortestPaths, List<TileNodeWeightedDecorator> path)
-    {
-        if (shortestPaths.Count == 0 || path.Select(p => p.Weight.Value).Sum() == shortestPaths.First().Select(p => p.Weight.Value).Sum())
-            shortestPaths.Add(path.ToList());
+        while (queue.Count > 0)
+        {
+            var currentPath = queue.Dequeue();
+            var currentNode = currentPath.Last();
+
+            if (currentNode.Weight.Key == null)
+            {
+                paths.Add(currentPath);
+                continue;
+            }
+
+            var lowestWeight = currentNode.Neighbors.Min(neighbor => neighbor.Decorator.Weight.Value);
+            var neighborsWithLowestWeight = currentNode.Neighbors
+                .Where(neighbor => neighbor.Decorator.Weight.Value == lowestWeight)
+                .Select(neighbor => neighbor.Decorator);
+
+            foreach (var neighbor in neighborsWithLowestWeight)
+            {
+                var newPath = new List<TileNodeWeightedDecorator>(currentPath);
+                newPath.Add(neighbor);
+                queue.Enqueue(newPath);
+            }
+        }
+
+        return paths;
     }
 
     private List<List<ITile>> TransformPaths(List<List<TileNodeWeightedDecorator>> shortestPaths)
