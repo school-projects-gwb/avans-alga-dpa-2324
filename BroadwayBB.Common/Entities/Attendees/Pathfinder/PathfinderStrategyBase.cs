@@ -6,7 +6,7 @@ namespace BroadwayBB.Common.Entities.Attendees.PathFinder;
 
 public abstract class PathfinderStrategyBase : IPathfinderStrategy
 {
-    protected (List<ITile> shortestPath, List<ITile> visitedNodes) CurrentPath;
+    protected (List<List<ITile>> shortestPaths, List<ITile> visitedNodes) CurrentPath;
 
     public abstract void CalculatePath(List<TileNode> tileGraph, ITile start, ITile target);
 
@@ -14,20 +14,24 @@ public abstract class PathfinderStrategyBase : IPathfinderStrategy
     {
         var result = new List<DebugTile>();
 
-        if (CurrentPath.shortestPath == null || CurrentPath.visitedNodes == null) return new();
+        if (CurrentPath.shortestPaths == null || CurrentPath.visitedNodes == null) return new();
 
-        var firstTile = CurrentPath.shortestPath.Last();
-        result.Add(new DebugTile()
+        foreach (var shortestPath in CurrentPath.shortestPaths)
         {
-            ColorName = ColorName.White, IsFill = true,
-            PositionInfo = new Rectangle(firstTile.Pos.Xi, firstTile.Pos.Yi, 1, 1)
-        });
-
-        foreach (var tile in CurrentPath.shortestPath.Take(CurrentPath.shortestPath.Count - 1))
+            var firstTile = shortestPath.Last();
             result.Add(new DebugTile()
             {
-                ColorName = ColorName.Black, IsFill = true, PositionInfo = new Rectangle(tile.Pos.Xi, tile.Pos.Yi, 1, 1)
+                ColorName = ColorName.White, IsFill = true,
+                PositionInfo = new Rectangle(firstTile.Pos.Xi, firstTile.Pos.Yi, 1, 1)
             });
+        }
+
+        foreach (var shortestPath in CurrentPath.shortestPaths)
+            foreach (var tile in shortestPath.Take(shortestPath.Count - 1))
+                result.Add(new DebugTile()
+                {
+                    ColorName = ColorName.Black, IsFill = true, PositionInfo = new Rectangle(tile.Pos.Xi, tile.Pos.Yi, 1, 1)
+                });
 
         if (!withVisited) return result;
 
@@ -41,5 +45,19 @@ public abstract class PathfinderStrategyBase : IPathfinderStrategy
         return result;
     }
 
-    public bool IsTileInPath(ITile targetNodeTile) => CurrentPath.shortestPath == null ? false : CurrentPath.shortestPath.Contains(targetNodeTile);
+    protected void ShowPathLength()
+    {
+        foreach (var shortestPath in CurrentPath.shortestPaths)
+            Console.WriteLine("Padlengte: " + shortestPath.Count);
+    } 
+
+    public bool IsTileInPath(ITile targetNodeTile)
+    {
+        if (CurrentPath.shortestPaths == null) return false;
+        
+        foreach (var shortestPath in CurrentPath.shortestPaths)
+            if (shortestPath.Contains(targetNodeTile)) return true;
+        
+        return false;
+    }
 }
