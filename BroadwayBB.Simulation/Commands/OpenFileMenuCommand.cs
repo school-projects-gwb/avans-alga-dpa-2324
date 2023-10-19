@@ -2,10 +2,10 @@ using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Simulation.Commands;
 
-public class OpenShortcutMenu : ICommand
+public class OpenFileMenuCommand : ICommand
 {
     public void HandleCommand(IMuseumSimulationFacade museumSimulationFacade, Coords mouseGridPosition)
     {
-        museumSimulationFacade.OpenShortcutMenu();
+        museumSimulationFacade.OpenFileMenu();
     }
 }

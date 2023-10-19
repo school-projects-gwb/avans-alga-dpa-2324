@@ -1,11 +1,12 @@
+using BroadwayBB.Common.Entities.Museum;
 using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Simulation.Commands;
 
-public class OpenFileMenu : ICommand
+public class ToggleQuadtreeRenderingCommand : ICommand
 {
     public void HandleCommand(IMuseumSimulationFacade museumSimulationFacade, Coords mouseGridPosition)
     {
-        museumSimulationFacade.OpenFileMenu();
+        museumSimulationFacade.ToggleConfigValue(ConfigType.ShouldRenderQuadtree);
     }
 }

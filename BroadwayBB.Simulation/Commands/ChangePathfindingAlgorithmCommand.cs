@@ -3,10 +3,10 @@ using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Simulation.Commands;
 
-public class TogglePathVisitedRendering : ICommand
+public class ChangePathfindingAlgorithmCommand : ICommand
 {
     public void HandleCommand(IMuseumSimulationFacade museumSimulationFacade, Coords mouseGridPosition)
     {
-        museumSimulationFacade.ToggleConfigValue(ConfigType.ShouldRenderVisited);
+        museumSimulationFacade.ToggleConfigValue(ConfigType.IsBfsPathfinding);
     }
 }

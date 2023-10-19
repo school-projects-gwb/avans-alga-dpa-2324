@@ -1,14 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BroadwayBB.Presentation", "BroadwayBB.Presentation\BroadwayBB.Presentation.csproj", "{6E9F373A-51E6-4E7A-BBF0-CE886A9F560E}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BroadwayBB.Presentation", "BroadwayBB.Presentation\BroadwayBB.Presentation.csproj", "{6E9F373A-51E6-4E7A-BBF0-CE886A9F560E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BroadwayBB.Simulation", "BroadwayBB.Simulation\BroadwayBB.Simulation.csproj", "{C3067A00-2F4C-4567-A467-318A8E559F94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BroadwayBB.Simulation", "BroadwayBB.Simulation\BroadwayBB.Simulation.csproj", "{C3067A00-2F4C-4567-A467-318A8E559F94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BroadwayBB.Data", "BroadwayBB.Data\BroadwayBB.Data.csproj", "{A055A3C6-BAB4-4388-BF5C-98BC94BD6CCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BroadwayBB.Data", "BroadwayBB.Data\BroadwayBB.Data.csproj", "{A055A3C6-BAB4-4388-BF5C-98BC94BD6CCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BroadwayBB.Common", "BroadwayBB.Common\BroadwayBB.Common.csproj", "{1A77EA8A-E322-4D66-BF86-2FF58D4BD555}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BroadwayBB.Common", "BroadwayBB.Common\BroadwayBB.Common.csproj", "{1A77EA8A-E322-4D66-BF86-2FF58D4BD555}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BroadwayBB.Test", "BroadwayBB.Test\BroadwayBB.Test.csproj", "{9F2988A1-063C-4B52-A25D-30020D9797EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BroadwayBB.Test", "BroadwayBB.Test\BroadwayBB.Test.csproj", "{9F2988A1-063C-4B52-A25D-30020D9797EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +39,11 @@ Global
 		{9F2988A1-063C-4B52-A25D-30020D9797EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F2988A1-063C-4B52-A25D-30020D9797EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F2988A1-063C-4B52-A25D-30020D9797EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {513693CF-504E-46DC-AD6D-8854D79E9DE5}
 	EndGlobalSection
 EndGlobal

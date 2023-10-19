@@ -3,10 +3,10 @@ using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Simulation.Commands;
 
-public class ToggleArtistMovement : ICommand
+public class TogglePathCollisionAlgorithmCommand : ICommand
 {
     public void HandleCommand(IMuseumSimulationFacade museumSimulationFacade, Coords mouseGridPosition)
     {
-        museumSimulationFacade.ToggleConfigValue(ConfigType.ShouldMoveAttendees);
+        museumSimulationFacade.ToggleConfigValue(ConfigType.IsQuadtreeCollision);
     }
 }

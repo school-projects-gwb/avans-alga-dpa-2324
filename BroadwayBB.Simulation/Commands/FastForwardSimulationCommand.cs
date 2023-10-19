@@ -1,12 +1,11 @@
-using BroadwayBB.Common.Entities.Museum;
 using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Simulation.Commands;
 
-public class TogglePathCollisionAlgorithm : ICommand
+public class FastForwardSimulationCommand : ICommand
 {
     public void HandleCommand(IMuseumSimulationFacade museumSimulationFacade, Coords mouseGridPosition)
     {
-        museumSimulationFacade.ToggleConfigValue(ConfigType.IsQuadtreeCollision);
+        museumSimulationFacade.FastForward();
     }
 }

@@ -3,10 +3,10 @@ using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Simulation.Commands;
 
-public class ToggleTileBehavior : ICommand
+public class ToggleArtistMovementCommand : ICommand
 {
     public void HandleCommand(IMuseumSimulationFacade museumSimulationFacade, Coords mouseGridPosition)
     {
-        museumSimulationFacade.ToggleConfigValue(ConfigType.ShouldHaveTileBehavior);
+        museumSimulationFacade.ToggleConfigValue(ConfigType.ShouldMoveAttendees);
     }
 }
