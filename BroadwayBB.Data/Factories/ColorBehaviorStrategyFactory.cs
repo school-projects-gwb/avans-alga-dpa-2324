@@ -8,12 +8,12 @@ using BroadwayBB.Data.Strategies.Interfaces;
 
 namespace BroadwayBB.Data.Factories;
 
-public class TileFactory : ITileFactory
+public class ColorBehaviorStrategyFactory : IColorBehaviorStrategyFactory
 {
     private const string ColorBehaviorStrategyClassName = "ColorBehaviorStrategy";
     private readonly Dictionary<string, Type> ColorBehaviorStrategies = new Dictionary<string, Type>();
 
-    public TileFactory()
+    public ColorBehaviorStrategyFactory()
     {
         var interfaceType = typeof(IColorBehaviorStrategy);
         var implementingTypes = AppDomain.CurrentDomain.GetAssemblies()
@@ -29,16 +29,15 @@ public class TileFactory : ITileFactory
         }
     }
 
-    public ITile Create(ColorName name, Coords coords)
+    public IColorBehaviorStrategy Create(ColorName name)
     {
         if (!ColorBehaviorStrategies.TryGetValue(name.ToString().ToLower(), out Type? colorBehaviour))
         {
-            colorBehaviour = typeof(NullColorBehaviorStrategy);
+            return new NullColorBehaviorStrategy();
         }
 
         var strategy = (IColorBehaviorStrategy?)Activator.CreateInstance(colorBehaviour);
         strategy ??= new NullColorBehaviorStrategy();
-
-        return new Tile(coords, strategy);
+        return strategy;
     }
 }

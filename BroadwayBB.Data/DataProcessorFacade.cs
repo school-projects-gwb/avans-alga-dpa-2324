@@ -15,7 +15,7 @@ namespace BroadwayBB.Data;
 public class DataProcessorFacade
 {
     private readonly FileReader _reader = new();
-    private readonly ITileFactory _tileFactory = new TileFactory();
+    private readonly IColorBehaviorStrategyFactory _colorBehaviorStrategyFactory = new ColorBehaviorStrategyFactory();
     private readonly IAttendeeFactory _attendeeFactory = new AttendeeFactory();
 
     public Museum BuildMuseumFromFiles(string gridFile, string artistsFile)
@@ -75,8 +75,9 @@ public class DataProcessorFacade
                     tile.Coords.Xd = x;
                     tile.Coords.Yd = y;
                 }
-
-                tiles.Add(_tileFactory.Create(tile.Type.ColorName, tile.Coords));
+                
+                ITile newTile = new Tile(tile.Coords, _colorBehaviorStrategyFactory.Create(tile.Type.ColorName));
+                tiles.Add(newTile);
             }
         }
 
