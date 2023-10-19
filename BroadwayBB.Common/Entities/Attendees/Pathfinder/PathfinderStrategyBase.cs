@@ -23,17 +23,15 @@ public abstract class PathfinderStrategyBase : IPathfinderStrategy
 
         if (CurrentPath.shortestPaths == null || CurrentPath.visitedNodes == null) return new();
 
-        foreach (var shortestPath in CurrentPath.shortestPaths)
+        var firstPath = CurrentPath.shortestPaths.First();
+        var firstTile = firstPath.Last();
+        result.Add(new DebugTile()
         {
-            var firstTile = shortestPath.Last();
-            result.Add(new DebugTile()
-            {
-                ColorName = ColorName.White, IsFill = true,
-                PositionInfo = new Rectangle(firstTile.Pos.Xi, firstTile.Pos.Yi, 1, 1)
-            });
-        }
+            ColorName = ColorName.White, IsFill = true,
+            PositionInfo = new Rectangle(firstTile.Pos.Xi, firstTile.Pos.Yi, 1, 1)
+        });
 
-        foreach (var shortestPath in CurrentPath.shortestPaths)
+        foreach (var shortestPath in CurrentPath.shortestPaths.Take(100))
             foreach (var tile in shortestPath.Take(shortestPath.Count - 1))
             {
                 if (result.Any(debugTile =>
@@ -61,9 +59,10 @@ public abstract class PathfinderStrategyBase : IPathfinderStrategy
 
     protected void ShowPathWeight()
     {
-        Console.WriteLine("Padlengte: " + CurrentPath.shortestPaths.First().Sum(tile => 
-            tile.ColorBehaviorStrategy.ColorName == 
-            ColorName.White ? 0 : WeightRegistryHelper.GetInstance.GetWeight(tile.ColorBehaviorStrategy.ColorName)));
+        if (CurrentPath.shortestPaths.Count > 0)
+            Console.WriteLine("Padlengte: " + CurrentPath.shortestPaths.First().Sum(tile => 
+                tile.ColorBehaviorStrategy.ColorName == 
+                ColorName.White ? 0 : WeightRegistryHelper.GetInstance.GetWeight(tile.ColorBehaviorStrategy.ColorName)));
         
         Console.WriteLine("Aantal paden gevonden: " + CurrentPath.shortestPaths.Count);
     } 
