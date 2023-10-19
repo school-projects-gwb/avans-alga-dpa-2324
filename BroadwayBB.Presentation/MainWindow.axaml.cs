@@ -19,14 +19,12 @@ public partial class MainWindow : Window
 {
     private SimulationWindow? _simulationWindow;
     private ShortcutWindow _shortcutWindow;
-    private HotkeyManager _hotkeyManager;
 
     public MainWindow()
     {
         this.InitializeComponent();
         DataContext = new MainWindowViewModel();
-        _hotkeyManager = new HotkeyManager();
-        _shortcutWindow = new ShortcutWindow(_hotkeyManager);
+        _shortcutWindow = new ShortcutWindow();
     }
 
     private void ShowSimulation_Click(object sender, RoutedEventArgs e)
@@ -35,7 +33,7 @@ public partial class MainWindow : Window
         {
             if (DataContext is MainWindowViewModel viewModel)
             {
-                _simulationWindow = new SimulationWindow(this, _hotkeyManager);
+                _simulationWindow = new SimulationWindow(this, _shortcutWindow.GetHotKeyManager());
                 _simulationWindow.LoadSimulation(LoadMuseumSimulation(viewModel.GridPath, viewModel.ArtistsPath));
                 _simulationWindow.Show();
                 Hide();

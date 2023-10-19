@@ -9,15 +9,14 @@ namespace BroadwayBB.Presentation;
 
 public partial class ShortcutWindow : Window
 {
-    private readonly HotkeyManager _hotkeyManager;
+    private readonly HotkeyManager _hotkeyManager = new();
     private ListBox _hotkeysListBox;
     private bool _isHotkeySelected;
     private Key _selectedHotkeyKey;
     
-    public ShortcutWindow(HotkeyManager hotkeyManager)
+    public ShortcutWindow()
     {
         InitializeComponent();
-        _hotkeyManager = hotkeyManager;
         Closing += OnClosing;
         Draw();
     }
@@ -73,5 +72,10 @@ public partial class ShortcutWindow : Window
 
             _hotkeysListBox.Items.Add(item);
         }
+    }
+
+    public HotkeyManager GetHotKeyManager()
+    {
+        return _hotkeyManager;
     }
 }
