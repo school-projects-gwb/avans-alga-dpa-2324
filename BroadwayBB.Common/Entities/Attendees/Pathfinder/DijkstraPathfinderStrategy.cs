@@ -10,6 +10,7 @@ public class DijkstraPathfinderStrategy : PathfinderStrategyBase
 {
     public override void CalculatePath(List<TileNode> tileGraph, ITile start, ITile end)
     {
+        _pathsChanged = true;
         var graph = new WeightedGraph(tileGraph);
         var startNode = graph.Nodes.First(node => node.Tile.Tile == start);
         startNode.Weight = new(null, 0);
@@ -44,8 +45,9 @@ public class DijkstraPathfinderStrategy : PathfinderStrategyBase
 
         var transformedPaths = TransformPaths(shortestPaths);
         CurrentPath = (transformedPaths, visitedNodes.ToList());
+        
         Console.WriteLine("---Dijkstra---");
-        ShowPathLength();
+        ShowPathWeight();
     }
 
     private List<List<TileNodeWeightedDecorator>> GetShortestPaths(TileNodeWeightedDecorator node)
