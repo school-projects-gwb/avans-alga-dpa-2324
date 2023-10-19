@@ -1,4 +1,95 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="BroadwayBB.Common.Entities.Museum.Museum">
+    <Position X="0.5" Y="1.25" Width="6.25" />
+    <AssociationLine Name="_tileManager" Type="BroadwayBB.Common.Entities.Tiles.TileManager">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.16" Y="0.076" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAABBBAgAAAAAQAAACFCAAEAAAQAIBAAAgQBAAAAA=</HashCode>
+      <FileName>Entities\Museum\Museum.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_attendeeManager" />
+      <Field Name="_tileManager" />
+      <Field Name="Config" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Memento.MementoCaretaker">
+    <Position X="14.5" Y="1" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgCAAAAAAAAIAAEAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Memento\MementoCaretaker.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_museum" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="_mementos" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BroadwayBB.Simulation.Memento.MuseumMemento">
+    <Position X="7.5" Y="0.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Memento\MuseumMemento.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.AttendeeManager">
+    <Position X="11.5" Y="3.5" Width="6" />
+    <TypeIdentifier>
+      <HashCode>AAgQAEAAAAAAAACIAUQABAAAQBIACAABCEAAABgQCAM=</HashCode>
+      <FileName>Entities\Attendees\AttendeeManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Tiles.TileManager">
+    <Position X="18.75" Y="3.5" Width="6.25" />
+    <TypeIdentifier>
+      <HashCode>AEAQAQAAAABiCAAAAAAAAAAAAQAAAAIBQBAAAAAAAIA=</HashCode>
+      <FileName>Entities\Tiles\TileManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Museum.MuseumConfiguration">
+    <Position X="0.5" Y="6" Width="3.25" />
+    <AssociationLine Name="_observers" Type="BroadwayBB.Common.Entities.Museum.IConfigObserver" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.75" Y="6.625" />
+        <Point X="7.188" Y="6.625" />
+        <Point X="7.188" Y="7" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAABAAABAAAAAAAAAAABAABAAAAAAAAQAAAA=</HashCode>
+      <FileName>Entities\Museum\MuseumConfiguration.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="_observers" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.Collider.AttendeeCollider">
+    <Position X="2" Y="8.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAgQAAAABAAAAAAAAAACAABAgAAAAAAAAAAAAAEACAA=</HashCode>
+      <FileName>Entities\Attendees\Collider\AttendeeCollider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.PathFinder.TilePathfinder">
+    <Position X="6.5" Y="8.5" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAACAAAAAACAABAgAAAAgAAAAAIAAEAAIA=</HashCode>
+      <FileName>Entities\Attendees\Pathfinder\TilePathfinder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="BroadwayBB.Common.Entities.Museum.IConfigObserver">
+    <Position X="5.5" Y="7" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Entities\Museum\IConfigObserver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
