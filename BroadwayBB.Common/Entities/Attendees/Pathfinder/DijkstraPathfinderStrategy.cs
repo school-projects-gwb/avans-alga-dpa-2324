@@ -28,6 +28,7 @@ public class DijkstraPathfinderStrategy : PathfinderStrategyBase
 
             if (node.Tile.Tile == end)
             {
+                if (start == node.Tile.Tile) return;
                 shortestPaths = GetShortestPaths(node);
                 break;
             }

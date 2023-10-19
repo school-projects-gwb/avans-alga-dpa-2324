@@ -10,7 +10,7 @@ public abstract class PathfinderStrategyBase : IPathfinderStrategy
     protected bool _pathsChanged = true;
     private List<DebugTile> _debugTiles = new();
     
-    protected (List<List<ITile>> shortestPaths, List<ITile> visitedNodes) CurrentPath;
+    protected (List<List<ITile>> shortestPaths, List<ITile> visitedNodes) CurrentPath = new(new (), new());
 
     public abstract void CalculatePath(List<TileNode> tileGraph, ITile start, ITile target);
 
@@ -21,7 +21,7 @@ public abstract class PathfinderStrategyBase : IPathfinderStrategy
         
         var result = new List<DebugTile>();
 
-        if (CurrentPath.shortestPaths == null || CurrentPath.visitedNodes == null) return new();
+        if (CurrentPath.visitedNodes.Count == 0 || CurrentPath.shortestPaths.Count == 0) return new();
 
         var firstPath = CurrentPath.shortestPaths.First();
         var firstTile = firstPath.Last();

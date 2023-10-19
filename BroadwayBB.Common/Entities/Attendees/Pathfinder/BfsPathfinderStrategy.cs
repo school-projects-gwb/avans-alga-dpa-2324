@@ -38,7 +38,7 @@ public class BfsPathfinderStrategy : PathfinderStrategyBase
             }
         }
         
-        CurrentPath = (null, visitedNodes);
+        CurrentPath = (new(), visitedNodes);
     }
     
     private IEnumerable<ITile> GetFilteredNeighbors(List<TileNode> tileGraph, ITile tile)
