@@ -14,16 +14,9 @@ namespace BroadwayBB.Data;
 
 public class DataProcessorFacade
 {
-    private FileReader _reader;
-    private ITileFactory _tileFactory;
-    private IAttendeeFactory _attendeeFactory;
-
-    public DataProcessorFacade()
-    {
-        _reader = new FileReader();
-        _tileFactory = new TileFactory();
-        _attendeeFactory = new AttendeeFactory();
-    }
+    private readonly FileReader _reader = new();
+    private readonly ITileFactory _tileFactory = new TileFactory();
+    private readonly IAttendeeFactory _attendeeFactory = new AttendeeFactory();
 
     public Museum BuildMuseumFromFiles(string gridFile, string artistsFile)
     {
