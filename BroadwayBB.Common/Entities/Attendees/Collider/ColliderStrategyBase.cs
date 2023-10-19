@@ -6,7 +6,7 @@ namespace BroadwayBB.Common.Entities.Attendees.Collider;
 
 public abstract class ColliderStrategyBase : IColliderStrategy
 {
-    private readonly int _minimumCollisionDistance = 1;
+    private readonly double _minimumCollisionDistance = 0.3;
     public Rectangle Size { get; private set; }
 
     protected ColliderStrategyBase(Rectangle size) => Size = size;

@@ -1,6 +1,7 @@
 using System.Drawing;
 using BroadwayBB.Common.Behaviors;
 using BroadwayBB.Common.Entities.Extensions;
+using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Common.Entities.Quadtree;
@@ -30,7 +31,7 @@ public class Quadtree<T>
         {
             if (_nodes[i] == null) continue;
             
-            _nodes[i].Clear();
+            _nodes[i]?.Clear();
             _nodes[i] = null;
         }
     }
@@ -60,15 +61,15 @@ public class Quadtree<T>
         double verticalMidpoint = _bounds.X + (_bounds.Width / 2.0);
         double horizontalMidpoint = _bounds.Y + (_bounds.Height / 2.0);
 
-        bool isTop = obj.PosY < horizontalMidpoint && obj.PosY + _objectSize < horizontalMidpoint;
-        bool isBottom = obj.PosY > horizontalMidpoint;
+        bool isTop = obj.Pos.Yi < horizontalMidpoint && obj.Pos.Yi + _objectSize < horizontalMidpoint;
+        bool isBottom = obj.Pos.Yi > horizontalMidpoint;
 
-        if (obj.PosX < verticalMidpoint && obj.PosX + _objectSize < verticalMidpoint)
+        if (obj.Pos.Xi < verticalMidpoint && obj.Pos.Xi + _objectSize < verticalMidpoint)
         {
             if (isTop) index = 1;
             if (isBottom) index = 2;
         }
-        else if (obj.PosX > verticalMidpoint)
+        else if (obj.Pos.Xi > verticalMidpoint)
         {
             if (isTop) index = 0;
             if (isBottom) index = 3;
@@ -77,11 +78,11 @@ public class Quadtree<T>
         return index;
     }
 
-    private void Insert(TreeObject<T> obj) => Insert(obj.Object, obj.PosX, obj.PosY);
+    private void Insert(TreeObject<T> obj) => Insert(obj.Object, obj.Pos);
     
-    public void Insert(T baseObject, int objectPosX, int objectPosY)
+    public void Insert(T baseObject, Coords objectPos)
     {
-        TreeObject<T> obj = new TreeObject<T>(baseObject, objectPosX, objectPosY);
+        TreeObject<T> obj = new TreeObject<T>(baseObject, objectPos);
         
         if (_nodes[0] != null)
         {
@@ -105,7 +106,7 @@ public class Quadtree<T>
             int index = GetIndex(_objects[i]);
             if (index != -1)
             {
-                _nodes[index].Insert(_objects[i]);
+                _nodes[index]?.Insert(_objects[i]);
                 _objects.Remove(_objects[i]);
                 continue;
             }
@@ -117,7 +118,7 @@ public class Quadtree<T>
     public void GetObjectsInQuadrant(List<T> result, TreeObject<T> targetObject)
     {
         var index = GetIndex(targetObject);
-        if (index != -1 && _nodes[0] != null) _nodes[index].GetObjectsInQuadrant(result, targetObject);
+        if (index != -1 && _nodes[0] != null) _nodes[index]?.GetObjectsInQuadrant(result, targetObject);
     
         result.AddRange(_objects
             .Where(obj => GetIndex(obj) == index && !obj.Object.Equals(targetObject.Object))
