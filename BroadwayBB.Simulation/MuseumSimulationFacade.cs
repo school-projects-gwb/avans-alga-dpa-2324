@@ -37,14 +37,19 @@ public class MuseumSimulationFacade : IMuseumSimulationFacade
         _mementoCreationTimer = new Timer(CreateMemento, null, 0, _mementoCreationIntervalMilliseconds);
     }
 
-    public void CreateMemento(object? state)
+    private void CreateMemento(object? state)
     {
         _currentTick++;
         if (_currentTick != _timeSkipTickAmount) return;
 
-        lock (_museum) _mementoCaretaker.AddMemento();
+        CreateMemento();
         
         _currentTick = 0;
+    }
+
+    public void CreateMemento()
+    {
+        lock (_museum) _mementoCaretaker.AddMemento();
     }
     
     public void RewindMemento()

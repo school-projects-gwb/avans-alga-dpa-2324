@@ -103,8 +103,6 @@ public class Museum
 
     public void RewindMemento(MuseumMemento lastMemento)
     {
-        if (lastMemento == null) return;
-
         lock (Tiles)
         {
             Tiles.Clear();

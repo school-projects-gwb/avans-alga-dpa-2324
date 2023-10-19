@@ -47,7 +47,7 @@ public class MuseumMementoTests
         var previousAttendees = museum.Attendees;
         var previousTiles = museum.Tiles;
 
-        simulation.CreateMemento(null);
+        simulation.CreateMemento();
         simulation.RewindMemento();
         
         Assert.NotSame(previousAttendees, museum.Attendees);
