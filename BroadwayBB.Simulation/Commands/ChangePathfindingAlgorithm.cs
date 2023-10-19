@@ -5,8 +5,8 @@ namespace BroadwayBB.Simulation.Commands;
 
 public class ChangePathfindingAlgorithm : ICommand
 {
-    public void HandleCommand(IMuseumSimulation museumSimulation, Coords mouseGridPosition)
+    public void HandleCommand(IMuseumSimulationFacade museumSimulationFacade, Coords mouseGridPosition)
     {
-        museumSimulation.ToggleConfigValue(ConfigType.IsBfsPathfinding);
+        museumSimulationFacade.ToggleConfigValue(ConfigType.IsBfsPathfinding);
     }
 }

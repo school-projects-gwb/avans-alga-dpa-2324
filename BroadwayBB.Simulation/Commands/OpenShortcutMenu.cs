@@ -4,8 +4,8 @@ namespace BroadwayBB.Simulation.Commands;
 
 public class OpenShortcutMenu : ICommand
 {
-    public void HandleCommand(IMuseumSimulation museumSimulation, Coords mouseGridPosition)
+    public void HandleCommand(IMuseumSimulationFacade museumSimulationFacade, Coords mouseGridPosition)
     {
-        museumSimulation.OpenShortcutMenu();
+        museumSimulationFacade.OpenShortcutMenu();
     }
 }

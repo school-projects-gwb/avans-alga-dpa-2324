@@ -6,7 +6,7 @@ using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Simulation;
 
-public interface IMuseumSimulation
+public interface IMuseumSimulationFacade
 {
     public void Subscribe(ISimulationObserver observer);
     public List<ITile> GetMuseumTiles();

@@ -7,7 +7,7 @@ using BroadwayBB.Common.Entities.Tiles;
 
 namespace BroadwayBB.Simulation;
 
-public class MuseumSimulation : IMuseumSimulation
+public class MuseumSimulationFacade : IMuseumSimulationFacade
 {
     private readonly List<ISimulationObserver> _observers = new();
     private Timer? _simulationTickTimer, _simulationBackgroundRefreshTimer, _simulationDebugInfoTimer, _mementoCreationTimer;
@@ -20,7 +20,7 @@ public class MuseumSimulation : IMuseumSimulation
     private readonly Museum _museum;
     private readonly PointerRegistration _pointerRegistration = new();
 
-    public MuseumSimulation(Museum museum)
+    public MuseumSimulationFacade(Museum museum)
     {
         _museum = museum;
         InitializeSimulationTimers();

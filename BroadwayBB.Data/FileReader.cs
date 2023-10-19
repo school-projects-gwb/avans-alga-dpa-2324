@@ -6,14 +6,8 @@ namespace BroadwayBB.Data
 {
     public class FileReader
     {
-        private IFileLoaderFactory _loaderFactory;
-        private IFileReaderFactory _readerFactory;
-
-        public FileReader()
-        {
-            _loaderFactory = new FileLoaderFactory();
-            _readerFactory = new FileReaderFactory();
-        }
+        private readonly IFileLoaderFactory _loaderFactory = new FileLoaderFactory();
+        private readonly IFileReaderFactory _readerFactory = new FileReaderFactory();
 
         public DTO ReadFile(string path)
         {

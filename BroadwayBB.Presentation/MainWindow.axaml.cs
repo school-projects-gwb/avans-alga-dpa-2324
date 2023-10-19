@@ -94,11 +94,11 @@ public partial class MainWindow : Window
         }
     }
 
-    private IMuseumSimulation LoadMuseumSimulation(string gridFile, string artistsFile)
+    private IMuseumSimulationFacade LoadMuseumSimulation(string gridFile, string artistsFile)
     {
-        var dataProcessor = new DataProcessor();
+        var dataProcessor = new DataProcessorFacade();
         Museum museum = dataProcessor.BuildMuseumFromFiles(gridFile, artistsFile);
-        return new MuseumSimulation(museum);
+        return new MuseumSimulationFacade(museum);
     }
 
     public void ShowShortcutWindow()

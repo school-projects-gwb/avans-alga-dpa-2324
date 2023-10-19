@@ -77,10 +77,10 @@ public class HotkeyManager
         _mouseGridPosition = newMousePosition;
     }
     
-    public void HandleCommand(Key pressedKey, IMuseumSimulation museumSimulation)
+    public void HandleCommand(Key pressedKey, IMuseumSimulationFacade museumSimulationFacade)
     {
         var hotkey = Hotkeys.FirstOrDefault(hotkey => hotkey.Key == pressedKey);
-        hotkey?.Command.HandleCommand(museumSimulation, _mouseGridPosition);
+        hotkey?.Command.HandleCommand(museumSimulationFacade, _mouseGridPosition);
     }
 
     public void UpdateHotkey(Key currentKey, Key newKey)
@@ -90,10 +90,10 @@ public class HotkeyManager
         if (newCheck == null) current.Key = newKey;
     }
     
-    public void HandleCommand(PointerPointProperties pointerProperties, IMuseumSimulation museumSimulation)
+    public void HandleCommand(PointerPointProperties pointerProperties, IMuseumSimulationFacade museumSimulationFacade)
     {
         // Technical limitation: We need to handle mouse pointer events separately from the Commands since a Key 
         // cannot contain a mouse pointer button click
-        museumSimulation.HandlePointerClick(pointerProperties.IsLeftButtonPressed, _mouseGridPosition);
+        museumSimulationFacade.HandlePointerClick(pointerProperties.IsLeftButtonPressed, _mouseGridPosition);
     }
 }

@@ -12,13 +12,13 @@ using BroadwayBB.Common.Helpers;
 
 namespace BroadwayBB.Data;
 
-public class DataProcessor
+public class DataProcessorFacade
 {
     private FileReader _reader;
     private ITileFactory _tileFactory;
     private IAttendeeFactory _attendeeFactory;
 
-    public DataProcessor()
+    public DataProcessorFacade()
     {
         _reader = new FileReader();
         _tileFactory = new TileFactory();

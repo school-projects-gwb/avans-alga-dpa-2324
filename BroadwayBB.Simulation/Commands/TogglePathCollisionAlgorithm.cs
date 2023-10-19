@@ -5,8 +5,8 @@ namespace BroadwayBB.Simulation.Commands;
 
 public class TogglePathCollisionAlgorithm : ICommand
 {
-    public void HandleCommand(IMuseumSimulation museumSimulation, Coords mouseGridPosition)
+    public void HandleCommand(IMuseumSimulationFacade museumSimulationFacade, Coords mouseGridPosition)
     {
-        museumSimulation.ToggleConfigValue(ConfigType.IsQuadtreeCollision);
+        museumSimulationFacade.ToggleConfigValue(ConfigType.IsQuadtreeCollision);
     }
 }

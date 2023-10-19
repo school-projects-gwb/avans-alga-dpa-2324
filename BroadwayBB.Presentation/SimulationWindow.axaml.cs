@@ -20,7 +20,7 @@ namespace BroadwayBB.Presentation;
 
 public partial class SimulationWindow : Window, ISimulationObserver
 {
-    private IMuseumSimulation _simulation;
+    private IMuseumSimulationFacade _simulationFacade;
     private readonly MainWindow _mainWindow;
     private readonly HotkeyManager _hotkeyManager;
     
@@ -54,9 +54,9 @@ public partial class SimulationWindow : Window, ISimulationObserver
         var grid = this.FindControl<Grid>("simulationGrid") ?? throw new InvalidOperationException();
         grid.Focusable = true;
         grid.Focus();
-        grid.KeyDown += (sender, e) => _hotkeyManager.HandleCommand(e.Key, _simulation);
+        grid.KeyDown += (sender, e) => _hotkeyManager.HandleCommand(e.Key, _simulationFacade);
         grid.PointerPressed += (sender, args) =>
-            _hotkeyManager.HandleCommand(args.GetCurrentPoint(sender as Control).Properties, _simulation);
+            _hotkeyManager.HandleCommand(args.GetCurrentPoint(sender as Control).Properties, _simulationFacade);
         grid.PointerMoved += HandlePointerMoved;
     }
 
@@ -91,13 +91,13 @@ public partial class SimulationWindow : Window, ISimulationObserver
     
     private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
 
-    public void LoadSimulation(IMuseumSimulation simulation)
+    public void LoadSimulation(IMuseumSimulationFacade simulationFacade)
     {
-        _simulation = simulation;
-        _simulation.Subscribe(this);
+        _simulationFacade = simulationFacade;
+        _simulationFacade.Subscribe(this);
         HandleTileConfiguration();
         
-        _objectPoolManager.CreateAttendeeObjectPool(_simulation.GetMaxMuseumAttendees(),
+        _objectPoolManager.CreateAttendeeObjectPool(_simulationFacade.GetMaxMuseumAttendees(),
             new Coords(_tileSize.Xd * _artistSizeModifier,  _tileSize.Yd * _artistSizeModifier));
         _objectPoolManager.CreateTileObjectPool(_numCols * _numRows, 
             new Coords(_tileSize.Xd,  _tileSize.Yd));
@@ -110,8 +110,8 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void HandleTileConfiguration()
     {
-        _numRows = _simulation.GetMuseumTiles().Max(tile => tile.Pos.Yi) + 1;
-        _numCols = _simulation.GetMuseumTiles().Max(tile => tile.Pos.Xi) + 1;
+        _numRows = _simulationFacade.GetMuseumTiles().Max(tile => tile.Pos.Yi) + 1;
+        _numCols = _simulationFacade.GetMuseumTiles().Max(tile => tile.Pos.Xi) + 1;
 
         _tileSize = new Coords((_simulationCanvas.Width / _numCols), (_simulationCanvas.Height / _numRows));
     }
@@ -124,7 +124,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void DrawMuseumBackground()
     {
-        foreach (var tile in _simulation.GetMuseumTiles())
+        foreach (var tile in _simulationFacade.GetMuseumTiles())
         {
             if (!_tileRectangles.TryGetValue((tile.Pos * _tileSize), out Rectangle? rectangle)) continue;
             rectangle.Stroke = null;
@@ -134,7 +134,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void InitiateTileObjects()
     {
-        foreach (var tile in _simulation.GetMuseumTiles())
+        foreach (var tile in _simulationFacade.GetMuseumTiles())
         {
             var item = _objectPoolManager.TileObjectPool.GetObject(tile.ColorBehaviorStrategy.ColorName);
             if (item == null) return;
@@ -150,7 +150,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
 
     private void DrawAttendees()
     {
-        foreach (IAttendee artist in _simulation.GetMuseumAttendees())
+        foreach (IAttendee artist in _simulationFacade.GetMuseumAttendees())
         {
             var color = artist.Movement.IsColliding ? ColorName.Red : ColorName.Black;
             var item = _objectPoolManager.AttendeeObjectPool.GetObject(color);
@@ -175,7 +175,7 @@ public partial class SimulationWindow : Window, ISimulationObserver
     {
         _debugCanvas.Children.Clear();
         
-        foreach (var rect in _simulation.GetDebugInfo())
+        foreach (var rect in _simulationFacade.GetDebugInfo())
             if (!rect.IsFill && rect.ColorName == ColorName.Black)
                 DrawBorderDebugTile(rect);
             else
