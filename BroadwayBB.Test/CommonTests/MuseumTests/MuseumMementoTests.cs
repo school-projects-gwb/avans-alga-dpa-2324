@@ -4,6 +4,7 @@ using BroadwayBB.Common.Entities.Attendees;
 using BroadwayBB.Common.Entities.Museum;
 using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Tiles;
+using BroadwayBB.Simulation;
 
 namespace BroadwayBB.Test.CommonTests.MuseumTests;
 
@@ -24,10 +25,12 @@ public class MuseumMementoTests
         museum.Attendees = new List<IAttendee> { new Artist(new Coords(0, 0), 0, 0) };
         museum.Tiles = new List<ITile> { new Tile(new Coords(0, 0), new NullColorBehaviorStrategy()) };
         
+        MuseumSimulationFacade simulation = new(museum);
+        
         var previousAttendees = museum.Attendees;
         var previousTiles = museum.Tiles;
         
-        museum.RewindMemento();
+        simulation.RewindMemento();
         Assert.Same(previousAttendees, museum.Attendees);
         Assert.Same(previousTiles, museum.Tiles);
     }
@@ -38,12 +41,14 @@ public class MuseumMementoTests
         var museum = new Museum();
         museum.Attendees = new List<IAttendee> { new Artist(new Coords(0, 0), 0, 0) };
         museum.Tiles = new List<ITile> { new Tile(new Coords(0, 0), new NullColorBehaviorStrategy()) };
+
+        MuseumSimulationFacade simulation = new(museum);
         
         var previousAttendees = museum.Attendees;
         var previousTiles = museum.Tiles;
-        
-        museum.CreateMemento();
-        museum.RewindMemento();
+
+        simulation.CreateMemento(null);
+        simulation.RewindMemento();
         
         Assert.NotSame(previousAttendees, museum.Attendees);
         Assert.NotSame(previousTiles, museum.Tiles);

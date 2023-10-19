@@ -1,7 +1,7 @@
 using BroadwayBB.Common.Entities.Attendees;
 using BroadwayBB.Common.Entities.Tiles;
 
-namespace BroadwayBB.Common.Entities.Memento;
+namespace BroadwayBB.Simulation.Memento;
 
 public class MuseumMemento
 {

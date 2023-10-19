@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using BroadwayBB.Common.Entities;
 using BroadwayBB.Common.Entities.Attendees;
+using BroadwayBB.Common.Entities.Memento;
 using BroadwayBB.Common.Entities.Museum;
 using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Tiles;
@@ -19,10 +20,12 @@ public class MuseumSimulationFacade : IMuseumSimulationFacade
     private readonly int _mementoCreationIntervalMilliseconds = 500;
     private readonly Museum _museum;
     private readonly PointerRegistration _pointerRegistration = new();
+    private readonly MementoCaretaker _mementoCaretaker;
 
     public MuseumSimulationFacade(Museum museum)
     {
         _museum = museum;
+        _mementoCaretaker = new MementoCaretaker(museum);
         InitializeSimulationTimers();
     }
     
@@ -34,14 +37,19 @@ public class MuseumSimulationFacade : IMuseumSimulationFacade
         _mementoCreationTimer = new Timer(CreateMemento, null, 0, _mementoCreationIntervalMilliseconds);
     }
 
-    private void CreateMemento(object? state)
+    public void CreateMemento(object? state)
     {
         _currentTick++;
         if (_currentTick != _timeSkipTickAmount) return;
 
-        lock (_museum) _museum.CreateMemento();
+        lock (_museum) _mementoCaretaker.AddMemento();
         
         _currentTick = 0;
+    }
+    
+    public void RewindMemento()
+    {
+        lock (_museum) _mementoCaretaker.RestoreMemento();
     }
     
     private void Simulate(object? state)
@@ -85,11 +93,6 @@ public class MuseumSimulationFacade : IMuseumSimulationFacade
     {
         for (int i = 0; i < _timeSkipTickAmount; i++) 
             lock (_museum) _museum.MoveAttendees();
-    }
-
-    public void Rewind()
-    {
-        lock (_museum) _museum.RewindMemento();
     }
     
     public void Subscribe(ISimulationObserver observer) => _observers.Add(observer);

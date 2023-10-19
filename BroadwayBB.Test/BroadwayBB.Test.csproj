@@ -25,6 +25,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\BroadwayBB.Common\BroadwayBB.Common.csproj" />
+      <ProjectReference Include="..\BroadwayBB.Simulation\BroadwayBB.Simulation.csproj" />
     </ItemGroup>
 
 

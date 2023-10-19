@@ -18,6 +18,7 @@ public interface IMuseumSimulationFacade
     public void UpdateTile(Coords mouseGridPosition);
     public void OpenFileMenu();
     public void FastForward();
-    public void Rewind();
+    public void CreateMemento(object? state);
+    public void RewindMemento();
     public void OpenShortcutMenu();
 }

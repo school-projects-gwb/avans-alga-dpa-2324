@@ -6,6 +6,7 @@ public class RewindSimulationCommand : ICommand
 {
     public void HandleCommand(IMuseumSimulationFacade museumSimulationFacade, Coords mouseGridPosition)
     {
-        museumSimulationFacade.Rewind();
+        museumSimulationFacade.CreateMemento(null);
+        museumSimulationFacade.RewindMemento();
     }
 }

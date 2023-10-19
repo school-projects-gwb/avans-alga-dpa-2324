@@ -4,6 +4,7 @@ using BroadwayBB.Common.Entities.Extensions;
 using BroadwayBB.Common.Entities.Memento;
 using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Tiles;
+using BroadwayBB.Simulation.Memento;
 
 namespace BroadwayBB.Common.Entities.Museum;
 
@@ -12,7 +13,6 @@ public class Museum
     public readonly MuseumConfiguration Config = new();
     private readonly TileManager _tileManager = new();
     private readonly AttendeeManager _attendeeManager = new();
-    private readonly MementoCaretaker _mementoCaretaker = new();
     
     public List<ITile> Tiles
     {
@@ -94,16 +94,15 @@ public class Museum
         return debugInfo;
     } 
     
-    public void CreateMemento()
+    public MuseumMemento CreateMemento()
     {
         var tiles = _tileManager.CreateMemento();
         var attendees = _attendeeManager.CreateMemento();
-        _mementoCaretaker.AddMemento(new MuseumMemento(tiles, attendees));
+        return new MuseumMemento(tiles, attendees);
     }
 
-    public void RewindMemento()
+    public void RewindMemento(MuseumMemento lastMemento)
     {
-        var lastMemento = _mementoCaretaker.GetMemento();
         if (lastMemento == null) return;
 
         lock (Tiles)
