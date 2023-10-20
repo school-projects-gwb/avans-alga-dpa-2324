@@ -7,7 +7,7 @@ namespace BroadwayBB.Common.Entities.Attendees.PathFinder;
 
 public abstract class PathfinderStrategyBase : IPathfinderStrategy
 {
-    protected readonly int PathHardLimit = 100, PathAmountLimit = 5;
+    protected readonly int PathHardLimit = 100, PathAmountLimit = 20;
     protected int PathCount = 0;
     protected bool PathsChanged = true;
     private List<DebugTile> _debugTiles = new();
