@@ -1,4 +1,5 @@
 using BroadwayBB.Common.Entities.Attendees;
+using BroadwayBB.Common.Entities.Museum.Mediator;
 using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Tiles;
 using BroadwayBB.Simulation.Memento;
@@ -10,6 +11,9 @@ public class Museum
     public readonly MuseumConfiguration Config = new();
     private readonly TileManager _tileManager = new();
     private readonly AttendeeManager _attendeeManager = new();
+    private readonly MuseumMediator _museumMediator;
+
+    public Museum() => _museumMediator = new MuseumMediator(_tileManager, _attendeeManager, Config);
     
     public List<ITile> Tiles
     {
@@ -36,47 +40,13 @@ public class Museum
 
     public void MoveAttendees()
     {
-        if (!Config.Get(ConfigType.ShouldMoveAttendees)) return;
-        
-        foreach (var attendee in Attendees)
-        {
-            var possibleDirections = _tileManager.GetAllowedRelativeTilePositions(
-                attendee.Movement.GridPos
-                );
-            
-            attendee.Movement.IsColliding = false;
-            HandleAttendeeMovement(attendee, possibleDirections);
-        }
-        
-        _attendeeManager.HandleCollision();
-        _attendeeManager.HandleAttendeeQueue();
-    }
-
-    private void HandleAttendeeMovement(IAttendee attendee, List<MovementDirection> possibleDirections)
-    {
-        var movementResult = attendee.Movement.HandleMovement(possibleDirections);
-        if (movementResult.HasEnteredNewGridTile) HandleTileCollision(attendee, movementResult);
-    }
-
-    private void HandleTileCollision(IAttendee attendee, MovementResult movementResult)
-    {
-        var tileCollisionResult = _tileManager.HandleCollision(movementResult.GridPos, Config.Get(ConfigType.ShouldHaveTileBehavior));
-        if (!Config.Get(ConfigType.ShouldRenderAttendees)) tileCollisionResult.ShouldCreateArtist = false;
-        if (!Config.Get(ConfigType.ShouldCollideWithPath)) tileCollisionResult.IsInPath = false;
-        _attendeeManager.HandleTileCollisionResult(tileCollisionResult, attendee);
+        if (Config.Get(ConfigType.ShouldMoveAttendees)) _tileManager.HandleMovement(Attendees);
     }
 
     public void HandleMouseTileUpdate(Coords mouseGridPos)
     {
-        if (!Config.Get(ConfigType.ShouldHaveTileBehavior)) return;
-
-        var tileCollisionResult = _tileManager.HandleCollision(mouseGridPos, Config.Get(ConfigType.ShouldHaveTileBehavior));
-
-        tileCollisionResult.ShouldRemoveArtist = false;
-        // We can pass a new "non-existing" attendee here since removing artists is always disabled.
-        _attendeeManager.HandleTileCollisionResult(
-            tileCollisionResult, 
-            new Artist(new Coords(0,0),0,0));
+        if (Config.Get(ConfigType.ShouldHaveTileBehavior))
+            _tileManager.CheckCollision(mouseGridPos, Config.Get(ConfigType.ShouldHaveTileBehavior));
     }
 
     public int GetMaxAttendees() => _attendeeManager.AttendeeLimit;

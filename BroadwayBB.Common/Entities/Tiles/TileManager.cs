@@ -1,6 +1,8 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
 using BroadwayBB.Common.Entities.Attendees;
 using BroadwayBB.Common.Entities.Attendees.PathFinder;
+using BroadwayBB.Common.Entities.Museum;
+using BroadwayBB.Common.Entities.Museum.Mediator;
 using BroadwayBB.Common.Entities.Structures;
 
 namespace BroadwayBB.Common.Entities.Tiles;
@@ -18,6 +20,25 @@ public class TileManager
 
     private List<TileNode> _tileGraph = new();
 
+    private MuseumMediator _museumMediator;
+
+    public void SetMuseumMediator(MuseumMediator museumMediator) => _museumMediator = museumMediator;
+
+    public void HandleMovement(List<IAttendee> attendees)
+    {
+        foreach (var attendee in attendees)
+        {
+            var possibleDirections = GetAllowedRelativeTilePositions(
+                attendee.Movement.GridPos
+            );
+            
+            attendee.Movement.IsColliding = false;
+            _museumMediator.Notify(new AttendeeMovementNotification(attendee, possibleDirections));
+        }
+        
+        _museumMediator.Notify(new MovementFinishedNotification());
+    }
+    
     private void ProcessTiles(List<ITile> tiles)
     {
         _tiles = tiles;
@@ -65,10 +86,14 @@ public class TileManager
         return possibleDirections;
     }
 
+    public void CheckCollision(Coords tilePos, bool isTileBehavior)
+    {
+        var collisionResult = HandleCollision(tilePos, isTileBehavior);
+        _museumMediator.Notify(new TileCollisionNotification(collisionResult));
+    }
+    
     public TileCollisionResult HandleCollision(Coords tilePos, bool isTileBehavior)
     {
-        // TileCollisionResult uitbreiden met IsTileInPath
-        // Logica uitbreiden met check of attendee op path tile staat
         var collisionResult = new TileCollisionResult();
         var targetNode = FindNode(tilePos);
         if (targetNode == null) return collisionResult;
