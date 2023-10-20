@@ -10,7 +10,8 @@ public class DijkstraPathfinderStrategy : PathfinderStrategyBase
 {
     public override void CalculatePath(List<TileNode> tileGraph, ITile start, ITile end)
     {
-        _pathsChanged = true;
+        PathCount = 0;
+        PathsChanged = true;
         var graph = new WeightedGraph(tileGraph);
         var startNode = graph.Nodes.First(node => node.Tile.Tile == start);
         startNode.Weight = new(null, 0);
@@ -24,6 +25,9 @@ public class DijkstraPathfinderStrategy : PathfinderStrategyBase
         while (queue.Count > 0)
         {
             var (node, currentDistance) = queue.Dequeue();
+
+            if (visitedNodes.Contains(node.Tile.Tile)) continue;
+            
             visitedNodes.Add(node.Tile.Tile);
 
             if (node.Tile.Tile == end)
@@ -58,14 +62,16 @@ public class DijkstraPathfinderStrategy : PathfinderStrategyBase
         var queue = new Queue<List<TileNodeWeightedDecorator>>();
         queue.Enqueue(initialPath);
 
-        while (queue.Count > 0)
+        while (queue.Count > 0 && PathCount <= PathHardLimit)
         {
             var currentPath = queue.Dequeue();
             var currentNode = currentPath.Last();
 
             if (currentNode.Weight.Key == null)
             {
-                paths.Add(currentPath);
+                if (paths.Count <= PathAmountLimit) paths.Add(currentPath);
+                
+                PathCount++;
                 continue;
             }
 

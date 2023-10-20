@@ -1,6 +1,7 @@
 using BroadwayBB.Common.Behaviors;
 using BroadwayBB.Common.Entities;
 using BroadwayBB.Common.Entities.Attendees;
+using BroadwayBB.Common.Entities.Museum.Mediator;
 using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Tiles;
 
@@ -8,7 +9,7 @@ namespace BroadwayBB.Test.CommonTests.TileManagerTests;
 
 public class TileManagerTests : TileTestBase
 {
-    private readonly TileManager _tileManager = new();
+    private readonly TileManager _tileManager = new(new MuseumMediator(null));
     private readonly Coords collisionTilePos = new(0,0);
     
     [Fact]

@@ -7,7 +7,9 @@ namespace BroadwayBB.Common.Entities.Attendees.PathFinder;
 
 public abstract class PathfinderStrategyBase : IPathfinderStrategy
 {
-    protected bool _pathsChanged = true;
+    protected readonly int PathHardLimit = 100, PathAmountLimit = 5;
+    protected int PathCount = 0;
+    protected bool PathsChanged = true;
     private List<DebugTile> _debugTiles = new();
     
     protected (List<List<ITile>> shortestPaths, List<ITile> visitedNodes) CurrentPath = new(new (), new());
@@ -16,8 +18,8 @@ public abstract class PathfinderStrategyBase : IPathfinderStrategy
 
     public List<DebugTile> GetDebugInfo(bool withVisited)
     {
-        if (!_pathsChanged) return _debugTiles;
-        _pathsChanged = false;
+        if (!PathsChanged) return _debugTiles;
+        PathsChanged = false;
         
         var result = new List<DebugTile>();
 
@@ -64,7 +66,7 @@ public abstract class PathfinderStrategyBase : IPathfinderStrategy
                 tile.ColorBehaviorStrategy.ColorName == 
                 ColorName.White ? 0 : WeightRegistryHelper.GetInstance.GetWeight(tile.ColorBehaviorStrategy.ColorName)));
         
-        Console.WriteLine("Aantal paden gevonden: " + CurrentPath.shortestPaths.Count);
+        Console.WriteLine("Aantal paden gevonden: " + PathCount + (PathCount > PathHardLimit ? "+" : ""));
     } 
 
     public bool IsTileInPath(ITile targetNodeTile)

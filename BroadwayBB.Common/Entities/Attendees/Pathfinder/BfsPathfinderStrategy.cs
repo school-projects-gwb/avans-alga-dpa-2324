@@ -8,7 +8,8 @@ public class BfsPathfinderStrategy : PathfinderStrategyBase
 {
     public override void CalculatePath(List<TileNode> tileGraph, ITile start, ITile target)
     {
-        _pathsChanged = true;
+        PathCount = 0;   
+        PathsChanged = true;
         Queue<ITile> queue = new Queue<ITile>();
         Dictionary<ITile, ITile> parentMap = new Dictionary<ITile, ITile>();
         List<ITile> visitedNodes = new List<ITile>();
