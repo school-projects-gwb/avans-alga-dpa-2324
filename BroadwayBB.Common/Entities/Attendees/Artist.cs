@@ -10,6 +10,7 @@ public class Artist : IAttendee
     {
         Movement = new Movement(coords, speedVertical, speedHorizontal, MovementDirectionExtensions.GetDirectionBasedOnSpeed(speedHorizontal, speedVertical));
     }
+    
     public Artist(Coords coords, double speedVertical, double speedHorizontal, MovementDirection md)
     {
         Movement = new Movement(coords, speedVertical, speedHorizontal, md);

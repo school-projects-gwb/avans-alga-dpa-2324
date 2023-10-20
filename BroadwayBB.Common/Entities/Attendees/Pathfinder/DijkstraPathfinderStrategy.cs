@@ -18,12 +18,12 @@ public class DijkstraPathfinderStrategy : PathfinderStrategyBase
         var shortestPaths = new List<List<TileNodeWeightedDecorator>>();
         var visitedNodes = new HashSet<ITile>();
 
-        var queue = new Queue<TileNodeWeightedDecorator>();
-        queue.Enqueue(startNode);
+        var queue = new PriorityQueue<TileNodeWeightedDecorator>();
+        queue.Enqueue(startNode, 0);
 
         while (queue.Count > 0)
         {
-            var node = queue.Dequeue();
+            var (node, currentDistance) = queue.Dequeue();
             visitedNodes.Add(node.Tile.Tile);
 
             if (node.Tile.Tile == end)
@@ -38,7 +38,7 @@ public class DijkstraPathfinderStrategy : PathfinderStrategyBase
                 var newDistance = node.Weight.Value + neighbour.Weight;
                 if (!(newDistance < neighbour.Decorator.Weight.Value)) continue;
                 neighbour.Decorator.Weight = new(node.Tile, newDistance);
-                if (!neighbour.Decorator.Visited) queue.Enqueue(neighbour.Decorator);
+                if (!neighbour.Decorator.Visited) queue.Enqueue(neighbour.Decorator, newDistance);
             }
 
             node.Visited = true;
