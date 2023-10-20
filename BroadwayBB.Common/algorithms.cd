@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BroadwayBB.Common.Entities.Quadtree.Quadtree&lt;T&gt;">
+    <Position X="1" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAFAAAQAAEIAQAAAAAKCCABAAAAAAAAAAACBAgAA=</HashCode>
+      <FileName>Entities\Quadtree\Quadtree.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.Collider.AttendeeCollider" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAgQAAAABAAAAAAAAAACAABAgAAAAAAAAAAAAAEACAA=</HashCode>
+      <FileName>Entities\Attendees\Collider\AttendeeCollider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.Collider.ColliderStrategyBase">
+    <Position X="5.25" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAgAAAAAACAAAAEAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Attendees\Collider\ColliderStrategyBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.Collider.NaiveColliderStrategy">
+    <Position X="4.5" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Attendees\Collider\NaiveColliderStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.Collider.QuadtreeColliderStrategy">
+    <Position X="6.5" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAACAAAAAAAAAAAEAAAAAAIAAAA=</HashCode>
+      <FileName>Entities\Attendees\Collider\QuadtreeColliderStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.PathFinder.Graph.TileNodeWeightedDecorator">
+    <Position X="19" Y="5.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAACAAAAAAIAAAAAAAAQA=</HashCode>
+      <FileName>Entities\Attendees\Pathfinder\Graph\TileNodeWeightedDecorator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.PathFinder.Graph.WeightedEdge">
+    <Position X="15.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Attendees\Pathfinder\Graph\WeightedEdge.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.PathFinder.Graph.WeightedGraph">
+    <Position X="15.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Attendees\Pathfinder\Graph\WeightedGraph.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.PathFinder.BfsPathfinderStrategy">
+    <Position X="12" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>QAABAAIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Attendees\Pathfinder\BfsPathfinderStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.PathFinder.DijkstraPathfinderStrategy">
+    <Position X="14" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAQAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Attendees\Pathfinder\DijkstraPathfinderStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.PathFinder.PathfinderStrategyBase">
+    <Position X="13" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAgBAAAAIAAAgAAAABACAAAIAAAAAAAAAAAIAAEAAAA=</HashCode>
+      <FileName>Entities\Attendees\Pathfinder\PathfinderStrategyBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.PathFinder.TilePathfinder">
+    <Position X="17" Y="5.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAACAAAAAACAABAgAAAAgAAAAAIAAEAAIA=</HashCode>
+      <FileName>Entities\Attendees\Pathfinder\TilePathfinder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.PathFinder.PriorityItem&lt;T&gt;">
+    <Position X="17.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Attendees\Pathfinder\PriorityQueue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.PathFinder.PriorityQueue&lt;T&gt;">
+    <Position X="17.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAQAABABBAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Attendees\Pathfinder\PriorityQueue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="BroadwayBB.Common.Entities.Quadtree.TreeObject&lt;T&gt;">
+    <Position X="1" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Quadtree\TreeObject.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="BroadwayBB.Common.Entities.Attendees.Collider.IColliderStrategy">
+    <Position X="8" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Attendees\Collider\IColliderStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BroadwayBB.Common.Entities.Attendees.PathFinder.IPathfinderStrategy">
+    <Position X="13" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Entities\Attendees\Pathfinder\IPathfinderStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="BroadwayBB.Common.Entities.Attendees.Collider.ColliderStrategyType">
+    <Position X="8" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Attendees\Collider\ColliderStrategyType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BroadwayBB.Common.Entities.Attendees.PathFinder.PathfinderStrategyType">
+    <Position X="15" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Attendees\Pathfinder\PathfinderStrategyType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

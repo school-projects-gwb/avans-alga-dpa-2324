@@ -28,9 +28,6 @@
     <ShowAsAssociation>
       <Field Name="_museum" />
     </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Field Name="_mementos" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="BroadwayBB.Simulation.Memento.MuseumMemento">
     <Position X="7.5" Y="0.5" Width="4.25" />
@@ -79,8 +76,8 @@
       <FileName>Entities\Museum\Mediator\MuseumMediator.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="AttendeeManager" />
       <Property Name="TileManager" />
+      <Property Name="AttendeeManager" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
@@ -149,7 +146,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="BroadwayBB.Common.Entities.Attendees.Artist">
-    <Position X="0.5" Y="15" Width="6" />
+    <Position X="0.5" Y="14" Width="6" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
       <FileName>Entities\Attendees\Artist.cs</FileName>
@@ -157,7 +154,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="BroadwayBB.Common.Entities.Tiles.Tile">
-    <Position X="7" Y="15" Width="4.75" />
+    <Position X="7" Y="14" Width="4.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAgAAAAAAAAAAAACAAAAACAAAAAAAAAAAAAABA=</HashCode>
       <FileName>Entities\Tiles\Tile.cs</FileName>
@@ -165,7 +162,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="BroadwayBB.Common.Behaviors.BlueColorBehaviorStrategy" BaseTypeListCollapsed="true">
-    <Position X="15.5" Y="15" Width="2.75" />
+    <Position X="19.5" Y="14" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABA=</HashCode>
       <FileName>Behaviors\BlueColorBehaviorStrategy.cs</FileName>
@@ -173,7 +170,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="BroadwayBB.Common.Behaviors.GreyColorBehaviorStrategy" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="12.25" Y="17.25" Width="1.5" />
+    <Position X="16.25" Y="16.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAQAAAACAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABA=</HashCode>
       <FileName>Behaviors\GreyColorBehaviorStrategy.cs</FileName>
@@ -181,7 +178,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="BroadwayBB.Common.Behaviors.NullColorBehaviorStrategy" BaseTypeListCollapsed="true">
-    <Position X="12.25" Y="15" Width="2.75" />
+    <Position X="16.25" Y="14" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABA=</HashCode>
       <FileName>Behaviors\NullColorBehaviorStrategy.cs</FileName>
@@ -189,7 +186,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="BroadwayBB.Common.Behaviors.RedColorBehaviorStrategy" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="14" Y="17.25" Width="1.5" />
+    <Position X="18" Y="16.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABA=</HashCode>
       <FileName>Behaviors\RedColorBehaviorStrategy.cs</FileName>
@@ -197,12 +194,19 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="BroadwayBB.Common.Behaviors.YellowColorBehaviorStrategy" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="15.75" Y="17.25" Width="1.5" />
+    <Position X="19.75" Y="16.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAQAAAACAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABA=</HashCode>
       <FileName>Behaviors\YellowColorBehaviorStrategy.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.PathFinder.Graph.TileNodeWeightedDecorator">
+    <Position X="12" Y="14" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAACAAAAAAIAAAAAAAAQA=</HashCode>
+      <FileName>Entities\Attendees\Pathfinder\Graph\TileNodeWeightedDecorator.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Interface Name="BroadwayBB.Common.Entities.Museum.IConfigObserver">
     <Position X="5.5" Y="7" Width="3.25" />
@@ -219,21 +223,21 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="BroadwayBB.Common.Entities.Tiles.ITile">
-    <Position X="7" Y="12.75" Width="4.75" />
+    <Position X="7" Y="11.75" Width="4.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAgAAAAAAAAAAAACAAAAACAAAAAAAAAAAAAABA=</HashCode>
       <FileName>Entities\Tiles\ITile.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="BroadwayBB.Common.Entities.Attendees.IAttendee">
-    <Position X="0.5" Y="12.75" Width="2.5" />
+    <Position X="0.5" Y="11.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
       <FileName>Entities\Attendees\IAttendee.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="BroadwayBB.Common.Behaviors.Interfaces.IColorBehaviorStrategy">
-    <Position X="12.25" Y="12.75" Width="2.75" />
+    <Position X="16.25" Y="11.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABA=</HashCode>
       <FileName>Behaviors\Interfaces\IColorBehaviorStrategy.cs</FileName>
