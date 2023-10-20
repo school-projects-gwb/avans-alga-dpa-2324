@@ -1,7 +1,6 @@
 using BroadwayBB.Common.Behaviors.Interfaces;
 using BroadwayBB.Common.Entities.Attendees;
 using BroadwayBB.Common.Entities.Attendees.PathFinder;
-using BroadwayBB.Common.Entities.Museum;
 using BroadwayBB.Common.Entities.Museum.Mediator;
 using BroadwayBB.Common.Entities.Structures;
 
@@ -20,9 +19,9 @@ public class TileManager
 
     private List<TileNode> _tileGraph = new();
 
-    private MuseumMediator _museumMediator;
+    private IMuseumMediator _museumMediator;
 
-    public void SetMuseumMediator(MuseumMediator museumMediator) => _museumMediator = museumMediator;
+    public TileManager(IMuseumMediator museumMediator) => _museumMediator = museumMediator;
 
     public void HandleMovement(List<IAttendee> attendees)
     {

@@ -9,62 +9,60 @@ namespace BroadwayBB.Common.Entities.Museum;
 public class Museum
 {
     public readonly MuseumConfiguration Config = new();
-    private readonly TileManager _tileManager = new();
-    private readonly AttendeeManager _attendeeManager = new();
     private readonly MuseumMediator _museumMediator;
 
-    public Museum() => _museumMediator = new MuseumMediator(_tileManager, _attendeeManager, Config);
+    public Museum() => _museumMediator = new MuseumMediator(Config);
     
     public List<ITile> Tiles
     {
-        get => _tileManager.Tiles;
+        get => _museumMediator.TileManager.Tiles;
         set
         {
-            _tileManager.Tiles = value;
+            _museumMediator.TileManager.Tiles = value;
             SetAttendeeLimit();
         }
     }
 
     public List<IAttendee> Attendees
     {
-        get => _attendeeManager.Attendees;
-        set => _attendeeManager.Attendees = value;
+        get => _museumMediator.AttendeeManager.Attendees;
+        set => _museumMediator.AttendeeManager.Attendees = value;
     }
 
     private void SetAttendeeLimit()
     {
         double limitRelativeToTileModifier = 0.075;
-        int roundedLimit = (int)Math.Round(_tileManager.Tiles.Count() * limitRelativeToTileModifier);
-        _attendeeManager.SetAttendeeLimit(roundedLimit);
+        int roundedLimit = (int)Math.Round(_museumMediator.TileManager.Tiles.Count() * limitRelativeToTileModifier);
+        _museumMediator.AttendeeManager.SetAttendeeLimit(roundedLimit);
     }
 
     public void MoveAttendees()
     {
-        if (Config.Get(ConfigType.ShouldMoveAttendees)) _tileManager.HandleMovement(Attendees);
+        if (Config.Get(ConfigType.ShouldMoveAttendees)) _museumMediator.TileManager.HandleMovement(Attendees);
     }
 
     public void HandleMouseTileUpdate(Coords mouseGridPos)
     {
         if (Config.Get(ConfigType.ShouldHaveTileBehavior))
-            _tileManager.CheckCollision(mouseGridPos, Config.Get(ConfigType.ShouldHaveTileBehavior));
+            _museumMediator.TileManager.CheckCollision(mouseGridPos, Config.Get(ConfigType.ShouldHaveTileBehavior));
     }
 
-    public int GetMaxAttendees() => _attendeeManager.AttendeeLimit;
+    public int GetMaxAttendees() => _museumMediator.AttendeeManager.AttendeeLimit;
     
     public List<DebugTile> GetDebugInfo()
     {
         var debugInfo = new List<DebugTile>();
-        if (Config.Get(ConfigType.ShouldRenderQuadtree)) debugInfo.AddRange(_attendeeManager.GetColliderDebugInfo());
+        if (Config.Get(ConfigType.ShouldRenderQuadtree)) debugInfo.AddRange(_museumMediator.AttendeeManager.GetColliderDebugInfo());
         if (Config.Get(ConfigType.ShouldRenderPath)) 
-            debugInfo.AddRange(_tileManager.GetPathfinderDebugInfo(Config.Get(ConfigType.ShouldRenderVisited)));
+            debugInfo.AddRange(_museumMediator.TileManager.GetPathfinderDebugInfo(Config.Get(ConfigType.ShouldRenderVisited)));
         
         return debugInfo;
     } 
     
     public MuseumMemento CreateMemento()
     {
-        var tiles = _tileManager.GetTileClones();
-        var attendees = _attendeeManager.GetAttendeeClones();
+        var tiles = _museumMediator.TileManager.GetTileClones();
+        var attendees = _museumMediator.AttendeeManager.GetAttendeeClones();
         return new MuseumMemento(tiles, attendees);
     }
 
@@ -85,18 +83,18 @@ public class Museum
 
     public void SetData(List<ITile> tiles, List<IAttendee> artists)
     {
-        _tileManager.Tiles = tiles;
-        _attendeeManager.InitCollider(tiles.Max(tile => tile.Pos.Xi) + 1, tiles.Max(tile => tile.Pos.Yi) + 1);
+        _museumMediator.TileManager.Tiles = tiles;
+        _museumMediator.AttendeeManager.InitCollider(tiles.Max(tile => tile.Pos.Xi) + 1, tiles.Max(tile => tile.Pos.Yi) + 1);
         
-        Config.AddObserver(_attendeeManager.AttendeeCollider);
-        Config.AddObserver(_tileManager.TilePathfinder);
+        Config.AddObserver(_museumMediator.AttendeeManager.AttendeeCollider);
+        Config.AddObserver(_museumMediator.TileManager.TilePathfinder);
         
         SetAttendeeLimit();
-        _attendeeManager.Attendees = artists;
+        _museumMediator.AttendeeManager.Attendees = artists;
     }
 
     public void GenerateTilePath(Coords leftClickPosition, Coords rightClickPosition)
     {
-        _tileManager.GeneratePath(leftClickPosition, rightClickPosition);
+        _museumMediator.TileManager.GeneratePath(leftClickPosition, rightClickPosition);
     }
 }

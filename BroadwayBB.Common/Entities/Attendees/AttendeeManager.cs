@@ -2,7 +2,6 @@ using System.Drawing;
 using BroadwayBB.Common.Entities.Extensions;
 using BroadwayBB.Common.Entities.Structures;
 using BroadwayBB.Common.Entities.Attendees.Collider;
-using BroadwayBB.Common.Entities.Museum;
 using BroadwayBB.Common.Entities.Museum.Mediator;
 using BroadwayBB.Common.Entities.Tiles;
 
@@ -15,9 +14,9 @@ public class AttendeeManager
     private readonly int _markedLimit = 5, _attendeeHardLimit = 100;
     private readonly double _minSpeed = 1.0, _maxSpeed = 3.0;
     private readonly Random _random = new();
-    private MuseumMediator _museumMediator;
-
-    public void SetMuseumMediator(MuseumMediator museumMediator) => _museumMediator = museumMediator;
+    private IMuseumMediator _museumMediator;
+    
+    public AttendeeManager(IMuseumMediator museumMediator) => _museumMediator = museumMediator;
     
     public AttendeeCollider AttendeeCollider { get; private set; }
     public int AttendeeLimit { get; private set; } = 50;
