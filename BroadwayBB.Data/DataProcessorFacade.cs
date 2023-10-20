@@ -14,6 +14,7 @@ namespace BroadwayBB.Data;
 
 public class DataProcessorFacade
 {
+    private const int TileLimit = 6400; // 80 by 80
     private readonly FileReader _reader = new();
     private readonly IColorBehaviorStrategyFactory _colorBehaviorStrategyFactory = new ColorBehaviorStrategyFactory();
     private readonly IAttendeeFactory _attendeeFactory = new AttendeeFactory();
@@ -56,6 +57,10 @@ public class DataProcessorFacade
         {
             throw new ArgumentOutOfRangeException("Unable to create grid with given values.");
         }
+        else if ((gridDTO.Rows * gridDTO.Columns) > TileLimit)
+        {
+            throw new ArgumentOutOfRangeException("Unable to create grid; grid is too big.");
+        }
 
 
         foreach (var nodeType in gridDTO.NodeTypes)
@@ -84,11 +89,13 @@ public class DataProcessorFacade
         foreach (var artist in artistsDTO.Artists)
         {
             var coords = artist.Coords;
+            var velY = artist.VelocityY;
 
             if (coords.Xd > gridDTO.Columns || coords.Xd < 0) coords.Xd = 0;
-            if (coords.Yd > gridDTO.Rows    || coords.Yd < 0) coords.Yd = 0;
+            if (coords.Yd > gridDTO.Rows || coords.Yd < 0) coords.Yd = 0;
+            if (artist.VelocityX != 0 && velY != 0) velY = 0.0;
 
-            artists.Add(_attendeeFactory.Create(coords, artist.VelocityY, artist.VelocityX));
+            artists.Add(_attendeeFactory.Create(coords, velY, artist.VelocityX));
         }
 
         museum.SetData(tiles, artists);
