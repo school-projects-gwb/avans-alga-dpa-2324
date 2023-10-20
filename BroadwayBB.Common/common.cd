@@ -2,19 +2,21 @@
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="BroadwayBB.Common.Entities.Museum.Museum">
     <Position X="0.5" Y="1.25" Width="6.25" />
-    <AssociationLine Name="_tileManager" Type="BroadwayBB.Common.Entities.Tiles.TileManager">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.16" Y="0.076" />
-      </MemberNameLabel>
+    <AssociationLine Name="_mediator" Type="BroadwayBB.Common.Entities.Museum.Mediator.MuseumMediator" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="3.816" />
+        <Point X="7.125" Y="3.816" />
+        <Point X="7.125" Y="5.563" />
+        <Point X="10.75" Y="5.563" />
+      </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAABBBAgAAAAAQAAACFCAAEAAAQAIBAAAgQBAAAAA=</HashCode>
+      <HashCode>AAABABBBAgAAAAAQAAACFCAAAAAAAAIBAAAAABAAAAA=</HashCode>
       <FileName>Entities\Museum\Museum.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="_attendeeManager" />
-      <Field Name="_tileManager" />
       <Field Name="Config" />
+      <Field Name="_mediator" />
     </ShowAsAssociation>
   </Class>
   <Class Name="BroadwayBB.Common.Entities.Memento.MementoCaretaker">
@@ -35,20 +37,6 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
       <FileName>Entities\Memento\MuseumMemento.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="BroadwayBB.Common.Entities.Attendees.AttendeeManager">
-    <Position X="11.5" Y="3.5" Width="6" />
-    <TypeIdentifier>
-      <HashCode>AAgQAEAAAAAAAACIAUQABAAAQBIACAABCEAAABgQCAM=</HashCode>
-      <FileName>Entities\Attendees\AttendeeManager.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="BroadwayBB.Common.Entities.Tiles.TileManager">
-    <Position X="18.75" Y="3.5" Width="6.25" />
-    <TypeIdentifier>
-      <HashCode>AEAQAQAAAABiCAAAAAAAAAAAAQAAAAIBQBAAAAAAAIA=</HashCode>
-      <FileName>Entities\Tiles\TileManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BroadwayBB.Common.Entities.Museum.MuseumConfiguration">
@@ -84,11 +72,171 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
+  <Class Name="BroadwayBB.Common.Entities.Museum.Mediator.MuseumMediator">
+    <Position X="10.75" Y="5" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAIIAAAAAAAQAAAAgAAgAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Museum\Mediator\MuseumMediator.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="AttendeeManager" />
+      <Property Name="TileManager" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Museum.Mediator.AttendeeMovementNotification">
+    <Position X="19.25" Y="9" Width="6.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Entities\Museum\Mediator\AttendeeMovementNotification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Museum.Mediator.MovementFinishedNotification">
+    <Position X="16.5" Y="9" Width="2.5" />
+    <InheritanceLine Type="BroadwayBB.Common.Entities.Museum.Mediator.NotificationBase" FixedToPoint="true">
+      <Path>
+        <Point X="17.75" Y="8.118" />
+        <Point X="17.75" Y="9" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Museum\Mediator\MovementFinishedNotification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Museum.Mediator.TileCollisionNotification">
+    <Position X="12.25" Y="9" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Museum\Mediator\TileCollisionNotification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Museum.Mediator.NotificationBase">
+    <Position X="17" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Museum\Mediator\NotificationBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.AttendeeManager">
+    <Position X="18.5" Y="0.75" Width="6" />
+    <TypeIdentifier>
+      <HashCode>AAgQAEAAAAAAAACIAUQABIAAQBIASAAACEAAABgQCAM=</HashCode>
+      <FileName>Entities\Attendees\AttendeeManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_museumMediator" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Tiles.TileManager">
+    <Position X="25" Y="0.75" Width="6.25" />
+    <AssociationLine Name="_museumMediator" Type="BroadwayBB.Common.Entities.Museum.Mediator.IMuseumMediator" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="25" Y="3.1" />
+        <Point X="24.66" Y="3.1" />
+        <Point X="24.66" Y="0.517" />
+        <Point X="18.249" Y="0.517" />
+        <Point X="18.249" Y="3.938" />
+        <Point X="16" Y="3.938" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AEAQIQAAAABiCAAAAAAAAAAAAQAAQAKAQBAAACAAAIA=</HashCode>
+      <FileName>Entities\Tiles\TileManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_museumMediator" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Attendees.Artist">
+    <Position X="0.5" Y="15" Width="6" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Entities\Attendees\Artist.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BroadwayBB.Common.Entities.Tiles.Tile">
+    <Position X="7" Y="15" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAACAAAAACAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Entities\Tiles\Tile.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BroadwayBB.Common.Behaviors.BlueColorBehaviorStrategy" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="15" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABA=</HashCode>
+      <FileName>Behaviors\BlueColorBehaviorStrategy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BroadwayBB.Common.Behaviors.GreyColorBehaviorStrategy" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="17.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAACAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABA=</HashCode>
+      <FileName>Behaviors\GreyColorBehaviorStrategy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BroadwayBB.Common.Behaviors.NullColorBehaviorStrategy" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="15" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABA=</HashCode>
+      <FileName>Behaviors\NullColorBehaviorStrategy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BroadwayBB.Common.Behaviors.RedColorBehaviorStrategy" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14" Y="17.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABA=</HashCode>
+      <FileName>Behaviors\RedColorBehaviorStrategy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BroadwayBB.Common.Behaviors.YellowColorBehaviorStrategy" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="17.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAACAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABA=</HashCode>
+      <FileName>Behaviors\YellowColorBehaviorStrategy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
   <Interface Name="BroadwayBB.Common.Entities.Museum.IConfigObserver">
     <Position X="5.5" Y="7" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Entities\Museum\IConfigObserver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BroadwayBB.Common.Entities.Museum.Mediator.IMuseumMediator">
+    <Position X="13" Y="3.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Museum\Mediator\IMuseumMediator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BroadwayBB.Common.Entities.Tiles.ITile">
+    <Position X="7" Y="12.75" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAACAAAAACAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Entities\Tiles\ITile.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BroadwayBB.Common.Entities.Attendees.IAttendee">
+    <Position X="0.5" Y="12.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Entities\Attendees\IAttendee.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BroadwayBB.Common.Behaviors.Interfaces.IColorBehaviorStrategy">
+    <Position X="12.25" Y="12.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABA=</HashCode>
+      <FileName>Behaviors\Interfaces\IColorBehaviorStrategy.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />
