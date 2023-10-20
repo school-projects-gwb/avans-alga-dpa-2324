@@ -42,7 +42,7 @@ public abstract class TileTestBase
                 if (Coords.IntEqual(current, targetPos))
                     tiles.Add(new Tile(targetPos, targetColorBehaviorStrategy));
                 else
-                    tiles.Add(new Tile(current, _defaultColorBehaviorStrategy.DeepCopy()));
+                    tiles.Add(new Tile(current, _defaultColorBehaviorStrategy.Clone()));
             }
         
         return tiles;

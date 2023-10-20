@@ -13,7 +13,7 @@ public class AttendeeManagerDeepCopyTests
         var randomAttendee = new Artist(new Coords(1, 1), 0, 0);
         attendeeManager.Attendees = new List<IAttendee> { randomAttendee };
 
-        var attendeeCopy = attendeeManager.CreateMemento();
+        var attendeeCopy = attendeeManager.GetAttendeeClones();
 
         Assert.NotSame(attendeeManager.Attendees, attendeeCopy);
     }

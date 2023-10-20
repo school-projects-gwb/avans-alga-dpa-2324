@@ -18,5 +18,5 @@ public class BlueColorBehaviorStrategy : IColorBehaviorStrategy
         };
     }
 
-    public IColorBehaviorStrategy DeepCopy() => new BlueColorBehaviorStrategy();
+    public IColorBehaviorStrategy Clone() => new BlueColorBehaviorStrategy();
 }

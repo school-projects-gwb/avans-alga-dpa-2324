@@ -86,7 +86,7 @@ public class AttendeeManager
 
     public void SetAttendeeLimit(int limit) => AttendeeLimit = limit <= _attendeeHardLimit ? limit : _attendeeHardLimit;
 
-    public List<IAttendee> CreateMemento() { 
-        lock(Attendees) return Attendees.Select(attendee => attendee.DeepCopy()).ToList();  
+    public List<IAttendee> GetAttendeeClones() { 
+        lock(Attendees) return Attendees.Select(attendee => attendee.Clone()).ToList();  
     }
 }

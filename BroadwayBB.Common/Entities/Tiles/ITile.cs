@@ -11,5 +11,5 @@ public interface ITile
 
     public void UpdateColorBehavior(IColorBehaviorStrategy newBehaviorStrategy);
     
-    public ITile DeepCopy();
+    public ITile Clone();
 }

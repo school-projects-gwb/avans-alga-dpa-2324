@@ -6,5 +6,5 @@ public interface IColorBehaviorStrategy
 {
     public ColorName ColorName { get; }
     public ColorBehaviorResult HandleCollision();
-    public IColorBehaviorStrategy DeepCopy();
+    public IColorBehaviorStrategy Clone();
 }

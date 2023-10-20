@@ -17,5 +17,5 @@ public class Tile : ITile
 
     public void UpdateColorBehavior(IColorBehaviorStrategy newBehaviorStrategy) => ColorBehaviorStrategy = newBehaviorStrategy;
     
-    public ITile DeepCopy() => new Tile(Pos, ColorBehaviorStrategy.DeepCopy());
+    public ITile Clone() => new Tile(Pos, ColorBehaviorStrategy.Clone());
 }

@@ -12,5 +12,5 @@ public class NullColorBehaviorStrategy : IColorBehaviorStrategy
         return new ColorBehaviorResult { UpdatedCollisionTargetColor = this };
     }
     
-    public IColorBehaviorStrategy DeepCopy() => new NullColorBehaviorStrategy();
+    public IColorBehaviorStrategy Clone() => new NullColorBehaviorStrategy();
 }

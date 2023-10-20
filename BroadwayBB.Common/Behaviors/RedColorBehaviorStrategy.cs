@@ -12,5 +12,5 @@ public class RedColorBehaviorStrategy : IColorBehaviorStrategy
         return new ColorBehaviorResult{UpdatedCollisionTargetColor = new BlueColorBehaviorStrategy(), ShouldRemoveArtist = true};
     }
     
-    public IColorBehaviorStrategy DeepCopy() => new RedColorBehaviorStrategy();
+    public IColorBehaviorStrategy Clone() => new RedColorBehaviorStrategy();
 }

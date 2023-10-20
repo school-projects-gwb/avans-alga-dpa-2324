@@ -8,7 +8,7 @@ public class ColorBehaviorDeepCopyTests
     public void ColorBehavior_DeepCopy_Correct()
     {
         var originalColorBehavior = new RedColorBehaviorStrategy();
-        var deepCopyColorBehavior = originalColorBehavior.DeepCopy();
+        var deepCopyColorBehavior = originalColorBehavior.Clone();
         
         Assert.NotSame(originalColorBehavior, deepCopyColorBehavior);
     }

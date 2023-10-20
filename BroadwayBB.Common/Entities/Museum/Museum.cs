@@ -93,8 +93,8 @@ public class Museum
     
     public MuseumMemento CreateMemento()
     {
-        var tiles = _tileManager.CreateMemento();
-        var attendees = _attendeeManager.CreateMemento();
+        var tiles = _tileManager.GetTileClones();
+        var attendees = _attendeeManager.GetAttendeeClones();
         return new MuseumMemento(tiles, attendees);
     }
 

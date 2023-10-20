@@ -21,7 +21,7 @@ public class Artist : IAttendee
         Movement = movement;
     }
 
-    public IAttendee DeepCopy()
+    public IAttendee Clone()
     {
         var movement = Movement.DeepCopy();
         var artist = new Artist(movement);

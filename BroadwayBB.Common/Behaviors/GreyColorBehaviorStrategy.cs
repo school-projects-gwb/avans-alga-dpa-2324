@@ -18,7 +18,7 @@ public class GreyColorBehaviorStrategy : IColorBehaviorStrategy
         return new ColorBehaviorResult { UpdatedCollisionTargetColor = this };
     }
     
-    public IColorBehaviorStrategy DeepCopy()
+    public IColorBehaviorStrategy Clone()
     {
         var colorBehaviorCopy = new GreyColorBehaviorStrategy();
         colorBehaviorCopy.ColorBehaviorStrategyCounter = ColorBehaviorStrategyCounter.DeepCopy();

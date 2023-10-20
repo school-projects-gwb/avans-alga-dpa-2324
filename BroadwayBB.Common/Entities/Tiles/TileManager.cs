@@ -101,9 +101,8 @@ public class TileManager
     }
 
     private TileNode? FindNode(Coords tilePos) => _tileGraph.FirstOrDefault(node => Coords.IntEqual(node.Tile.Pos, tilePos));
-
-
-    public List<ITile> CreateMemento() => Tiles.Select(tile => tile.DeepCopy()).ToList();
+    
+    public List<ITile> GetTileClones() => Tiles.Select(tile => tile.Clone()).ToList();
     
     void ConnectOrthogonalNeighbors(TileNode currentNode, List<TileNode> allNodes)
     {

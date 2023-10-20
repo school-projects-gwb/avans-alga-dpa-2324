@@ -11,7 +11,7 @@ public class TileManagerDeepCopyTests : TileTestBase
         var tileManager = new TileManager();
         tileManager.Tiles = CreateWhiteColorTestGrid();
 
-        var tileCopy = tileManager.CreateMemento();
+        var tileCopy = tileManager.GetTileClones();
         
         Assert.NotSame(tileManager.Tiles, tileCopy);
     }
